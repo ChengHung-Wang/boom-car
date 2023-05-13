@@ -1,8 +1,8 @@
 <?php
 
 // hack to make build
-include_once("build/buildUtils.php");
-include_once("build/buildReplacements.php");
+// include_once("build/buildUtils.php");
+// include_once("build/buildReplacements.php");
 
 
 
