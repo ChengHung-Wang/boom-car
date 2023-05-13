@@ -14,9 +14,9 @@ TitleScreen.prototype = {
   },
 
   keyDown: function(e) {
-    if(e.keyCode === 88) {
-      startGame();
-    }
+    // if(e.keyCode === 88) {
+    //   startGame();
+    // }
   },
 
   keyUp: function(e) {
@@ -70,24 +70,24 @@ TitleScreen.prototype = {
 
     cntxFillStyle(DARKGREY);
     cntxFillRect(0, 0, this.canvas.width, this.canvas.height);
-    for(var i = 0; i < 30; i++) {
-      var fontSize = 100 + i * 10;
-      context.font = 'italic ' + fontSize + 'px ' + helvetica;
-      context.fontStyle = 'italic';
-      var col = 80 + (i * 4);
-      col = (col + t / 6) % 200;
-      
-      if(i == 29) {
-        col = 255;
-      }
+    // for(var i = 0; i < 30; i++) {
+    //   var fontSize = 100 + i * 10;
+    //   context.font = 'italic ' + fontSize + 'px ' + helvetica;
+    //   context.fontStyle = 'italic';
+    //   var col = 80 + (i * 4);
+    //   col = (col + t / 6) % 200;
+    //
+    //   if(i == 29) {
+    //     col = 255;
+    //   }
+    //
+    //   cntxFillStyle('rgb(' + col + ',' + col + ',' + col + ')');
+    //   cntxFillText("racer", (document.documentElement.clientWidth / 2) - i * 11, 300- i);
+    // }
 
-      cntxFillStyle('rgb(' + col + ',' + col + ',' + col + ')');
-      cntxFillText("racer", (document.documentElement.clientWidth / 2) - i * 11, 300- i);
-    }
-
-    context.font = '44px ' + helvetica;
-    cntxFillText("Arrow keys to drive, x for Turbo, z for Handbrake", 38, 570);
-    cntxFillText("x To Start", 423, 460);
+    // context.font = '44px ' + helvetica;
+    // cntxFillText("Arrow keys to drive, x for Turbo, z for Handbrake", 38, 570);
+    // cntxFillText("x To Start", 423, 460);
 
 
     camera.z = utilIncrease(camera.z, dt * 120, track.getLength());

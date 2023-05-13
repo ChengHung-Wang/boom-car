@@ -11,7 +11,7 @@ var Race = function() {
   this.countdownNumber = 3;
   this.lastTime = 0 ;
 
-  this.carCount = 15;// 10;
+  this.carCount = 1;// 10;
 
   this.trackNumber = 0;
 
@@ -35,11 +35,11 @@ Race.prototype = {
 
   start: function(trackNumber) {
     raceAudioEngineSpeed(0);
-
+    // trackNumber = parseInt(prompt("Select Track 0 to 3: (>= 4 will back to 0)."));
     if(trackNumber >= 4) {
       trackNumber = 0;
     }
-    trackNumber = 3;
+
     this.raceNumber = trackNumber;
     track = new Track();
 

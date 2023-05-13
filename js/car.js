@@ -71,7 +71,7 @@ var Car = function() {
   t.slowOnCorners = false;
   t.takeCornerOnInside = false;
 
-  t.bounce = 1.5;
+  t.bounce = 1;
   t.finishPosition = 0;
 
 

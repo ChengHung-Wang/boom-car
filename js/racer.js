@@ -38,12 +38,12 @@ var race = new Race();
 track = new Track();
 var titleScreen = new TitleScreen(canvas, context);
 
-function startGame(options) {
+function startGame(trackNumber) {
   raceAudioInit();
   speak('Start');
   racing = true;
   camera.reset();
-  race.start(0);
+  race.start(trackNumber);
 
 }
 titleScreen.init();

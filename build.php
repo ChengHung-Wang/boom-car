@@ -6,7 +6,7 @@
 
 
 
-$index = file_get_contents("dev.html");
+$index = file_get_contents("index.html");
 
 $exclude = [ ];
 
@@ -52,7 +52,7 @@ while($pos !== false) {
 
 // print_r($GLOBALS["VARIABLEMAP"]);
 
-$fp = fopen("build/main.js", "w");
+$fp = fopen("build/main.js", "w+");
 fwrite($fp, $source);
 fclose($fp);
 
