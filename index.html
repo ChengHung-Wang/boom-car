@@ -31,6 +31,23 @@
       </div>
     </div>
 
+    <div class="container text-light title-card" v-if="gameStarted">
+      <div class="row">
+        <div class="col-4">
+          <h5>Camera X</h5>
+          <el-slider v-model="camera.x" />
+        </div>
+        <div class="col-4">
+          <h5>Camera Y</h5>
+          <el-slider v-model="camera.y" :min="300" :max="10000" />
+        </div>
+        <div class="col-4">
+          <h5>Camera Z</h5>
+          <el-slider v-model="camera.z" :min="300" :max="10000" />
+        </div>
+      </div>
+    </div>
+
     <div class="container">
       <div class="row">
         <div class="col-12">
