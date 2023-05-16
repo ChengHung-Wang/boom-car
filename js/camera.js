@@ -1,12 +1,13 @@
 class Camera {
   constructor() {
     this.fieldOfView = 100;
+    this.x = 0;
     this.y = 0;
     this.z = 0;
     this.drawDistance = 300;
     this.depth = 0;
     this.fogDensity = 25;
-    this.zOffset = 0;
+    this.xOffset = 0;
     this.yOffset = 740;
     this.zOffset = 700;
   }
@@ -48,14 +49,17 @@ class Camera {
     let playerSegment = track.findSegment(cars[0].z);
     let playerPercent = utilPercentRemaining(cars[0].z, Track.segmentLength);
 
-    this.y = this.yOffset + utilInterpolate(
-      playerSegment.p1.world.y,
-      playerSegment.p3.world.y,
-      playerPercent
-    );
+    this.y =
+      this.yOffset +
+      utilInterpolate(
+        playerSegment.p1.world.y,
+        playerSegment.p3.world.y,
+        playerPercent
+      );
   }
 
-  adjust(y, z) {
+  adjust(x, y, z) {
+    this.xOffset = x;
     this.yOffset = y;
     this.zOffset = z;
   }
