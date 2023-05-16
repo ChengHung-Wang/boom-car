@@ -17,7 +17,7 @@ class Camera {
     this.zOffset = 1500;
   }
 
-  project() {
+  project(p, cameraXOffset, looped, width, height) {
     let cameraZ = this.z;
     if (looped) {
       cameraZ -= track.getLength();
@@ -37,7 +37,7 @@ class Camera {
     );
   }
 
-  update() {
+  update(dt) {
     this.z = cars[0].z - this.zOffset;
     if (this.z < 0) {
       this.z += track.getLength();
