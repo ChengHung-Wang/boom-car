@@ -1,25 +1,23 @@
-let Camera = function () {
-  this.fieldOfView = 100;
+class Camera {
+  constructor() {
+    this.fieldOfView = 100;
+    this.y = 0;
+    this.z = 0;
+    this.drawDistance = 300;
+    this.depth = 0;
+    this.fogDensity = 25;
+    this.zOffset = 0;
+    this.yOffset = 740;
+    this.zOffset = 700;
+  }
 
-  this.y = 0;
-  this.z = 0;
-  this.drawDistance = 300;
-  this.depth = 0;
-  this.fogDensity = 25;
-  this.zOffset = 0;
-  this.yOffset = 740;
-  this.zOffset = 700;
-};
-
-Camera.prototype = {
-  reset: function () {
+  reset() {
     this.depth = 1 / Math.tan(((this.fieldOfView / 2) * Math.PI) / 180);
     this.yOffset = 1740;
     this.zOffset = 1500;
-  },
+  }
 
-  // segment 3081
-  project: function (p, cameraXOffset, looped, width, height) {
+  project() {
     let cameraZ = this.z;
     if (looped) {
       cameraZ -= track.getLength();
@@ -37,15 +35,15 @@ Camera.prototype = {
     p.screen.y = Math.round(
       height / 2 - (p.screen.scale * p.camera.y * height) / 2
     );
-  },
+  }
 
-  update: function (dt) {
+  update() {
     this.z = cars[0].z - this.zOffset;
     if (this.z < 0) {
       this.z += track.getLength();
     }
 
-    camera.x = cars[0].x + cars[0].width / 2;
+    this.x = cars[0].x + cars[0].width / 2;
 
     let playerSegment = track.findSegment(cars[0].z);
     let playerPercent = utilPercentRemaining(cars[0].z, Track.segmentLength);
@@ -57,5 +55,5 @@ Camera.prototype = {
         playerSegment.p3.world.y,
         playerPercent
       );
-  },
-};
+  }
+}
