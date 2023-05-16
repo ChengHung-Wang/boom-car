@@ -48,12 +48,15 @@ class Camera {
     let playerSegment = track.findSegment(cars[0].z);
     let playerPercent = utilPercentRemaining(cars[0].z, Track.segmentLength);
 
-    this.y =
-      this.yOffset +
-      utilInterpolate(
-        playerSegment.p1.world.y,
-        playerSegment.p3.world.y,
-        playerPercent
-      );
+    this.y = this.yOffset + utilInterpolate(
+      playerSegment.p1.world.y,
+      playerSegment.p3.world.y,
+      playerPercent
+    );
+  }
+
+  adjust(y, z) {
+    this.yOffset = y;
+    this.zOffset = z;
   }
 }
