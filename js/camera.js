@@ -56,9 +56,4 @@ class Camera {
         playerPercent
       );
   }
-
-  adjust(y, z) {
-    this.yOffset = y;
-    this.zOffset = z;
-  }
 }
