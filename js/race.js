@@ -1,13 +1,13 @@
 // controls the race
 
-var track = null;
+let track = null;
 
-var numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
+let numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
 
-var STATE_PRERACE = 0;
-var STATE_COUNTDOWN = 1;
-var STATE_RACING = 4;
-var STATE_RACEOVER = 5;
+let STATE_PRERACE = 0;
+let STATE_COUNTDOWN = 1;
+let STATE_RACING = 4;
+let STATE_RACEOVER = 5;
 
 class Race {
   constructor() {
@@ -143,21 +143,21 @@ class Race {
   resetCars() {
     //    resetCars();
     cars = [];
-    var n, car, segment, offset, z, sprite, speed;
-    for (var n = 0; n < this.carCount; n++) {
+    let n, car, segment, offset, z, sprite, speed;
+    for (let n = 0; n < this.carCount; n++) {
       z = track.getLength() - (this.carCount - n) * Track.segmentLength * 13;
 
       segment = track.findSegment(z);
 
-      var trackLeft = segment.p1.world.x;
-      var trackRight = segment.p2.world.x;
-      //      var trackWidth = trackRight - trackLeft;
+      let trackLeft = segment.p1.world.x;
+      let trackRight = segment.p2.world.x;
+      //      let trackWidth = trackRight - trackLeft;
 
       //      sprite = SPRITES.CAR_STRAIGHT;
 
       car = new Car();
 
-      var x = 0;
+      let x = 0;
       if (n % 2) {
         x = trackLeft / 2;
       } else {
@@ -174,7 +174,7 @@ class Race {
 
       // player speeds are set in car.js
       if (car.index !== 0) {
-        var maxSpeed = 23000; //23000;
+        let maxSpeed = 23000; //23000;
         if (car.index < 8 && car.index > 3) {
           car.maxSpeed =
             maxSpeed * 0.905 -
@@ -201,7 +201,7 @@ class Race {
   }
 
   updatePrerace(dt) {
-    var time = getTimestamp();
+    let time = getTimestamp();
     if (time - this.lastTime > Race.COUNTDOWN_INTERVAL) {
       this.lastTime = getTimestamp();
       this.countdownNumber--;
@@ -222,7 +222,7 @@ class Race {
   }
 
   updateCountdown(dt) {
-    var time = getTimestamp();
+    let time = getTimestamp();
     if (time - this.lastTime > Race.COUNTDOWN_INTERVAL) {
       this.lastTime = getTimestamp();
       this.countdownNumber--;
@@ -238,12 +238,12 @@ class Race {
   }
 
   updateRace(dt) {
-    var playerSegment = track.findSegment(player.z);
-    var speedPercent = player.speedPercent; //player.speed / maxSpeed;
-    var dx = dt * 2 * speedPercent; // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
-    var startPosition = camera.z;
+    let playerSegment = track.findSegment(player.z);
+    let speedPercent = player.speedPercent; //player.speed / maxSpeed;
+    let dx = dt * 2 * speedPercent; // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
+    let startPosition = camera.z;
 
-    for (var i = 0; i < cars.length; i++) {
+    for (let i = 0; i < cars.length; i++) {
       cars[i].update(dt); //, playerSegment, player.width);
     }
     //  updateCars(dt, playerSegment, player.width);
@@ -343,7 +343,7 @@ class Race {
 
       context.font = " 80px " + helvetica;
 
-      var speed = (
+      let speed = (
         "000" + Math.round(player.getSpeed() / 100).toString(10)
       ).substr(-3);
       context.fillText(speed + "km/h", 695, 80);
@@ -367,7 +367,7 @@ class Race {
       cntxFillStyle(LIGHTGREY);
       context.fillText(cars[0].finishPosition, 300, 290); //cars[0].finishPosition, 494, 254);
       context.font = " 40px " + helvetica;
-      var y = 380;
+      let y = 380;
       if (cars[0].finishPosition == "1st") {
         context.fillText("x: Next Race", 397, y);
         y += 80;
