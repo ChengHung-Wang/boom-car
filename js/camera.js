@@ -7,7 +7,6 @@ class Camera {
     this.drawDistance = 300;
     this.depth = 0;
     this.fogDensity = 25;
-    this.xOffset = 0;
     this.yOffset = 740;
     this.zOffset = 700;
   }
@@ -58,8 +57,7 @@ class Camera {
       );
   }
 
-  adjust(x, y, z) {
-    this.xOffset = x;
+  adjust(y, z) {
     this.yOffset = y;
     this.zOffset = z;
   }
