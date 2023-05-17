@@ -3,37 +3,33 @@
 var track = null;
 
 var numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
-var Race = function () {
-  this.track = null;
-  //  this.player = null;
-
-  this.state = 0;
-  this.countdownNumber = 3;
-  this.lastTime = 0;
-
-  this.carCount = 1; // 10;
-
-  this.trackNumber = 0;
-
-  this.zIsDown = false;
-  this.xIsDown = false;
-
-  this.raceNumber = 3;
-};
 
 var STATE_PRERACE = 0;
 var STATE_COUNTDOWN = 1;
 var STATE_RACING = 4;
 var STATE_RACEOVER = 5;
 
-Race.COUNTDOWN_INTERVAL = 800; //800;//800;//1;//800;
+class Race {
+  constructor() {
+    this.track = null;
 
-Race.prototype = {
-  init: function () {
-    // init never gets called?
-  },
+    this.state = 0;
+    this.countdownNumber = 3;
+    this.lastTime = 0;
 
-  start: function (trackNumber) {
+    this.carCount = 1; // 10;
+
+    this.trackNumber = 0;
+
+    this.zIsDown = false;
+    this.xIsDown = false;
+
+    this.raceNumber = 3;
+
+    Race.COUNTDOWN_INTERVAL = 800;
+  }
+
+  start(trackNumber) {
     raceAudioEngineSpeed(0);
     // trackNumber = parseInt(prompt("Select Track 0 to 3: (>= 4 will back to 0)."));
     if (trackNumber >= 4) {
@@ -65,13 +61,13 @@ Race.prototype = {
     this.state = STATE_PRERACE;
     this.countdownNumber = 4;
     this.lastTime = getTimestamp();
-  },
+  }
 
-  raceOver: function () {
+  raceOver() {
     this.state = STATE_RACEOVER;
-  },
+  }
 
-  keyDown: function (e) {
+  keyDown(e) {
     if (this.state !== STATE_RACEOVER) {
       switch (e.keyCode) {
         case 90: // z
@@ -95,11 +91,10 @@ Race.prototype = {
           player.setTurnRight(true);
           break;
       }
-    } else {
     }
-  },
+  }
 
-  keyUp: function (e) {
+  keyUp(e) {
     if (this.state != STATE_RACEOVER) {
       switch (e.keyCode) {
         case 90: // z
@@ -143,9 +138,9 @@ Race.prototype = {
         this.xIsDown = false;
       }
     }
-  },
+  }
 
-  resetCars: function () {
+  resetCars() {
     //    resetCars();
     cars = [];
     var n, car, segment, offset, z, sprite, speed;
@@ -203,9 +198,9 @@ Race.prototype = {
       segment.cars.push(car);
       cars.push(car);
     }
-  },
+  }
 
-  updatePrerace: function (dt) {
+  updatePrerace(dt) {
     var time = getTimestamp();
     if (time - this.lastTime > Race.COUNTDOWN_INTERVAL) {
       this.lastTime = getTimestamp();
@@ -224,9 +219,9 @@ Race.prototype = {
       }
     }
     camera.update(dt);
-  },
+  }
 
-  updateCountdown: function (dt) {
+  updateCountdown(dt) {
     var time = getTimestamp();
     if (time - this.lastTime > Race.COUNTDOWN_INTERVAL) {
       this.lastTime = getTimestamp();
@@ -240,9 +235,9 @@ Race.prototype = {
       }
     }
     camera.update(dt);
-  },
+  }
 
-  updateRace: function (dt) {
+  updateRace(dt) {
     var playerSegment = track.findSegment(player.z);
     var speedPercent = player.speedPercent; //player.speed / maxSpeed;
     var dx = dt * 2 * speedPercent; // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
@@ -274,11 +269,11 @@ Race.prototype = {
         Track.segmentLength,
       1
     );
-  },
+  }
 
-  updateRaceOver: function () {},
+  updateRaceOver() {}
 
-  update: function (dt) {
+  update(dt) {
     switch (this.state) {
       case STATE_PRERACE:
         this.updatePrerace(dt);
@@ -291,9 +286,9 @@ Race.prototype = {
         this.updateRace(dt);
         break;
     }
-  },
+  }
 
-  render: function () {
+  render() {
     renderRender();
     if (this.state == STATE_PRERACE) {
       //      context.font = "120px \"Courier New\", Courier, monospace";
@@ -379,5 +374,5 @@ Race.prototype = {
       }
       context.fillText("z: Retry", 445, y);
     }
-  },
-};
+  }
+}
