@@ -1,12 +1,12 @@
 // define the tracks in the game
-var COLORS_KERBLIGHT = "#a02222",
+let COLORS_KERBLIGHT = "#a02222",
   COLORS_KERBDARK = "#BBBBBB",
   COLORS_LANDLIGHT = "#000000",
   COLORS_LANDDARK = "#000000",
   COLORS_ROAD = "#000000";
 
-var laneWidth = 1200;
-var lanes = 1;
+let laneWidth = 1200;
+let lanes = 1;
 
 class Track {
   constructor() {
@@ -28,20 +28,20 @@ class Track {
   }
 
   createStreetLights() {
-    var segmentCount = this.getSegmentCount();
+    let segmentCount = this.getSegmentCount();
 
-    for (var i = 0; i < segmentCount; i++) {
-      var segment = this.segments[i];
+    for (let i = 0; i < segmentCount; i++) {
+      let segment = this.segments[i];
 
       if (i % 20 == 0) {
-        var x = segment.p1.world.x;
+        let x = segment.p1.world.x;
         segment.sprites.push({
           source: SPRITES_STREETLIGHTLEFT,
           s: 12,
           x: x - 12 * SPRITES_STREETLIGHTLEFT.w + 700,
         });
 
-        var x = segment.p2.world.x;
+        x = segment.p2.world.x;
         segment.sprites.push({
           source: SPRITES_STREETLIGHTRIGHT,
           s: 12,
@@ -52,22 +52,22 @@ class Track {
   }
 
   createRoadsideObjects(objs, prob, scale, offset, turnSigns) {
-    var segmentCount = this.getSegmentCount();
-    var turnSegment = 0;
-    for (var i = 0; i < segmentCount; i++) {
-      var segment = this.segments[i];
-      var r = mathRand();
+    let segmentCount = this.getSegmentCount();
+    let turnSegment = 0;
+    for (let i = 0; i < segmentCount; i++) {
+      let segment = this.segments[i];
+      let r = mathRand();
       if (segment.curve != 0 && turnSigns) {
         if (turnSegment % 20 == 0) {
           if (segment.curve > 0) {
-            var x = segment.p1.world.x;
+            let x = segment.p1.world.x;
             segment.sprites.push({
               source: SPRITES_TURNRIGHT,
               s: 3,
               x: x - 3 * SPRITES_TURNRIGHT.w - 400,
             });
           } else {
-            var x = segment.p2.world.x;
+            let x = segment.p2.world.x;
             segment.sprites.push({
               source: SPRITES_TURNLEFT,
               s: 3,
@@ -79,9 +79,9 @@ class Track {
       } else {
         turnSegment = 0;
         //      if(segment.curve == 0 || !turnSigns) {
-        var obj = objs[mathRandInt(objs.length)];
+        let obj = objs[mathRandInt(objs.length)];
         if (r > prob) {
-          var x = segment.p1.world.x;
+          let x = segment.p1.world.x;
 
           segment.sprites.push({
             source: obj,
@@ -89,7 +89,7 @@ class Track {
             x: x - (scale * obj.w) / 2 - offset,
           });
 
-          var x = segment.p2.world.x;
+          x = segment.p2.world.x;
           segment.sprites.push({
             source: obj,
             s: scale,
@@ -299,16 +299,16 @@ class Track {
   }
 
   addSegment(curve, y) {
-    var n = this.segments.length;
+    let n = this.segments.length;
 
-    var yFront = this.lastY();
-    var yBack = y;
-    var zFront = n * Track.segmentLength;
-    var zBack = (n + 1) * Track.segmentLength;
-    var xLeft = -laneWidth;
-    var xRight = laneWidth;
+    let yFront = this.lastY();
+    let yBack = y;
+    let zFront = n * Track.segmentLength;
+    let zBack = (n + 1) * Track.segmentLength;
+    let xLeft = -laneWidth;
+    let xRight = laneWidth;
 
-    var kerbWidth = 0;
+    let kerbWidth = 0;
     if (curve != 0) {
       kerbWidth = curve * 40;
       if (kerbWidth < 0) {
@@ -346,16 +346,16 @@ class Track {
   }
 
   addRoad(enter, hold, leave, curve, y, curveAngle) {
-    var curveAngle = curveAngle || 0;
-    var exitAngle = this.currentAngle + curveAngle;
+    curveAngle = curveAngle || 0;
+    let exitAngle = this.currentAngle + curveAngle;
 
-    var startY = this.lastY();
-    var endY = startY + Math.floor(y) * Track.segmentLength;
-    var n,
+    let startY = this.lastY();
+    let endY = startY + Math.floor(y) * Track.segmentLength;
+    let n,
       total = enter + hold + leave;
-    var segmentCurve = 0;
-    var totalCurve = 0;
-    var firstSegment = this.segments.length;
+    let segmentCurve = 0;
+    let totalCurve = 0;
+    let firstSegment = this.segments.length;
     for (n = 0; n < enter; n++) {
       segmentCurve = this.easeIn(0, curve, n / enter);
       totalCurve += segmentCurve;
@@ -375,13 +375,13 @@ class Track {
       );
     }
 
-    var anglePerCurve = 0;
+    let anglePerCurve = 0;
     if (totalCurve != 0) {
       anglePerCurve = (exitAngle - this.currentAngle) / totalCurve;
     }
 
     // fix the angles
-    for (var i = firstSegment; i < this.segments.length; i++) {
+    for (let i = firstSegment; i < this.segments.length; i++) {
       this.currentAngle += this.segments[i].curve * anglePerCurve;
       this.segments[i].angle = this.currentAngle;
     }
@@ -439,8 +439,8 @@ class Track {
   }
 
   addRoadsideObject(n, sprite, offset) {
-    var segment = this.segments[n];
-    var x = 0;
+    let segment = this.segments[n];
+    let x = 0;
     if (offset < 0) {
       x = segment.p1.world.x - 600;
     } else {
@@ -463,22 +463,22 @@ class Track {
     this.map.height = 600;
     cntx = this.map.getContext("2d");
 
-    var width = canvas.width;
-    var height = canvas.height;
+    let width = canvas.width;
+    let height = canvas.height;
     //    context.fillStyle = '#222222';
     //    context.fillRect(0, 0, width, height);
     cntxClearRect(600, 600);
     cntxStrokeStyle("#666666");
     cntx.lineWidth = 5;
 
-    var angle = 0;
-    var x = 300;
-    var y = 30;
+    let angle = 0;
+    let x = 300;
+    let y = 30;
 
     cntxBeginPath();
-    var segmentDrawLength = 0.5;
+    let segmentDrawLength = 0.5;
     cntxMoveTo(x, y);
-    for (var i = 0; i < this.segments.length; i++) {
+    for (let i = 0; i < this.segments.length; i++) {
       angle = (this.segments[i].angle / 180) * PI;
       x += segmentDrawLength * cos(angle);
       y += segmentDrawLength * sin(angle);
@@ -512,7 +512,7 @@ class Track {
   }
 
   drawOverheadTrack() {
-    //var canvas = document.getElementById('trackCanvas');
+    //let canvas = document.getElementById('trackCanvas');
     cntx = overheadTrack.x; //canvas.getContext('2d');
     this.overheadMap = overheadTrack.c;
 
@@ -520,9 +520,9 @@ class Track {
     cntxDrawImage(this.map, 0, 0, 600, 600, 0, 0, 600, 600);
 
     // opponents
-    for (var i = 0; i < cars.length; i++) {
-      var carPosition = cars[i].z;
-      var segment = this.findSegment(carPosition);
+    for (let i = 0; i < cars.length; i++) {
+      let carPosition = cars[i].z;
+      let segment = this.findSegment(carPosition);
 
       cntxBeginPath();
 
@@ -535,8 +535,8 @@ class Track {
     }
 
     // camera z position plus player z position from camera
-    var playerPosition = cars[0].z;
-    var playerSegment = this.findSegment(playerPosition);
+    let playerPosition = cars[0].z;
+    let playerSegment = this.findSegment(playerPosition);
 
     cntxBeginPath();
     cntxArc(playerSegment.x, playerSegment.y, 5, 0, 2 * PI, false);
