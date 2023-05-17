@@ -351,22 +351,21 @@ class Track {
 
     let startY = this.lastY();
     let endY = startY + Math.floor(y) * Track.segmentLength;
-    let n,
-      total = enter + hold + leave;
+    let total = enter + hold + leave;
     let segmentCurve = 0;
     let totalCurve = 0;
     let firstSegment = this.segments.length;
-    for (n = 0; n < enter; n++) {
+    for (let n = 0; n < enter; n++) {
       segmentCurve = this.easeIn(0, curve, n / enter);
       totalCurve += segmentCurve;
       this.addSegment(segmentCurve, this.easeInOut(startY, endY, n / total));
     }
-    for (n = 0; n < hold; n++) {
+    for (let n = 0; n < hold; n++) {
       segmentCurve = curve;
       totalCurve += segmentCurve;
       this.addSegment(curve, this.easeInOut(startY, endY, (enter + n) / total));
     }
-    for (n = 0; n < leave; n++) {
+    for (let n = 0; n < leave; n++) {
       segmentCurve = this.easeInOut(curve, 0, n / leave);
       totalCurve += segmentCurve;
       this.addSegment(
