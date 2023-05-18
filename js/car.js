@@ -597,10 +597,10 @@ class Car {
 
       if (this.lap == 2 && this.index == 0) {
         //!== 1 && this.lap !== 3) {
-        this.currentLapTime = 0;
+        callback_LapOver();
         speak("lap time " + this.getCurrentLapTime().toFixed(2));
       }
-      callback_LapOver();
+      this.currentLapTime = 0;
     } else {
       if (this.z > Track.segmentLength * 1.2) {
         this.lapStarted = false;
