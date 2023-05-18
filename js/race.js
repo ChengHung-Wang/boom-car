@@ -65,7 +65,6 @@ class Race {
 
   raceOver() {
     this.state = STATE_RACEOVER;
-    callback_RaceOver();
   }
 
   keyDown(e) {
