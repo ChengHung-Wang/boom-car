@@ -10,6 +10,10 @@ function callback_SpeedChange(speed){
     //console.log("callback_SpeedChange: ", speed);
 }
 
-function callback_PlayerCrash(){
-    console.log("callback_PlayerCrash");
+function callback_PlayerCrashwithBuilding(){
+    console.log("callback_PlayerCrashwithBuilding");
+}
+
+function callback_PlayerCrashwithCar(){
+    console.log("callback_PlayerCrashwithCar");
 }
