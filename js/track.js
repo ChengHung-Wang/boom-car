@@ -15,9 +15,9 @@ class Track {
 
     this.segments = [];
     this.map = null;
-
-    Track.segmentLength = 300;
   }
+
+  static segmentLength = 300;
 
   buildTrack0() {
     COLORS_FOG = 0;

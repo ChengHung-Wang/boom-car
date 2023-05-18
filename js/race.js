@@ -25,9 +25,9 @@ class Race {
     this.xIsDown = false;
 
     this.raceNumber = 3;
-
-    Race.COUNTDOWN_INTERVAL = 800;
   }
+
+  static COUNTDOWN_INTERVAL = 800;
 
   start(trackNumber) {
     raceAudioEngineSpeed(0);
