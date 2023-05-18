@@ -15,6 +15,7 @@ class Car {
     this.lap = 0;
     this.lapStarted = false;
     this.position = 0;
+    this.offroading = false;
 
     this.centrifugal = 0.3;
     this.slipstreamLines = [];
@@ -540,7 +541,7 @@ class Car {
                   raceAudioCrash();
                   this.slipstream = 0;
                   this.slipstreamTime = 0;
-                  callback_PlayerCrashwithCar();
+                  callback_PlayerCrashwithCar(car);
                 }
 
                 this.speed = car.speed;
@@ -554,6 +555,19 @@ class Car {
     }
 
     // limit how far offroad a car can go
+    if(!this.offroading) {
+      if (this.x + this.width / 2 < trackLeft - 0.5 * this.width || this.x + this.width / 2 > trackRight + 0.5 * this.width) {
+        this.offroading = true;
+        callback_RunOffTrack();
+      }
+    }
+    else{
+      if (this.x + this.width / 2 > trackLeft + 0.5 * this.width && this.x + this.width / 2 < trackRight - 0.5 * this.width) {
+        this.offroading = false;
+        callback_BackOnTrack();
+      }
+    }
+
     if (this.x + this.width / 2 < trackLeft - 1.2 * this.width) {
       this.x = trackLeft - 1.2 * this.width - this.width / 2;
     }

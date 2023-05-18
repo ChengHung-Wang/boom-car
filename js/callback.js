@@ -1,9 +1,17 @@
 function callback_RaceOver(){
-    //console.log("callback_RaceOver");
+    console.log("Race Over");
 }
 
 function callback_LapOver(){
-    //console.log("callback_LapOver");
+    console.log("Lap Over");
+}
+
+function callback_RunOffTrack(){//completely off
+    console.log("Player Run Off Track");
+}
+
+function callback_BackOnTrack(){//completely on
+    console.log("Player Back On Track");
 }
 
 function callback_SpeedChange(speed){
@@ -11,9 +19,9 @@ function callback_SpeedChange(speed){
 }
 
 function callback_PlayerCrashwithBuilding(){
-    console.log("callback_PlayerCrashwithBuilding");
+    console.log("Player Crash with Building");
 }
 
-function callback_PlayerCrashwithCar(){
-    console.log("callback_PlayerCrashwithCar");
+function callback_PlayerCrashwithCar(crashed_car){
+    console.log("Player Crash with Car index: ", crashed_car.index);
 }
