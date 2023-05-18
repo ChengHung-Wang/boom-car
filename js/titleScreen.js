@@ -1,6 +1,6 @@
 // the title screen
 
-var TitleScreen = function(canvas, context) {
+var TitleScreen = function (canvas, context) {
   this.canvas = canvas;
   this.context = context;
 
@@ -8,63 +8,64 @@ var TitleScreen = function(canvas, context) {
 
 TitleScreen.prototype = {
 
-  init: function() {
+  init: function () {
     camera.reset();
     track.buildTrack0();
   },
 
-  keyDown: function(e) {
+  keyDown: function (e) {
     // if(e.keyCode === 88) {
     //   startGame();
     // }
   },
 
-  keyUp: function(e) {
+  keyUp: function (e) {
 
   },
 
-  renderRoad: function() {
+  renderRoad: function () {
     outlineOnly = true;
-    var maxy          = height;    
+    var maxy = height;
     camera.y = 400;
     camera.depth = 0.83909963117728;
     camera.x = 0;
-    
-    var baseSegment   = track.findSegment(camera.z);
+
+    var baseSegment = track.findSegment(camera.z);
     var cameraPercent = utilPercentRemaining(camera.z, Track.segmentLength);
-    
-    camera.y = 500 + utilInterpolate(baseSegment.p1.world.y, 
-      baseSegment.p3.world.y, 
+
+    camera.y = 500 + utilInterpolate(baseSegment.p1.world.y,
+      baseSegment.p3.world.y,
       cameraPercent);
 
-    var n, i, segment, car, sprite, spriteScale, spriteX, spriteY;
+    var n, i, segment, car, spriteX, spriteY;
+    // var sprite, spriteScale;
     var dx = 0;
-    for(n = 0 ; n < camera.drawDistance ; n++) {
-      segment = track.getSegment((baseSegment.index + n) % track.getSegmentCount() );
+    for (n = 0; n < camera.drawDistance; n++) {
+      segment = track.getSegment((baseSegment.index + n) % track.getSegmentCount());
       segment.looped = segment.index < baseSegment.index;
-      segment.clip   = maxy;
-      segment.clip   = 0;
-  
-      camera.project(segment.p1,  0, segment.looped, width, height, laneWidth);
-      camera.project(segment.p2,  0, segment.looped, width, height, laneWidth);
-      camera.project(segment.p3,  0, segment.looped,  width, height, laneWidth);
-      camera.project(segment.p4,  0, segment.looped,  width, height, laneWidth);
-  
-  
-  
-      if ((segment.p1.camera.z <= camera.depth)         || // behind us
-          (segment.p3.screen.y >= segment.p1.screen.y) || // back face cull
-          (segment.p3.screen.y >= maxy))                  // clip by (already rendered) hill
+      segment.clip = maxy;
+      segment.clip = 0;
+
+      camera.project(segment.p1, 0, segment.looped, width, height, laneWidth);
+      camera.project(segment.p2, 0, segment.looped, width, height, laneWidth);
+      camera.project(segment.p3, 0, segment.looped, width, height, laneWidth);
+      camera.project(segment.p4, 0, segment.looped, width, height, laneWidth);
+
+
+
+      if ((segment.p1.camera.z <= camera.depth) || // behind us
+        (segment.p3.screen.y >= segment.p1.screen.y) || // back face cull
+        (segment.p3.screen.y >= maxy))                  // clip by (already rendered) hill
         continue;
 
-        renderSegment(segment);
+      renderSegment(segment);
       maxy = segment.p1.screen.y;
     }
-  
+
   },
 
 
-  render: function(dt) {
+  render: function (dt) {
     cntx = this.context;
     var t = getTimestamp();
 
@@ -94,5 +95,5 @@ TitleScreen.prototype = {
     this.renderRoad();
 
   }
-  
+
 }
