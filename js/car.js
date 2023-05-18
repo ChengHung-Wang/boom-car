@@ -24,6 +24,7 @@ class Car {
 
     this.percent = 0; // percent remaining in segment
     this.speed = 0;
+    this.previous_speed = 0;
     this.ySpeed = 0;
 
     this.turboStartTime = 0;
@@ -583,6 +584,7 @@ class Car {
         speak("lap time " + this.getCurrentLapTime().toFixed(2));
       }
       this.currentLapTime = 0;
+      callback_LapOver();
     } else {
       if (this.z > Track.segmentLength * 1.2) {
         this.lapStarted = false;
@@ -628,6 +630,11 @@ class Car {
 
       race.raceOver();
     }
+
+    if(this.speed != this.previous_speed){
+      this.previous_speed = this.speed;
+      callback_SpeedChange(this.speed);
+    }
   }
 
   updateCarPosition(carSegment, playerSegment, playerWidth) {
@@ -650,6 +657,7 @@ class Car {
         && (this.speed > player.speed) 
         && (this.overlap(otherCarLeft, otherCarWidth, this.x, this.width, 1.2))) {
         */
+        let n;
         for (n = 0; n < segment.cars.length; n++) {
           var otherCar = segment.cars[n];
 

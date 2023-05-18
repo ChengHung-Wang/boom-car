@@ -56,7 +56,7 @@ new JoyStick('joyDiv', {
     internalStrokeColor: "#aaaaaa",
     externalStrokeColor: "#ffffff"
 }, function(stickData) {
-    console.log("callback:", stickData.cardinalDirection);
+    //console.log("callback:", stickData.cardinalDirection);
     if(stickData.cardinalDirection[0] == 'N'){
         if(UpDown == false){
             UpDown = true;
