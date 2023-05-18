@@ -595,9 +595,11 @@ class Car {
       this.lapStarted = true;
       this.lastLapTime = this.currentLapTime;
 
+      if (this.lap > 1){//What is this.index??
+        callback_LapOver(this.lap - 1);
+      }
       if (this.lap == 2 && this.index == 0) {
         //!== 1 && this.lap !== 3) {
-        callback_LapOver();
         speak("lap time " + this.getCurrentLapTime().toFixed(2));
       }
       this.currentLapTime = 0;

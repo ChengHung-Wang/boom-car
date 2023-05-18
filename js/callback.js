@@ -2,8 +2,8 @@ function callback_RaceOver(){
     console.log("Race Over");
 }
 
-function callback_LapOver(){
-    console.log("Lap Over");
+function callback_LapOver(lap){
+    console.log("Lap Over", lap);
 }
 
 function callback_RunOffTrack(){//completely off
