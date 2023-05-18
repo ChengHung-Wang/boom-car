@@ -452,6 +452,7 @@ class Car {
             raceAudioCrash();
             this.slipstream = 0;
             this.slipstreamTime = 0;
+            callback_PlayerCrash();
           }
           this.speed = maxSpeed / 5;
           this.z = utilIncrease(playerSegment.p1.world.z, 0, track.getLength()); // stop in front of sprite (at front of segment)

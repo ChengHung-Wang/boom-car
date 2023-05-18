@@ -9,3 +9,7 @@ function callback_LapOver(){
 function callback_SpeedChange(speed){
     //console.log("callback_SpeedChange: ", speed);
 }
+
+function callback_PlayerCrash(){
+    console.log("callback_PlayerCrash");
+}
