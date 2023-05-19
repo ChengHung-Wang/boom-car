@@ -57,7 +57,6 @@ stats.dom.style.left = 'auto';
 
 function frame() {
   //  stats.begin();
-
   now = getTimestamp();
   dt = Math.min(1, (now - last) / 1000);
   gdt = gdt + dt;

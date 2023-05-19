@@ -194,6 +194,7 @@ class Race {
           car.slowOnCorners = mathRand() > 0.6;
         }
       }
+
       segment.cars.push(car);
       cars.push(car);
     }
@@ -217,6 +218,7 @@ class Race {
         //        speak(this.countdownNumber);
       }
     }
+
     camera.update(dt);
   }
 
@@ -233,6 +235,7 @@ class Race {
         //        speak(this.countdownNumber);
       }
     }
+
     camera.update(dt);
   }
 
@@ -253,24 +256,26 @@ class Race {
     bgLayer3Offset = utilIncrease(
       bgLayer3Offset,
       (bgLayer3Speed * playerSegment.curve * (camera.z - startPosition)) /
-      Track.segmentLength,
+        Track.segmentLength,
       1
     );
+
     bgLayer2Offset = utilIncrease(
       bgLayer2Offset,
       (bgLayer2Speed * playerSegment.curve * (camera.z - startPosition)) /
-      Track.segmentLength,
+        Track.segmentLength,
       1
     );
+
     bgLayer1Offset = utilIncrease(
       bgLayer1Offset,
       (bgLayer1Speed * playerSegment.curve * (camera.z - startPosition)) /
-      Track.segmentLength,
+        Track.segmentLength,
       1
     );
   }
 
-  updateRaceOver() { }
+  updateRaceOver() {}
 
   update(dt) {
     switch (this.state) {
@@ -281,6 +286,7 @@ class Race {
         this.updateCountdown(dt);
         break;
       case STATE_RACEOVER:
+        break;
       case STATE_RACING:
         this.updateRace(dt);
         break;
