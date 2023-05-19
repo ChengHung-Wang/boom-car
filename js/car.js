@@ -1,9 +1,8 @@
 class Car {
   constructor() {
     this.sprite = 0;
-
+    PlayerIndex = 0;
     this.index = 0;
-
     this.width = 500; //530; // width
     this.height = 0;
 
@@ -91,8 +90,9 @@ class Car {
         this.slipstreamLengths.push(mathRand());
       }
     }
-
+    //尾流
     for (let i = 0; i < segments; i++) {
+      
       this.slipstreamLengths[i] += 0.03;
       if (this.slipstreamLengths[i] >= 0.8) {
         this.slipstreamLengths[i] = 0;
@@ -265,7 +265,7 @@ class Car {
     let maxSpeed = this.maxSpeed;
     this.speedPercent = this.speed / this.maxSpeed;
     let currentSegment = track.findSegment(this.z);
-    let playerSegment = track.findSegment(cars[0].z);
+    let playerSegment = track.findSegment(cars[PlayerIndex].z);
     let speedPercent = this.speedPercent;
     this.percent = utilPercentRemaining(this.z, Track.segmentLength);
 
@@ -287,18 +287,18 @@ class Car {
     // is the car on a curve? easy curve max is about 4
     if (currentSegment.curve < 0 && distanceToLeft > 0) {
       // turn left
-      if (this.index == 0) {
+      if (this.index == PlayerIndex) {
         extraSpeed =
           1 +
           ((trackWidth - this.width - distanceToLeft) * -currentSegment.curve) /
-            (trackWidth * 80);
+          (trackWidth * 80);
       }
     } else if (currentSegment.curve > 0 && distanceToRight > 0) {
-      if (this.index == 0) {
+      if (this.index == PlayerIndex) {
         extraSpeed =
           1 +
           ((trackWidth - this.width - distanceToRight) * currentSegment.curve) /
-            (trackWidth * 80);
+          (trackWidth * 80);
       }
     }
 
@@ -381,7 +381,7 @@ class Car {
 
     this.bounce = this.bounce * mathRand() * speedPercent;
 
-    if (this.index == 0 && race.state != STATE_RACEOVER) {
+    if (this.index == PlayerIndex && race.state != STATE_RACEOVER) {
       // its the player
 
       this.x =
@@ -444,7 +444,7 @@ class Car {
         // check for collision will roadside object, same segment and rects overlap
         let carX = this.x;
         if (this.overlap(carX, this.width, spriteX, spriteW, 1)) {
-          if (this.index == 0) {
+          if (this.index == PlayerIndex) {
             raceAudioCrash();
             this.slipstream = 0;
             this.slipstreamTime = 0;
@@ -517,7 +517,7 @@ class Car {
     // check collisions with other cars
     // check other cars
 
-    if (this.index === 0) {
+    if (this.index === PlayerIndex) {
       for (let n = 0; n < newSegment.cars.length; n++) {
         let car = newSegment.cars[n];
 
@@ -525,13 +525,13 @@ class Car {
           if (this.speed > car.speed) {
             // check for collision with other car, same segment and rects overlap
             if (this.overlap(this.x, this.width, car.x, car.width, 1)) {
-              if (this.index !== 0) {
+              if (this.index !== PlayerIndex) {
                 this.speed = car.speed / 2;
-                if (car.index !== 0) {
+                if (car.index !== PlayerIndex) {
                   car.speed = car.speed * 1.2;
                 }
               } else {
-                if (this.index == 0) {
+                if (this.index == PlayerIndex) {
                   raceAudioCrash();
                   this.slipstream = 0;
                   this.slipstreamTime = 0;
@@ -574,8 +574,8 @@ class Car {
       this.lap++;
       this.lapStarted = true;
       this.lastLapTime = this.currentLapTime;
-
-      if (this.lap == 2 && this.index == 0) {
+      //報時 一圈所花時間
+      if (this.lap == 2 && this.index == PlayerIndex) {
         //!== 1 && this.lap !== 3) {
         speak("lap time " + this.getCurrentLapTime().toFixed(2));
       }
@@ -588,6 +588,7 @@ class Car {
     }
 
     // work out position, position relies on current lap
+    //計算當前排名
     let currentPosition = this.position;
     this.position = 1;
     for (let i = 0; i < cars.length; i++) {
@@ -602,7 +603,7 @@ class Car {
       }
     }
 
-    if (this.index == 0) {
+    if (this.index == PlayerIndex) {
       if (this.newPositionTime > 0) {
         this.newPositionTime -= dt;
       }
@@ -612,8 +613,8 @@ class Car {
         this.newPositionTime = 1;
       }
     }
-
-    if (this.index === 0 && this.lap === 3 && race.state != STATE_RACEOVER) {
+    //this.lap圈數
+    if (this.index === PlayerIndex && this.lap === 3 && race.state != STATE_RACEOVER) {
       // race over!!!
       this.finishPosition = this.getPosition();
       speak("Race. Over.");
