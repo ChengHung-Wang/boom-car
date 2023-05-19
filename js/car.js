@@ -16,6 +16,7 @@ class Car {
     this.lapStarted = false;
     this.position = 0;
     this.offroading = false;
+    //this.PlayerCrashingWithBuilding = false;
 
     this.centrifugal = 0.3;
     this.slipstreamLines = [];
@@ -208,11 +209,17 @@ class Car {
 
   // --- player controls ----
   setTurnLeft(turn) {
-    this.turnLeft = turn;
+    if(turn != this.turnLeft) {
+      this.turnLeft = turn;
+      callback_TurnChange(this.turnLeft, this.turnRight);
+    }
   }
 
   setTurnRight(turn) {
-    this.turnRight = turn;
+    if(turn != this.turnRight) {
+      this.turnRight = turn;
+      callback_TurnChange(this.turnLeft, this.turnRight);
+    }
   }
 
   setAccelerate(accelerate) {
@@ -453,12 +460,18 @@ class Car {
             raceAudioCrash();
             this.slipstream = 0;
             this.slipstreamTime = 0;
+            //if(!this.PlayerCrashingWithBuilding){
+              //this.PlayerCrashingWithBuilding = true;
             callback_PlayerCrashwithBuilding();
+            //}
           }
           this.speed = maxSpeed / 5;
           this.z = utilIncrease(playerSegment.p1.world.z, 0, track.getLength()); // stop in front of sprite (at front of segment)
           break;
         }
+        //else if(this.PlayerCrashingWithBuilding){
+          //this.PlayerCrashingWithBuilding = false;
+        //}
       }
 
       var isBehind = false;

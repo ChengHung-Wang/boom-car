@@ -25,3 +25,12 @@ function callback_PlayerCrashwithBuilding(){
 function callback_PlayerCrashwithCar(crashed_car){
     console.log("Player Crash with Car index: ", crashed_car.index);
 }
+
+function callback_TurnChange(turnLeft, turnRight){
+    if(!turnLeft && !turnRight || turnLeft && turnRight)
+        console.log("Direction Changed: Straight");
+    else if(turnLeft)
+        console.log("Direction Changed: Left");
+    else if(turnRight)
+        console.log("Direction Changed: Right");
+}
