@@ -210,7 +210,7 @@ function renderPlayer(scale, destX, destY, steer, updown, playerShadowY) {
 
     // ************* DRAW SLIP STREAM ********** //
     if (player.slipstreamTime > 0 || player.slipstream > 0) {
-        cars[0].initSlipstreamLines();
+        cars[PlayerIndex].initSlipstreamLines();
 
         let amount = 0;
         if (player.slipstreamTime <= 0) {
@@ -221,10 +221,10 @@ function renderPlayer(scale, destX, destY, steer, updown, playerShadowY) {
         }
         cntxGlobalAlpha(1 - amount);
 
-        for (let i = 0; i < cars[0].slipstreamLines.length; i++) {
-            const points = cars[0].slipstreamLines[i];
+        for (let i = 0; i < cars[PlayerIndex].slipstreamLines.length; i++) {
+            const points = cars[PlayerIndex].slipstreamLines[i];
             cntxBeginPath();
-            cntxMoveTo(points[0].screen.x, points[0].screen.y);
+            cntxMoveTo(points[PlayerIndex].screen.x, points[0].screen.y);
             for (let j = 1; j < points.length; j++) {
                 cntxLineTo(points[j].screen.x, points[j].screen.y);
             }
@@ -465,8 +465,8 @@ function renderRender() {
                 playerSegment.p3.camera.y, playerPercent) * height / 2);
 
 
-        if (cars[0].yOffset > 0) {
-            playerScreenY -= cars[0].yOffset * camera.depth / camera.zOffset * height / 2;
+        if (cars[PlayerIndex].yOffset > 0) {
+            playerScreenY -= cars[PlayerIndex].yOffset * camera.depth / camera.zOffset * height / 2;
         }
 
         // var carX = width / 2;
@@ -475,7 +475,7 @@ function renderRender() {
             (playerSegment.p1.screen.x + playerSegment.p2.screen.x) / 2,
             (playerSegment.p3.screen.x + playerSegment.p4.screen.x) / 2,
             playerPercent)
-            + (scale * cars[0].x * width / 2);
+            + (scale * cars[PlayerIndex].x * width / 2);
 
         const p = {
             world: {

@@ -1,6 +1,7 @@
 class Camera {
   constructor() {
     this.fieldOfView = 100;
+    this.playern = 0;
     this.x = 0;
     this.y = 0;
     this.z = 0;
@@ -38,15 +39,15 @@ class Camera {
   }
 
   update(dt) {
-    this.z = cars[0].z - this.zOffset;
+    this.z = cars[this.playern].z - this.zOffset;
     if (this.z < 0) {
       this.z += track.getLength();
     }
 
-    this.x = cars[0].x + cars[0].width / 2;
+    this.x = cars[this.playern].x + cars[this.playern].width / 2;
 
-    let playerSegment = track.findSegment(cars[0].z);
-    let playerPercent = utilPercentRemaining(cars[0].z, Track.segmentLength);
+    let playerSegment = track.findSegment(cars[this.playern].z);
+    let playerPercent = utilPercentRemaining(cars[this.playern].z, Track.segmentLength);
 
     this.y =
       this.yOffset +
@@ -60,5 +61,9 @@ class Camera {
   adjust(y, z) {
     this.yOffset = y;
     this.zOffset = z;
+  }
+  //觀戰視角
+  WatchPlayer(n){
+    this.playern = n;
   }
 }

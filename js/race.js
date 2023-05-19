@@ -1,13 +1,13 @@
 // controls the race
-
+let PlayerIndex = 0;
 let track = null;
 
 let numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
 
-const STATE_PRERACE = 0;
-const STATE_COUNTDOWN = 1;
-const STATE_RACING = 4;
-const STATE_RACEOVER = 5;
+let STATE_PRERACE = 0;
+let STATE_COUNTDOWN = 1;
+let STATE_RACING = 4;
+let STATE_RACEOVER = 5;
 
 class Race {
   constructor() {
@@ -17,7 +17,7 @@ class Race {
     this.countdownNumber = 3;
     this.lastTime = 0;
 
-    this.carCount = 1; // 10;
+    this.carCount = 4; // 10;
 
     this.trackNumber = 0;
 
@@ -55,7 +55,7 @@ class Race {
     }
 
     this.resetCars();
-    player = cars[0];
+    player = cars[PlayerIndex];
     player.initSlipstreamLines();
     this.state = STATE_PRERACE;
     this.countdownNumber = 4;
@@ -79,6 +79,7 @@ class Race {
           break;
         case KEYUP:
           player.setAccelerate(true);
+          console.log(player);
           break;
         case KEYDOWN:
           player.setBrake(true);
@@ -130,7 +131,7 @@ class Race {
       if (e.keyCode == 88) {
         if (!this.xIsDown) {
           // next race
-          if (cars[0].finishPosition == "1st") {
+          if (cars[PlayerIndex].finishPosition == "1st") {
             this.start(this.raceNumber + 1);
           }
         }
@@ -155,6 +156,7 @@ class Race {
       //      sprite = SPRITES.CAR_STRAIGHT;
 
       car = new Car();
+      car.PlayerIndex = PlayerIndex;
 
       let x = 0;
       if (n % 2) {
@@ -194,7 +196,6 @@ class Race {
           car.slowOnCorners = mathRand() > 0.6;
         }
       }
-
       segment.cars.push(car);
       cars.push(car);
     }
@@ -218,7 +219,6 @@ class Race {
         //        speak(this.countdownNumber);
       }
     }
-
     camera.update(dt);
   }
 
@@ -235,7 +235,6 @@ class Race {
         //        speak(this.countdownNumber);
       }
     }
-
     camera.update(dt);
   }
 
@@ -256,26 +255,24 @@ class Race {
     bgLayer3Offset = utilIncrease(
       bgLayer3Offset,
       (bgLayer3Speed * playerSegment.curve * (camera.z - startPosition)) /
-        Track.segmentLength,
+      Track.segmentLength,
       1
     );
-
     bgLayer2Offset = utilIncrease(
       bgLayer2Offset,
       (bgLayer2Speed * playerSegment.curve * (camera.z - startPosition)) /
-        Track.segmentLength,
+      Track.segmentLength,
       1
     );
-
     bgLayer1Offset = utilIncrease(
       bgLayer1Offset,
       (bgLayer1Speed * playerSegment.curve * (camera.z - startPosition)) /
-        Track.segmentLength,
+      Track.segmentLength,
       1
     );
   }
 
-  updateRaceOver() {}
+  updateRaceOver() { }
 
   update(dt) {
     switch (this.state) {
@@ -286,7 +283,6 @@ class Race {
         this.updateCountdown(dt);
         break;
       case STATE_RACEOVER:
-        break;
       case STATE_RACING:
         this.updateRace(dt);
         break;
@@ -360,24 +356,37 @@ class Race {
       cntxStroke();
       cntxFillRect(800, 114, player.turboAmount * 2, 20);
 
-      if (cars[0].newPositionTime > 0) {
+      if (cars[PlayerIndex].newPositionTime > 0) {
         context.font = " 160px " + helvetica;
         cntxFillStyle(LIGHTGREY);
-        context.fillText(cars[0].getPosition(), 334, 184);
+        context.fillText(cars[PlayerIndex].getPosition(), 334, 184);
       }
     }
 
     if (this.state == STATE_RACEOVER) {
       context.font = " 300px " + helvetica;
       cntxFillStyle(LIGHTGREY);
-      context.fillText(cars[0].finishPosition, 300, 290); //cars[0].finishPosition, 494, 254);
+      context.fillText(cars[PlayerIndex].finishPosition, 300, 290); //cars[PlayerIndex].finishPosition, 494, 254);
       context.font = " 40px " + helvetica;
       let y = 380;
-      if (cars[0].finishPosition == "1st") {
+      if (cars[PlayerIndex].finishPosition == "1st") {
         context.fillText("x: Next Race", 397, y);
         y += 80;
       }
       context.fillText("z: Retry", 445, y);
     }
   }
+}
+function ChangeCar(n){
+  camera.WatchPlayer(n);
+  PlayerIndex = n;
+  console.log()
+  cars.forEach(item => {
+    if (item.PlayerIndex == n) {
+      player = item;
+    }
+  });
+  // for(let i =0;i<cars.length;++i){
+  //   cars[i].PlayerIndex = n;
+  // }
 }
