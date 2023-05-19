@@ -1,9 +1,9 @@
 // define the tracks in the game
-let COLORS_KERBLIGHT = "#a02222",
-  COLORS_KERBDARK = "#BBBBBB",
-  COLORS_LANDLIGHT = "#000000",
-  COLORS_LANDDARK = "#000000",
-  COLORS_ROAD = "#000000";
+let COLORS_KERBLIGHT = "#a02222";
+let COLORS_KERBDARK = "#BBBBBB";
+let COLORS_LANDLIGHT = "#000000";
+let COLORS_LANDDARK = "#000000";
+let COLORS_ROAD = "#000000";
 
 let laneWidth = 1200;
 let lanes = 1;
@@ -102,8 +102,8 @@ class Track {
 
   buildTrack1() {
     COLORS_ROAD = "#3a3a3a";
-
-    (COLORS_LANDLIGHT = "#047804"), (COLORS_LANDDARK = "#006A00");
+    COLORS_LANDLIGHT = "#047804";
+    COLORS_LANDDARK = "#006A00";
     COLORS_LANEMARKER = MEDIUMGREY;
     COLORS_FOG = 0;
 
@@ -145,7 +145,6 @@ class Track {
 
   buildTrack2() {
     COLORS_ROAD = "#3a3a3a";
-
     COLORS_LANDLIGHT = "#047804";
     COLORS_LANDDARK = "#006A00";
     COLORS_LANEMARKER = MEDIUMGREY;
@@ -192,12 +191,10 @@ class Track {
 
   buildTrack3() {
     COLORS_ROAD = "#3a3a3a";
-
     COLORS_LANDLIGHT = "#5a5a5a";
     COLORS_LANDDARK = "#626262";
-
     COLORS_LANEMARKER = MEDIUMGREY;
-    COLORS_FOG = 0; //'#eeeeee';
+    COLORS_FOG = 0;
 
     resetGraphics();
     createCars();

@@ -4,10 +4,10 @@ let track = null;
 
 let numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
 
-let STATE_PRERACE = 0;
-let STATE_COUNTDOWN = 1;
-let STATE_RACING = 4;
-let STATE_RACEOVER = 5;
+const STATE_PRERACE = 0;
+const STATE_COUNTDOWN = 1;
+const STATE_RACING = 4;
+const STATE_RACEOVER = 5;
 
 class Race {
   constructor() {
