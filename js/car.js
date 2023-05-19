@@ -291,14 +291,14 @@ class Car {
         extraSpeed =
           1 +
           ((trackWidth - this.width - distanceToLeft) * -currentSegment.curve) /
-          (trackWidth * 80);
+            (trackWidth * 80);
       }
     } else if (currentSegment.curve > 0 && distanceToRight > 0) {
       if (this.index == 0) {
         extraSpeed =
           1 +
           ((trackWidth - this.width - distanceToRight) * currentSegment.curve) /
-          (trackWidth * 80);
+            (trackWidth * 80);
       }
     }
 
