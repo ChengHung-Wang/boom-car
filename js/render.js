@@ -3,6 +3,12 @@ let width = document.documentElement.clientWidth;
 let height = document.documentElement.clientHeight;
 let resolution = height / 480;
 
+addEventListener("resize", () => {
+    width = document.documentElement.clientWidth;
+    height = document.documentElement.clientHeight;
+    resolution = height / 480;
+});
+
 // titleScreen.js racer.js
 var outlineOnly = false;
 

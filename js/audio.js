@@ -12,7 +12,6 @@ var audioTurboData = [];
 
 function raceAudioSetTurboTime(t) {
   audioTurboSpeed = 1 + t / 10000;
-
 }
 
 function raceAudioInit() {
@@ -30,10 +29,10 @@ function raceAudioInit() {
     audioScriptNode.onaudioprocess = function (e) {
       //audioEngineData = audioTurboData;
 
-      var channel = e.outputBuffer.getChannelData(0);
-      var index;
+      let channel = e.outputBuffer.getChannelData(0);
+      let index;
 
-      for (var i = 0; i < channel.length; ++i) {
+      for (let i = 0; i < channel.length; ++i) {
         // skip more data frames on higher speed
 
         if (player.turbo) {
@@ -68,27 +67,27 @@ function raceAudioInit() {
 }
 
 function raceAudioCreateTurboBuffer() {
-  var bufferSize = 1024;//2 * audioCtx.sampleRate;
+  let bufferSize = 1024;//2 * audioCtx.sampleRate;
   audioTurboData = [];
-  var index = 0;
+  let index = 0;
 
   for (var i = 0; i < bufferSize; i++) {
     //    audioTurboData[i] = Math.random();
-    for (var j = 0; j < 12; j++) {
+    for (let j = 0; j < 12; j++) {
       audioTurboData[index++] = Math.random() * 0.01;
       if (index >= bufferSize) {
         break;
       }
     }
 
-    var v = 0.2;
+    let v = 0.2;
 
     if (index < bufferSize) {
-      for (var k = 0; k < 2; k++) {
+      for (let k = 0; k < 2; k++) {
         audioTurboData[index++] = v;
 
         if (index >= bufferSize) {
-          break;;
+          break;
         }
       }
     }
@@ -101,17 +100,17 @@ function raceAudioCreateTurboBuffer() {
 
 }
 function raceAudioCreateEngineBuffer() {
-  var bufferSize = 1024;//2 * audioCtx.sampleRate;
+  let bufferSize = 1024;//2 * audioCtx.sampleRate;
   audioEngineData = [];
 
-  var lastValue = 1;
+  let lastValue = 1;
   //var lastPosition = 0;
-  var nextValue, nextPosition;
+  let nextValue, nextPosition;
 
-  var index = 0;
+  let index = 0;
   audioEngineData[index++] = 1;
 
-  for (var i = 0.05; i < 1; i += Math.random() / 8 + 0.01) {
+  for (let i = 0.05; i < 1; i += Math.random() / 8 + 0.01) {
     nextPosition = Math.floor(i * bufferSize);
     nextValue = Math.random() * 2 - 1;
     var positionDiff = nextPosition - (index - 1);
@@ -133,20 +132,20 @@ function raceAudioCreateEngineBuffer() {
 
 function raceAudioCreateNoiseBuffer() {
 
-  var bufferSize = 2 * audioCtx.sampleRate;
+  let bufferSize = 2 * audioCtx.sampleRate;
   noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-  var output = noiseBuffer.getChannelData(0);
+  let output = noiseBuffer.getChannelData(0);
 
-  for (var i = 0; i < bufferSize; i++) {
+  for (let i = 0; i < bufferSize; i++) {
     output[i] = Math.random() * 2 - 1;
   }
 
 }
 
 function raceAudioTone(freq, duration) {
-  var gain = audioCtx.createGain();
+  let gain = audioCtx.createGain();
 
-  var osc = audioCtx.createOscillator();
+  let osc = audioCtx.createOscillator();
   osc.connect(gain);
   gain.connect(audioCtx.destination);
   osc.type = "triangle";//"sawtooth";
@@ -167,17 +166,17 @@ function raceAudioEngineStop() {
 var lastCrashTime = 0;
 function raceAudioCrash() {
 
-  var crashTime = getTimestamp();
+  let crashTime = getTimestamp();
   if (crashTime - lastCrashTime < 1000) {
     return;
 
   }
   lastCrashTime = crashTime;
 
-  var noteLength = 1 / 2;
-  var gain = audioCtx.createGain();
+  let noteLength = 1 / 2;
+  let gain = audioCtx.createGain();
 
-  var audioSource = null;
+  let audioSource = null;
   audioSource = audioCtx.createBufferSource();
   audioSource.connect(gain);
   gain.connect(audioCtx.destination);
@@ -196,14 +195,14 @@ function raceAudioCrash() {
 
 function drawBuffer(buffer) {
 
-  var canvas = document.getElementById('debugCanvas');
-  var context = canvas.getContext('2d');
-  var mult = 200;
+  let canvas = document.getElementById('debugCanvas');
+  let context = canvas.getContext('2d');
+  let mult = 200;
   context.strokeStyle = '#dddddd';
   context.beginPath();
   context.moveTo(0, 300 + buffer[0] * mult);
 
-  for (var i = 1; i < buffer.length; i += 2) {
+  for (let i = 1; i < buffer.length; i += 2) {
     context.lineTo(i, 300 + buffer[i] * mult);
   }
   context.stroke();

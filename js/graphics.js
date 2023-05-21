@@ -254,7 +254,7 @@ function smallTree(width, slope) {
   let y = 0,
     index = 1;
   points[index] = 0;
-  for (var i = 0; i < width; i++) {
+  for (let i = 0; i < width; i++) {
     y = y + mathRand() * slope;
     points[index++] = y;
   }
@@ -276,7 +276,7 @@ function createBackgroundTrees() {
 
   let sx = 0;
   // OK
-  for (var j = 0; j < 4; j++) {
+  for (let j = 0; j < 4; j++) {
     let x = sx;
     let width = 10 + 40 * mathRand();
 
@@ -432,7 +432,7 @@ function terrain(startX) {
   cntxFillStyle("#335a3a");
   cntxBeginPath();
   cntxMoveTo(x, heightOffset - highlightpoints2[0]);
-  for (var t = 1; t < highlightpoints2.length; t++) {
+  for (let t = 1; t < highlightpoints2.length; t++) {
     cntxLineTo(x, heightOffset - highlightpoints2[t]);
     x++;
   }
@@ -515,13 +515,13 @@ function createTrees() {
   SPRITES_TREES = [];
 
   // NOT OK : SPRITES_TREES (track.js)
-  for (var ti = 0; ti < 6; ti++) {
+  for (let ti = 0; ti < 6; ti++) {
     for (let treeOK = false, c = 0; !treeOK; c++) {
       cntx = scratchCanvas.x;
       scratchCanvas.x.save();
       eraseScratch();
       tree.draw();
-      var bounds = getScratchSpriteBounds();
+      let bounds = getScratchSpriteBounds();
       treeOK = (bounds.w < 300 && bounds.h < 400) || c > 5;
       scratchCanvas.x.restore();
     }
