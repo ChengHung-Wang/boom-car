@@ -1,6 +1,5 @@
 // controls the race
 let PlayerIndex = 0;
-let track = null;
 
 let numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
 
@@ -37,7 +36,7 @@ class Race {
     }
 
     this.raceNumber = trackNumber;
-    track = new Track();
+    // track = new Track();
 
     switch (trackNumber) {
       case 0:

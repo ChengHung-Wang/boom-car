@@ -4,6 +4,9 @@ let canvas = document.getElementById("gameCanvas");
 let context = canvas.getContext("2d");
 let racing = false;
 
+canvas.width = document.documentElement.clientWidth;
+canvas.height = document.documentElement.clientHeight;
+
 let getTimestamp = function () {
   return performance.now();
 };
@@ -34,7 +37,7 @@ let cars = []; // array of cars on the road
 let player = null;
 let camera = new Camera();
 let race = new Race();
-track = new Track();
+let track = new Track();
 let titleScreen = new TitleScreen(canvas, context);
 
 function startGame(trackNumber) {
