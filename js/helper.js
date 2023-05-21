@@ -1,3 +1,5 @@
+import { camera, startGame, titleScreen } from "./racer2.js";
+
 const { createApp } = Vue
 const appOption = {
     data() {

@@ -1,4 +1,4 @@
-class Camera {
+export class Camera {
   constructor() {
     this.fieldOfView = 100;
     this.playern = 0;

@@ -1,3 +1,4 @@
+// TODO: let it become module type to solve camera undefined.
 // controls the race
 let PlayerIndex = 0;
 

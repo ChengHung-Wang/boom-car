@@ -1,29 +1,29 @@
 // the title screen
+import { camera } from './racer2.js'
 
-var TitleScreen = function (canvas, context) {
-  this.canvas = canvas;
-  this.context = context;
+export class TitleScreen {
+  constructor(canvas, context) {
+    this.canvas = canvas;
+    this.context = context;
+    this.init();
+  }
 
-}
-
-TitleScreen.prototype = {
-
-  init: function () {
+  init() {
     camera.reset();
     track.buildTrack0();
-  },
+  }
 
-  keyDown: function (e) {
+  keyDown(e) {
     // if(e.keyCode === 88) {
     //   startGame();
     // }
-  },
+  }
 
-  keyUp: function (e) {
+  keyUp(e) {
 
-  },
+  }
 
-  renderRoad: function () {
+  renderRoad() {
     outlineOnly = true;
     let maxy = height;
     camera.y = 400;
@@ -34,8 +34,8 @@ TitleScreen.prototype = {
     let cameraPercent = utilPercentRemaining(camera.z, Track.segmentLength);
 
     camera.y = 500 + utilInterpolate(baseSegment.p1.world.y,
-      baseSegment.p3.world.y,
-      cameraPercent);
+        baseSegment.p3.world.y,
+        cameraPercent);
 
     let n, i, segment, car, spriteX, spriteY;
     // var sprite, spriteScale;
@@ -54,18 +54,17 @@ TitleScreen.prototype = {
 
 
       if ((segment.p1.camera.z <= camera.depth) || // behind us
-        (segment.p3.screen.y >= segment.p1.screen.y) || // back face cull
-        (segment.p3.screen.y >= maxy))                  // clip by (already rendered) hill
+          (segment.p3.screen.y >= segment.p1.screen.y) || // back face cull
+          (segment.p3.screen.y >= maxy))                  // clip by (already rendered) hill
         continue;
 
       renderSegment(segment);
       maxy = segment.p1.screen.y;
     }
 
-  },
+  }
 
-
-  render: function (dt) {
+  render(dt) {
     cntx = this.context;
     let t = getTimestamp();
 
@@ -89,11 +88,8 @@ TitleScreen.prototype = {
     // context.font = '44px ' + helvetica;
     // cntxFillText("Arrow keys to drive, x for Turbo, z for Handbrake", 38, 570);
     // cntxFillText("x To Start", 423, 460);
-
-
+    // console.log(camera.z, dt*120, track.getLength());
     camera.z = utilIncrease(camera.z, dt * 120, track.getLength());
     this.renderRoad();
-
   }
-
 }
