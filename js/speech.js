@@ -1,5 +1,5 @@
 // say things
-var english_voice = '';
+let english_voice = '';
 
 function speak(text) {
   let available_voices = window.speechSynthesis.getVoices();

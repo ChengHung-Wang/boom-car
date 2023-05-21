@@ -43,9 +43,9 @@ function createCanvas(width, height) {
 }
 
 // NOT OK : newSprite
-var spriteDstX = 0;
-var spriteDstY = 0;
-var spriteMaxRowHeight = 0;
+let spriteDstX = 0;
+let spriteDstY = 0;
+let spriteMaxRowHeight = 0;
 
 // NOT OK : spriteDstX, spriteDstY, spriteMaxRowHeight
 function resetGraphics() {
@@ -215,8 +215,8 @@ function newSprite(flipH) {
 
 // ***************** TURN ARROWS ******************** //
 // NOT OK : cntx (canvasFunctions.js)
-var SPRITES_TURNLEFT = 0;
-var SPRITES_TURNRIGHT = 0;
+let SPRITES_TURNLEFT = 0;
+let SPRITES_TURNRIGHT = 0;
 function createTurnArrows() {
   cntx = scratchCanvas.x;
   eraseScratch();
@@ -510,7 +510,7 @@ let tree = {
 };
 
 // NOT OK : SPRITES_TREES (track.js)
-var SPRITES_TREES = [];
+let SPRITES_TREES = [];
 function createTrees() {
   SPRITES_TREES = [];
 
@@ -641,7 +641,7 @@ function createBackgroundBuildings(night) {
 // ------------ building     --------------
 // NOT OK : cntx (canvasFunctions.js)
 //          SPRITES_BUILDINGS (track.js)
-var SPRITES_BUILDINGS = [];
+let SPRITES_BUILDINGS = [];
 function createBuildings(night) {
   SPRITES_BUILDINGS = [];
   for (let ti = 0; ti < 4; ti++) {
@@ -701,8 +701,8 @@ function createBuildings(night) {
 // ***************** STREET LIGHTS ******************** //
 
 // NOT OK : cntx (canvasFunctions.js)
-var SPRITES_STREETLIGHTLEFT = 0;
-var SPRITES_STREETLIGHTRIGHT = 0;
+let SPRITES_STREETLIGHTLEFT = 0;
+let SPRITES_STREETLIGHTRIGHT = 0;
 function createStreetlights(night) {
   cntx = scratchCanvas.x;
   eraseScratch();
@@ -831,7 +831,7 @@ function createLeaf(s) {
 }
 
 // NOT OK : cntx (canvasFunctions.js)
-var SPRITES_FLOWERS = 0;
+let SPRITES_FLOWERS = 0;
 function createFlowers() {
   eraseScratch();
   cntx = scratchCanvas.x;
@@ -934,8 +934,8 @@ function drawLine(x1, y1, x2, y2) {
 }
 
 // NOT OK : cntx (canvasFunctions.js)
-var SPRITES_CARLEFT = 0;
-var SPRITES_CARRIGHT = 0;
+let SPRITES_CARLEFT = 0;
+let SPRITES_CARRIGHT = 0;
 function createCar() {
   eraseScratch();
   cntx = scratchCanvas.x;
@@ -1030,7 +1030,7 @@ function createCar() {
 }
 
 // NOT OK : cntx (canvasFunctions.js)
-var SPRITES_CARSTRAIGHT = 0;
+let SPRITES_CARSTRAIGHT = 0;
 function createCar2() {
   eraseScratch();
   cntx = scratchCanvas.x;

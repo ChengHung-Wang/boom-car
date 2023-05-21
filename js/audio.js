@@ -1,14 +1,14 @@
-var audioCtx = null;
-var noiseBuffer = null;
-var audioScriptNode = null;
-var audioScriptGain = null;
-var audioEngineFrame = 0;
-var audioTurboFrame = 0;
-var audioScriptSpeed = 1;
-var audioTurboSpeed = 1;
+let audioCtx = null;
+let noiseBuffer = null;
+let audioScriptNode = null;
+let audioScriptGain = null;
+let audioEngineFrame = 0;
+let audioTurboFrame = 0;
+let audioScriptSpeed = 1;
+let audioTurboSpeed = 1;
 
-var audioEngineData = [];
-var audioTurboData = [];
+let audioEngineData = [];
+let audioTurboData = [];
 
 function raceAudioSetTurboTime(t) {
   audioTurboSpeed = 1 + t / 10000;
@@ -163,7 +163,7 @@ function raceAudioEngineStop() {
 }
 
 
-var lastCrashTime = 0;
+let lastCrashTime = 0;
 function raceAudioCrash() {
 
   let crashTime = getTimestamp();

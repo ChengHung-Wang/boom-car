@@ -1,4 +1,4 @@
-var cntx = null;
+let cntx = null;
 
 
 function cntxClearRect(width, height) {

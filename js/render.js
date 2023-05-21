@@ -10,7 +10,7 @@ addEventListener("resize", () => {
 });
 
 // titleScreen.js racer.js
-var outlineOnly = false;
+let outlineOnly = false;
 
 // draw a polygon
 // NOT OK : outlineOnly
@@ -306,9 +306,9 @@ function renderFog(x, y, width, height, fog) {
 }
 
 // race.js
-var bgLayer3Offset = 0;
-var bgLayer2Offset = 0;
-var bgLayer1Offset = 0;
+let bgLayer3Offset = 0;
+let bgLayer2Offset = 0;
+let bgLayer1Offset = 0;
 
 const bgLayer3Speed = 0.001;
 const bgLayer2Speed = 0.002;

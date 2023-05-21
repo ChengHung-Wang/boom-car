@@ -1,10 +1,10 @@
-var KEYUP = 38;
-var KEYDOWN = 40;
-var KEYLEFT = 37;
-var KEYRIGHT = 39;
-var helvetica = ' "Helvetica Neue", Helvetica, Arial, sans-serif';
+let KEYUP = 38;
+let KEYDOWN = 40;
+let KEYLEFT = 37;
+let KEYRIGHT = 39;
+let helvetica = ' "Helvetica Neue", Helvetica, Arial, sans-serif';
 
-var COLORS_LANEMARKER = 0;
+let COLORS_LANEMARKER = 0;
 
 // graphics.js
 // ===================================================================
@@ -15,4 +15,4 @@ const DARKGREY = "#333333";
 const MEDIUMGREY = "#cccccc";
 const LIGHTGREY = "#e5e5e5";
 
-var COLORS_FOG = 0;
+let COLORS_FOG = 0;
