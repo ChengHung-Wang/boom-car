@@ -26,5 +26,11 @@ module.exports = {
             },
         ],
         "no-compare-neg-zero": "error",
-    }
+        "prefer-const": ["error",
+            {
+                "destructuring": "any",
+                "ignoreReadBeforeAssign": false
+            }
+        ],
+    },
 }
