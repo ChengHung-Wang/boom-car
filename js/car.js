@@ -287,14 +287,14 @@ class Car {
     // is the car on a curve? easy curve max is about 4
     if (currentSegment.curve < 0 && distanceToLeft > 0) {
       // turn left
-      if (this.index == PlayerIndex) {
+      if (this.index !== PlayerIndex) {
         extraSpeed =
           1 +
           ((trackWidth - this.width - distanceToLeft) * -currentSegment.curve) /
           (trackWidth * 80);
       }
     } else if (currentSegment.curve > 0 && distanceToRight > 0) {
-      if (this.index == PlayerIndex) {
+      if (this.index !== PlayerIndex) {
         extraSpeed =
           1 +
           ((trackWidth - this.width - distanceToRight) * currentSegment.curve) /
@@ -396,7 +396,7 @@ class Car {
       let ddrift = this.driftDirection * this.speed * 0.00055;
       this.x += ddrift;
 
-      // need to check for collision with other cars..
+      //need to check for collision with other cars..
       this.z = utilIncrease(
         this.z,
         dt * this.speed * extraSpeed,

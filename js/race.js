@@ -79,7 +79,7 @@ class Race {
           break;
         case KEYUP:
           player.setAccelerate(true);
-          console.log(player);
+          // console.log(player);
           break;
         case KEYDOWN:
           player.setBrake(true);
@@ -377,16 +377,25 @@ class Race {
     }
   }
 }
-function ChangeCar(n){
-  camera.WatchPlayer(n);
-  PlayerIndex = n;
-  console.log()
+//改變車輛
+function ChangeCar(carIndex){
+  camera.WatchPlayer(carIndex);
+  PlayerIndex = carIndex;
+  // console.log()
   cars.forEach(item => {
     if (item.PlayerIndex == n) {
       player = item;
     }
   });
+  player = cars[carIndex];
   // for(let i =0;i<cars.length;++i){
   //   cars[i].PlayerIndex = n;
   // }
+}
+//改變車輛最大速度
+function ChangeMaxSpeed(carIndex,Speed){
+  cars[carIndex].maxSpeed = Speed;
+}
+function getCarSpeed(carIndex){
+  return cars[carIndex].speed;
 }
