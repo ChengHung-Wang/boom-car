@@ -1,8 +1,11 @@
 import { ref } from "vue";
+import * as helperPkg from "@/helper/helper"
 
 // 帶有 ref(<T>) 或 Ref<T> 的東西要取 value 的話就 variable.value 就可以拿到值
 export const canvas = ref();
 export const context = ref();
+
+export const helper = helperPkg;
 
 export function init()
 {
