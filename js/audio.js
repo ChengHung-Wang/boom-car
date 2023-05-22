@@ -156,8 +156,8 @@ export function raceAudioEngineSpeed(speed) {
   audioScriptSpeed = 0.2 + speed * 2;
 }
 
-function raceAudioEngineStop() {
-}
+// function raceAudioEngineStop() {
+// }
 
 let lastCrashTime = 0;
 
@@ -188,17 +188,17 @@ export function raceAudioCrash() {
   audioSource.stop(audioCtx.currentTime + noteLength);
 }
 
-function drawBuffer(buffer) {
-  const canvas = document.getElementById('debugCanvas');
-  const context = canvas.getContext('2d');
-  const mult = 200;
-  context.strokeStyle = '#dddddd';
-  context.beginPath();
-  context.moveTo(0, 300 + buffer[0] * mult);
+// function drawBuffer(buffer) {
+//   const canvas = document.getElementById('debugCanvas');
+//   const context = canvas.getContext('2d');
+//   const mult = 200;
+//   context.strokeStyle = '#dddddd';
+//   context.beginPath();
+//   context.moveTo(0, 300 + buffer[0] * mult);
 
-  for (let i = 1; i < buffer.length; i += 2) {
-    context.lineTo(i, 300 + buffer[i] * mult);
-  }
+//   for (let i = 1; i < buffer.length; i += 2) {
+//     context.lineTo(i, 300 + buffer[i] * mult);
+//   }
 
-  context.stroke();
-}
+//   context.stroke();
+// }

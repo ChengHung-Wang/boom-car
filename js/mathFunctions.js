@@ -1,6 +1,6 @@
 // hopefully  versions of math functions which take less bytes
-let M = Math;
-export let PI = Math.PI;
+const M = Math;
+export const PI = Math.PI;
 
 export function mathRand() {
   return M.random();

@@ -9,6 +9,7 @@ import { speak } from "./speech.js";
 import { Track } from "./track.js";
 import { mathRand } from "./mathFunctions.js";
 import { utilIncrease } from "./util.js";
+import { cntxFillStyle, cntxFillText, cntxStrokeStyle, cntxBeginPath, cntxStroke, cntxFillRect } from './canvasFunctions.js'
 
 // TODO: let it become module type to solve camera undefined.
 // controls the race

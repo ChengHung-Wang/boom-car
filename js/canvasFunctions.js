@@ -1,4 +1,4 @@
-export let cntx = null;
+export const cntx = null;
 
 export function cntxClearRect(width, height) {
   cntx.clearRect(0, 0, width, height);

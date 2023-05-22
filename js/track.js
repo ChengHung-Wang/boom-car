@@ -1,5 +1,6 @@
 import { PI, cos, sin, mathRand } from "./mathFunctions";
-import { COLORS_FOG } from "./constants";
+import * as cntx from "./canvasFunctions";
+// import { COLORS_FOG } from "./constants";
 
 // define the tracks in the game
 export let COLORS_KERBLIGHT = "#a02222",
@@ -9,8 +10,6 @@ export let COLORS_KERBLIGHT = "#a02222",
   COLORS_ROAD = "#000000";
 
 const laneWidth = 1200;
-const lanes = 1;
-
 export class Track {
   constructor() {
     this.trackLength = 0;
@@ -460,76 +459,76 @@ export class Track {
     }
     this.map.width = 600;
     this.map.height = 600;
-    cntx = this.map.getContext("2d");
+    cntx.cntx = this.map.getContext("2d");
 
     let width = canvas.width;
     let height = canvas.height;
     //    context.fillStyle = '#222222';
     //    context.fillRect(0, 0, width, height);
-    cntxClearRect(600, 600);
-    cntxStrokeStyle("#666666");
+    cntx.cntxClearRect(600, 600);
+    cntx.cntxStrokeStyle("#666666");
     cntx.lineWidth = 5;
 
     let angle = 0;
     let x = 300;
     let y = 30;
 
-    cntxBeginPath();
+    cntx.cntxBeginPath();
     let segmentDrawLength = 0.5;
-    cntxMoveTo(x, y);
+    cntx.cntxMoveTo(x, y);
     for (let i = 0; i < this.segments.length; i++) {
       angle = (this.segments[i].angle / 180) * PI;
       x += segmentDrawLength * cos(angle);
       y += segmentDrawLength * sin(angle);
-      cntxLineTo(x, y);
+      cntx.cntxLineTo(x, y);
       // in 2d overhead view
       this.segments[i].x = x;
       this.segments[i].y = y;
     }
 
-    cntxStroke();
+    cntx.cntxStroke();
 
-    cntxStrokeStyle(LIGHTGREY);
-    cntx.lineWidth = 4;
-    cntxStroke();
+    cntx.cntxStrokeStyle(LIGHTGREY);
+    cntx.cntx.lineWidth = 4;
+    cntx.cntxStroke();
 
     // draw the start line
     segmentDrawLength = 4;
     context.lineWidth = 3;
-    cntxStrokeStyle(LIGHTGREY);
-    cntxBeginPath();
+    cntx.cntxStrokeStyle(LIGHTGREY);
+    cntx.cntxBeginPath();
     angle = ((this.segments[0].angle + 90) / 180) * PI;
     x -= segmentDrawLength * cos(angle);
     y -= segmentDrawLength * sin(angle);
-    cntxMoveTo(x, y);
+    cntx.cntxMoveTo(x, y);
     x += 2 * segmentDrawLength * cos(angle);
     y += 2 * segmentDrawLength * sin(angle);
-    cntxLineTo(x, y);
+    cntx.cntxLineTo(x, y);
 
-    cntxStroke();
+    cntx.cntxStroke();
   }
 
   drawOverheadTrack() {
     //let canvas = document.getElementById('trackCanvas');
-    cntx = overheadTrack.x; //canvas.getContext('2d');
+    cntx.cntx = overheadTrack.x; //canvas.getContext('2d');
     this.overheadMap = overheadTrack.c;
 
-    cntxClearRect(600, 600);
-    cntxDrawImage(this.map, 0, 0, 600, 600, 0, 0, 600, 600);
+    cntx.cntxClearRect(600, 600);
+    cntx.cntxDrawImage(this.map, 0, 0, 600, 600, 0, 0, 600, 600);
 
     // opponents
     for (let i = 0; i < cars.length; i++) {
       let carPosition = cars[i].z;
       let segment = this.findSegment(carPosition);
 
-      cntxBeginPath();
+      cntx.cntxBeginPath();
 
-      cntxArc(segment.x, segment.y, 5, 0, 2 * PI, false);
-      cntxFillStyle(DARKGREY);
-      cntxFill();
-      cntx.lineWidth = 2;
-      cntxStrokeStyle("#999999");
-      cntxStroke();
+      cntx.cntxArc(segment.x, segment.y, 5, 0, 2 * PI, false);
+      cntx.cntxFillStyle(DARKGREY);
+      cntx.cntxFill();
+      cntx.cntx.lineWidth = 2;
+      cntx.cntxStrokeStyle("#999999");
+      cntx.cntxStroke();
     }
 
     // camera z position plus player z position from camera
@@ -537,13 +536,13 @@ export class Track {
     let playerPosition = cars[PlayerIndex].z;
     let playerSegment = this.findSegment(playerPosition);
 
-    cntxBeginPath();
-    cntxArc(playerSegment.x, playerSegment.y, 5, 0, 2 * PI, false);
-    cntxFillStyle("#ff0000");
-    cntxFill();
+    cntx.cntxBeginPath();
+    cntx.cntxArc(playerSegment.x, playerSegment.y, 5, 0, 2 * PI, false);
+    cntx.cntxFillStyle("#ff0000");
+    cntx.cntxFill();
 
     context.lineWidth = 2;
-    cntxStrokeStyle(MEDIUMGREY);
-    cntxStroke();
+    cntx.cntxStrokeStyle(MEDIUMGREY);
+    cntx.cntxStroke();
   }
 }

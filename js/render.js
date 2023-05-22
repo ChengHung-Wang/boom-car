@@ -4,6 +4,8 @@ import { BACKGROUNDLAYERHEIGHT, BACKGROUNDLAYERWIDTH } from "./racer.js";
 import { cars, player, camera, track } from "./racer.js";
 import { Track } from "./track.js";
 import { STATE_RACING } from "./constants.js";
+import * as cntx from './canvasFunctions.js'
+
 
 // draw all the race stuff to the screen
 export let width = document.documentElement.clientWidth;
@@ -22,18 +24,18 @@ export let outlineOnly = false;
 // draw a polygon
 // NOT OK : outlineOnly
 function renderPolygon(x1, y1, x2, y2, x3, y3, x4, y4, color) {
-    cntxFillStyle(color);
-    cntxBeginPath();
-    cntxMoveTo(x1, y1);
-    cntxLineTo(x2, y2);
-    cntxLineTo(x3, y3);
-    cntxLineTo(x4, y4);
-    cntxClosePath();
+    cntx.cntxFillStyle(color);
+    cntx.cntxBeginPath();
+    cntx.cntxMoveTo(x1, y1);
+    cntx.cntxLineTo(x2, y2);
+    cntx.cntxLineTo(x3, y3);
+    cntx.cntxLineTo(x4, y4);
+    cntx.cntxClosePath();
     if (outlineOnly) {
-        cntxStrokeStyle(MEDIUMGREY);
-        cntxStroke();
+        cntx.cntxStrokeStyle(MEDIUMGREY);
+        cntx.cntxStroke();
     } else {
-        cntxFill();
+        cntx.cntxFill();
     }
 }
 
@@ -47,8 +49,8 @@ function renderSegment(segment) {
 
     // draw side land
     if (!outlineOnly) {
-        cntxFillStyle(landColor);
-        cntxFillRect(0, segment.p3.screen.y, width, segment.p1.screen.y - segment.p3.screen.y);
+        cntx.cntxFillStyle(landColor);
+        cntx.cntxFillRect(0, segment.p3.screen.y, width, segment.p1.screen.y - segment.p3.screen.y);
     }
 
     // draw kerb
@@ -232,20 +234,20 @@ function renderPlayer(scale, destX, destY, steer, updown, playerShadowY) {
                 amount -= 1;
             }
         }
-        cntxGlobalAlpha(1 - amount);
+        cntx.cntxGlobalAlpha(1 - amount);
 
         for (let i = 0; i < cars[PlayerIndex].slipstreamLines.length; i++) {
             const points = cars[PlayerIndex].slipstreamLines[i];
-            cntxBeginPath();
-            cntxMoveTo(points[PlayerIndex].screen.x, points[0].screen.y);
+            cntx.cntxBeginPath();
+            cntx.cntxMoveTo(points[PlayerIndex].screen.x, points[0].screen.y);
             for (let j = 1; j < points.length; j++) {
-                cntxLineTo(points[j].screen.x, points[j].screen.y);
+                cntx.cntxLineTo(points[j].screen.x, points[j].screen.y);
             }
 
-            cntxFillStyle(MEDIUMGREY);
-            cntxFill();
+            cntx.cntxFillStyle(MEDIUMGREY);
+            cntx.cntxFill();
         }
-        cntxGlobalAlpha(1);
+        cntx.cntxGlobalAlpha(1);
     }
 
     let spriteScale = player.width * scale / sprite.w;
@@ -276,16 +278,16 @@ function renderPlayer(scale, destX, destY, steer, updown, playerShadowY) {
     if (player.driftAmount > 0) {
         const time = getTimestamp();
         if (time - lastDriftDraw > 100) {
-            cntxGlobalAlpha(0.8);
-            cntxFillStyle(MEDIUMGREY);
+            cntx.cntxGlobalAlpha(0.8);
+            cntx.cntxFillStyle(MEDIUMGREY);
             let x = destX + 12;
             let y = destY - 4;
-            cntxFillRect(x, y, 50, 10)
+            cntx.cntxFillRect(x, y, 50, 10)
 
             x = destX + 260;
-            cntxFillRect(x, y, 50, 10)
+            cntx.cntxFillRect(x, y, 50, 10)
 
-            cntxGlobalAlpha(1);
+            cntx.cntxGlobalAlpha(1);
             lastDriftDraw = time;
         }
     }
@@ -305,10 +307,10 @@ function renderPlayer(scale, destX, destY, steer, updown, playerShadowY) {
 // OK
 function renderFog(x, y, width, height, fog) {
     if (fog < 1) {
-        cntxGlobalAlpha(1 - fog)
-        cntxFillStyle(COLORS_FOG);
-        cntxFillRect(x, y, width, height);
-        cntxGlobalAlpha(1);
+        cntx.cntxGlobalAlpha(1 - fog)
+        cntx.cntxFillStyle(COLORS_FOG);
+        cntx.cntxFillRect(x, y, width, height);
+        cntx.cntxGlobalAlpha(1);
     }
 }
 
@@ -325,7 +327,7 @@ const bgLayer1Speed = 0.003;
 //          bgLayer3Offset, bgLayer2Offset, bgLayer1Offset (race.js)
 //          backgroundLayer3, backgroundLayer2, backgroundLayer1 (graphics.js)
 function renderRender() {
-    cntx = context;
+    cntx.cntx = context;
 
     const baseSegment = track.findSegment(camera.z);
 
@@ -335,7 +337,7 @@ function renderRender() {
     //  context.clearRect(0, 0, width, height);
 
     context.fillStyle = '#4576aa';
-    cntxFillRect(0, 0, width, height);
+    cntx.cntxFillRect(0, 0, width, height);
 
     // render background hills, sky, trees
     const playerY = utilInterpolate(playerSegment.p1.world.y, playerSegment.p3.world.y, playerPercent);

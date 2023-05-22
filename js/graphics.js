@@ -1,6 +1,6 @@
 import { BACKGROUNDLAYERHEIGHT, BACKGROUNDLAYERWIDTH } from "./constants";
 import { PI, mathRand, mathRandInt, sin, cos } from "./mathFunctions.js";
-import { cntx } from "./canvasFunctions";
+import * as cntx from "./canvasFunctions";
 
 // generate graphics used in the game
 
@@ -81,18 +81,18 @@ function resetGraphics() {
 
 // OK
 function drawFuzzyCircle(x, y, r, c) {
-  cntxFillStyle(c);
+  cntx.cntxFillStyle(c);
   let angle = 0;
   let radius = r + r * mathRand();
-  cntxBeginPath();
-  cntxMoveTo(x + radius * cos(angle), y + radius * sin(angle));
+  cntx.cntxBeginPath();
+  cntx.cntxMoveTo(x + radius * cos(angle), y + radius * sin(angle));
   for (let i = 1; i < 30; i++) {
     angle = (i * PI * 2) / 30;
     radius = r + r * mathRand();
-    cntxLineTo(x + radius * cos(angle), y + radius * sin(angle));
+    cntx.cntxLineTo(x + radius * cos(angle), y + radius * sin(angle));
   }
-  cntxClosePath();
-  cntxFill();
+  cntx.cntxClosePath();
+  cntx.cntxFill();
 }
 
 // OK
@@ -222,30 +222,30 @@ function newSprite(flipH) {
 let SPRITES_TURNLEFT = 0;
 let SPRITES_TURNRIGHT = 0;
 function createTurnArrows() {
-  cntx = scratchCanvas.x;
+  cntx.cntx = scratchCanvas.x;
   eraseScratch();
 
-  cntxFillStyle("#996644");
-  cntxFillRect(0, 0, 200, 200);
+  cntx.cntxFillStyle("#996644");
+  cntx.cntxFillRect(0, 0, 200, 200);
 
-  cntxFillStyle("#996644");
-  cntxFillRect(10, 200, 10, 10);
+  cntx.cntxFillStyle("#996644");
+  cntx.cntxFillRect(10, 200, 10, 10);
 
-  cntxFillStyle("#996644");
-  cntxFillRect(180, 200, 10, 10);
+  cntx.cntxFillStyle("#996644");
+  cntx.cntxFillRect(180, 200, 10, 10);
 
-  cntxFillStyle(MEDIUMGREY);
-  cntxFillRect(10, 10, 180, 180);
-  cntxBeginPath();
-  cntxMoveTo(20, 100);
-  cntxLineTo(160, 30);
-  cntxLineTo(160, 170);
-  cntxLineTo(20, 100);
-  cntxFillStyle("#cc2211");
-  cntxFill();
+  cntx.cntxFillStyle(MEDIUMGREY);
+  cntx.cntxFillRect(10, 10, 180, 180);
+  cntx.cntxBeginPath();
+  cntx.cntxMoveTo(20, 100);
+  cntx.cntxLineTo(160, 30);
+  cntx.cntxLineTo(160, 170);
+  cntx.cntxLineTo(20, 100);
+  cntx.cntxFillStyle("#cc2211");
+  cntx.cntxFill();
 
-  cntxFillStyle(MEDIUMGREY);
-  cntxFillRect(10, 10, 20, 180);
+  cntx.cntxFillStyle(MEDIUMGREY);
+  cntx.cntxFillRect(10, 10, 20, 180);
 
   SPRITES_TURNLEFT = newSprite();
   SPRITES_TURNRIGHT = newSprite(1);
@@ -273,7 +273,7 @@ function smallTree(width, slope) {
 
 // NOT OK : cntx (canvasFunctions.js)
 function createBackgroundTrees() {
-  cntx = backgroundLayer1.x;
+  cntx.cntx = backgroundLayer1.x;
 
   // draw the points
   let colours = ["#114433", "#114e33", "#115433", "#113433", "#114433"];
@@ -291,15 +291,15 @@ function createBackgroundTrees() {
       const terPoints = smallTree(8, 7);
       //var terPoints = terrain(width, height, height / 2, 0.6);
       let colour = mathRandInt(colours.length);
-      cntxFillStyle(colours[colour]);
-      cntxBeginPath();
-      cntxMoveTo(x, 240 - terPoints[0]);
+      cntx.cntxFillStyle(colours[colour]);
+      cntx.cntxBeginPath();
+      cntx.cntxMoveTo(x, 240 - terPoints[0]);
       for (let t = 1; t < terPoints.length; t++) {
-        cntxLineTo(x + t, 240 - terPoints[t]);
+        cntx.cntxLineTo(x + t, 240 - terPoints[t]);
       }
       // finish creating the rect so we can fill it
-      cntxClosePath();
-      cntxFill();
+      cntx.cntxClosePath();
+      cntx.cntxFill();
 
       x += 2 + mathRand() * 4;
     }
@@ -313,14 +313,14 @@ function createBackgroundTrees() {
       let terPoints = smallTree(4, 4);
       // var terPoints = terrain(width, height, height / 2, 0.6);
       let colour = mathRandInt(colours.length);
-      cntxFillStyle(colours[colour]);
-      cntxBeginPath();
-      cntxMoveTo(x, 240 - terPoints[0]);
+      cntx.cntxFillStyle(colours[colour]);
+      cntx.cntxBeginPath();
+      cntx.cntxMoveTo(x, 240 - terPoints[0]);
       for (let t = 1; t < terPoints.length; t++) {
-        cntxLineTo(x + t, 240 - terPoints[t]);
+        cntx.cntxLineTo(x + t, 240 - terPoints[t]);
       }
-      cntxClosePath();
-      cntxFill();
+      cntx.cntxClosePath();
+      cntx.cntxFill();
       x += 2 + mathRand() * 5;
     }
 
@@ -332,7 +332,7 @@ function createBackgroundTrees() {
 // NOT OK : cntx (canvasFunctions.js)
 function terrain(startX) {
   //}, width, height, displace, roughness) {
-  cntx = backgroundLayer2.x;
+  cntx.cntx = backgroundLayer2.x;
 
   let points = [];
   let highlightpoints = [];
@@ -401,48 +401,48 @@ function terrain(startX) {
 
   const heightOffset = 260;
   let x = startX;
-  cntxFillStyle("#114433");
-  cntxBeginPath();
-  cntxMoveTo(x, heightOffset - points[0]);
+  cntx.cntxFillStyle("#114433");
+  cntx.cntxBeginPath();
+  cntx.cntxMoveTo(x, heightOffset - points[0]);
   for (let t = 1; t < points.length; t++) {
-    cntxLineTo(x + t, heightOffset - points[t]);
+    cntx.cntxLineTo(x + t, heightOffset - points[t]);
   }
-  cntxClosePath();
-  cntxFill();
+  cntx.cntxClosePath();
+  cntx.cntxFill();
 
   x = startX;
-  cntxFillStyle("#224a33");
-  cntxBeginPath();
-  cntxMoveTo(x, heightOffset - highlightpoints[0]);
+  cntx.cntxFillStyle("#224a33");
+  cntx.cntxBeginPath();
+  cntx.cntxMoveTo(x, heightOffset - highlightpoints[0]);
   for (let t = 1; t < highlightpoints.length; t++) {
-    cntxLineTo(x, heightOffset - highlightpoints[t]);
+    cntx.cntxLineTo(x, heightOffset - highlightpoints[t]);
     x++;
   }
 
   // OK
   for (let t = 1; t < highlightBackpoints.length; t++) {
-    cntxLineTo(x, heightOffset - highlightBackpoints[t]);
+    cntx.cntxLineTo(x, heightOffset - highlightBackpoints[t]);
     if (mathRand() > 0.4) {
       x--;
     } else if (mathRand() > 0.4) {
       x++;
     }
   }
-  cntxClosePath();
-  cntxFill();
+  cntx.cntxClosePath();
+  cntx.cntxFill();
 
   // highlight 2
   x = startX + 4;
-  cntxFillStyle("#335a3a");
-  cntxBeginPath();
-  cntxMoveTo(x, heightOffset - highlightpoints2[0]);
+  cntx.cntxFillStyle("#335a3a");
+  cntx.cntxBeginPath();
+  cntx.cntxMoveTo(x, heightOffset - highlightpoints2[0]);
   for (let t = 1; t < highlightpoints2.length; t++) {
-    cntxLineTo(x, heightOffset - highlightpoints2[t]);
+    cntx.cntxLineTo(x, heightOffset - highlightpoints2[t]);
     x++;
   }
 
   for (let t = 1; t < highlightBackpoints2.length; t++) {
-    cntxLineTo(x, heightOffset - highlightBackpoints2[t]);
+    cntx.cntxLineTo(x, heightOffset - highlightBackpoints2[t]);
     if (mathRand() > 0.8) {
       x++;
     } else if (mathRand() > 0.1) {
@@ -450,8 +450,8 @@ function terrain(startX) {
     }
   }
 
-  cntxClosePath();
-  cntxFill();
+  cntx.cntxClosePath();
+  cntx.cntxFill();
 
   return points;
 }
@@ -471,44 +471,44 @@ let tree = {
   leavesColor: "",
 
   draw: function () {
-    cntxTranslate(500 / 2, 500);
+    cntx.cntxTranslate(500 / 2, 500);
     this.leavesColor =
       "#" + (0x1000000 + mathRand() * 0xffffff).toString(16).substr(1, 6);
-    cntx.lineWidth = 1 + mathRand() * 20;
-    cntx.lineJoin = "round";
+    cntx.cntx.lineWidth = 1 + mathRand() * 20;
+    cntx.cntx.lineJoin = "round";
 
     this.branch(0);
   },
 
   branch: function (depth) {
     if (depth < 12) {
-      cntxBeginPath();
-      cntxMoveTo(0, 0);
-      cntxLineTo(0, -500 / 10);
+      cntx.cntxBeginPath();
+      cntx.cntxMoveTo(0, 0);
+      cntx.cntxLineTo(0, -500 / 10);
 
-      cntxStroke();
+      cntx.cntxStroke();
 
-      cntxTranslate(0, -500 / 10);
+      cntx.cntxTranslate(0, -500 / 10);
       let randomN = -(mathRand() * 0.1) + 0.1;
-      cntxRotate(randomN);
+      cntx.cntxRotate(randomN);
 
       if (mathRand() * 1 < 0.6) {
-        cntxRotate(-0.35);
-        cntx.scale(0.7, 0.7);
-        cntxSave();
+        cntx.cntxRotate(-0.35);
+        cntx.cntx.scale(0.7, 0.7);
+        cntx.cntxSave();
         this.branch(depth + 1);
-        cntxRestore();
-        cntxRotate(0.6);
-        cntxSave();
+        cntx.cntxRestore();
+        cntx.cntxRotate(0.6);
+        cntx.cntxSave();
         this.branch(depth + 1);
-        cntxRestore();
+        cntx.cntxRestore();
       } else {
         this.branch(depth);
       }
     } else {
-      cntxFillStyle(this.leavesColor);
-      cntxFillRect(0, 0, 500, 200);
-      cntxStroke();
+      cntx.cntxFillStyle(this.leavesColor);
+      cntx.cntxFillRect(0, 0, 500, 200);
+      cntx.cntxStroke();
     }
   },
 };
@@ -521,7 +521,7 @@ function createTrees() {
   // NOT OK : SPRITES_TREES (track.js)
   for (let ti = 0; ti < 6; ti++) {
     for (let treeOK = false, c = 0; !treeOK; c++) {
-      cntx = scratchCanvas.x;
+      cntx.cntx = scratchCanvas.x;
       scratchCanvas.x.save();
       eraseScratch();
       tree.draw();
@@ -537,7 +537,7 @@ function createTrees() {
 
 // NOT OK : cntx (canvasFunctions.js)
 function backgroundBuilding(x, type, buildingColor, windowColor) {
-  cntx = backgroundLayer1.x;
+  cntx.cntx = backgroundLayer1.x;
 
   const windowSpacing = 2; //2;
 
@@ -569,13 +569,13 @@ function backgroundBuilding(x, type, buildingColor, windowColor) {
   const yOffset = 260;
 
   buildingHeight += 30 * mathRand();
-  cntxFillStyle(buildingColor);
-  cntxFillRect(x, yOffset - buildingHeight, buildingWidth, buildingHeight);
+  cntx.cntxFillStyle(buildingColor);
+  cntx.cntxFillRect(x, yOffset - buildingHeight, buildingWidth, buildingHeight);
 
   if (mathRand() < 0.4) {
     const inset = 5;
     const insetHeight = 8;
-    cntxFillRect(
+    cntx.cntxFillRect(
       x + inset,
       yOffset - (buildingHeight + insetHeight),
       buildingWidth - 2 * inset,
@@ -588,7 +588,7 @@ function backgroundBuilding(x, type, buildingColor, windowColor) {
     const insetHeight = 13;
     const insetWidth = 2;
 
-    cntxFillRect(
+    cntx.cntxFillRect(
       x + inset,
       yOffset - (buildingHeight + insetHeight),
       insetWidth,
@@ -600,8 +600,8 @@ function backgroundBuilding(x, type, buildingColor, windowColor) {
     let wy = windowSpacing + row * (windowHeight + windowSpacing);
     for (let col = 0; col < windowColumns; col++) {
       let wx = windowSpacing + col * (windowWidth + windowSpacing);
-      cntxFillStyle(windowColor);
-      cntxFillRect(
+      cntx.cntxFillStyle(windowColor);
+      cntx.cntxFillRect(
         x + wx,
         yOffset - buildingHeight + wy,
         windowWidth,
@@ -650,11 +650,11 @@ function createBuildings(night) {
   SPRITES_BUILDINGS = [];
   for (let ti = 0; ti < 4; ti++) {
     eraseScratch();
-    cntx = scratchCanvas.x;
+    cntx.cntx = scratchCanvas.x;
     let grey = night ? 10 + mathRand() * 20 : 100 + mathRand() * 80;
 
-    cntxFillStyle("rgb(" + grey + "," + grey + "," + grey + ")");
-    cntxFillRect(0, 30, 240, 500);
+    cntx.cntxFillStyle("rgb(" + grey + "," + grey + "," + grey + ")");
+    cntx.cntxFillRect(0, 30, 240, 500);
 
     const windowWidth = 24;
     const windowHeight = 15;
@@ -669,20 +669,20 @@ function createBuildings(night) {
 
         if (night) {
           if (mathRand() > 0.7) {
-            cntxFillStyle("#ffffec");
-            cntxFillRect(x, y, windowWidth, windowHeight);
-            cntxFillStyle("#bbbb88");
-            cntxFillRect(
+            cntx.cntxFillStyle("#ffffec");
+            cntx.cntxFillRect(x, y, windowWidth, windowHeight);
+            cntx.cntxFillStyle("#bbbb88");
+            cntx.cntxFillRect(
               x,
               y + windowHeight / 2,
               windowWidth,
               windowHeight / 2
             );
           } else {
-            cntxFillStyle("#112237");
-            cntxFillRect(x, y, windowWidth, windowHeight);
-            cntxFillStyle("#111a30");
-            cntxFillRect(
+            cntx.cntxFillStyle("#112237");
+            cntx.cntxFillRect(x, y, windowWidth, windowHeight);
+            cntx.cntxFillStyle("#111a30");
+            cntx.cntxFillRect(
               x,
               y + windowHeight / 2,
               windowWidth,
@@ -690,11 +690,11 @@ function createBuildings(night) {
             );
           }
         } else {
-          cntxFillStyle("#5555a7");
+          cntx.cntxFillStyle("#5555a7");
           //ctx.filter = 'blur(1px)';
-          cntxFillRect(x, y, windowWidth, windowHeight);
-          cntxFillStyle("#444495");
-          cntxFillRect(x, y + windowHeight / 2, windowWidth, windowHeight / 2);
+          cntx.cntxFillRect(x, y, windowWidth, windowHeight);
+          cntx.cntxFillStyle("#444495");
+          cntx.cntxFillRect(x, y + windowHeight / 2, windowWidth, windowHeight / 2);
         }
       }
     }
@@ -708,73 +708,73 @@ function createBuildings(night) {
 let SPRITES_STREETLIGHTLEFT = 0;
 let SPRITES_STREETLIGHTRIGHT = 0;
 function createStreetlights(night) {
-  cntx = scratchCanvas.x;
+  cntx.cntx = scratchCanvas.x;
   eraseScratch();
-  cntxSave();
+  cntx.cntxSave();
 
   if (night) {
-    cntxFillStyle("#555555");
+    cntx.cntxFillStyle("#555555");
   } else {
-    cntxFillStyle("#999999");
+    cntx.cntxFillStyle("#999999");
   }
 
   const poleWidth = 7;
 
-  cntxFillRect(40, 150, poleWidth, 300);
-  cntxBeginPath();
-  cntxArc(70, 150, 30, PI, -PI / 2);
-  cntxLineTo(70, 150 - 30 + poleWidth);
-  cntxArc(70, 150, 30 - poleWidth, -PI / 2, PI, true);
-  cntxLineTo(70 - 30, 150);
-  cntxFill();
+  cntx.cntxFillRect(40, 150, poleWidth, 300);
+  cntx.cntxBeginPath();
+  cntx.cntxArc(70, 150, 30, PI, -PI / 2);
+  cntx.cntxLineTo(70, 150 - 30 + poleWidth);
+  cntx.cntxArc(70, 150, 30 - poleWidth, -PI / 2, PI, true);
+  cntx.cntxLineTo(70 - 30, 150);
+  cntx.cntxFill();
 
-  cntxFillRect(70, 150 - 30, 70, poleWidth);
-  cntxFillRect(130, 150 - 30 - 1, 35, 6);
+  cntx.cntxFillRect(70, 150 - 30, 70, poleWidth);
+  cntx.cntxFillRect(130, 150 - 30 - 1, 35, 6);
 
   if (night) {
-    cntxFillStyle("#777777");
+    cntx.cntxFillStyle("#777777");
   } else {
-    cntxFillStyle("#aaaaaa");
+    cntx.cntxFillStyle("#aaaaaa");
   }
-  cntxFillRect(40 + poleWidth - 4, 150, 2, 300);
-  cntxFillRect(70, 150 - 30 + poleWidth - 4, 70, 2);
+  cntx.cntxFillRect(40 + poleWidth - 4, 150, 2, 300);
+  cntx.cntxFillRect(70, 150 - 30 + poleWidth - 4, 70, 2);
 
-  cntxBeginPath();
-  cntxArc(70, 150, 30 - poleWidth + 4, PI, -PI / 2);
-  cntxLineTo(70, 150 - 30 + poleWidth);
-  cntxArc(70, 150, 30 - poleWidth, -PI / 2, PI, true);
-  cntxLineTo(70 - 30, 150);
-  cntxFill();
+  cntx.cntxBeginPath();
+  cntx.cntxArc(70, 150, 30 - poleWidth + 4, PI, -PI / 2);
+  cntx.cntxLineTo(70, 150 - 30 + poleWidth);
+  cntx.cntxArc(70, 150, 30 - poleWidth, -PI / 2, PI, true);
+  cntx.cntxLineTo(70 - 30, 150);
+  cntx.cntxFill();
 
   if (night) {
-    cntxFillStyle("#999999");
+    cntx.cntxFillStyle("#999999");
   } else {
-    cntxFillStyle("#aaaaaa");
+    cntx.cntxFillStyle("#aaaaaa");
   }
-  cntxFillRect(40 + poleWidth - 2, 150, 2, 300);
-  cntxFillRect(70, 150 - 30 + poleWidth - 2, 70, 2);
+  cntx.cntxFillRect(40 + poleWidth - 2, 150, 2, 300);
+  cntx.cntxFillRect(70, 150 - 30 + poleWidth - 2, 70, 2);
 
-  cntxBeginPath();
-  cntxArc(70, 150, 30 - poleWidth + 2, PI, -PI / 2);
-  cntxLineTo(70, 150 - 30 + poleWidth);
-  cntxArc(70, 150, 30 - poleWidth, -PI / 2, PI, true);
-  cntxLineTo(70 - 30, 150);
-  cntxFill();
+  cntx.cntxBeginPath();
+  cntx.cntxArc(70, 150, 30 - poleWidth + 2, PI, -PI / 2);
+  cntx.cntxLineTo(70, 150 - 30 + poleWidth);
+  cntx.cntxArc(70, 150, 30 - poleWidth, -PI / 2, PI, true);
+  cntx.cntxLineTo(70 - 30, 150);
+  cntx.cntxFill();
 
   if (night) {
-    cntx.filter = "blur(2px)";
+    cntx.cntx.filter = "blur(2px)";
   }
 
-  cntxFillStyle("#ffffff");
-  cntxFillRect(128, 150 - 30 + 4, 38, 12);
+  cntx.cntxFillStyle("#ffffff");
+  cntx.cntxFillRect(128, 150 - 30 + 4, 38, 12);
 
   if (night) {
-    cntxGlobalAlpha(0.8);
-    cntx.globalCompositeOperation = "lighter";
+    cntx.cntxGlobalAlpha(0.8);
+    cntx.cntx.globalCompositeOperation = "lighter";
 
-    cntx.filter = "blur(4px)";
-    cntxFillRect(123, 150 - 30 + 3, 44, 18);
-    cntxGlobalAlpha(1);
+    cntx.cntx.filter = "blur(4px)";
+    cntx.cntxFillRect(123, 150 - 30 + 3, 44, 18);
+    cntx.cntxGlobalAlpha(1);
   }
 
   //  cntx.filter = null;
@@ -782,21 +782,21 @@ function createStreetlights(night) {
 
   SPRITES_STREETLIGHTLEFT = newSprite();
   SPRITES_STREETLIGHTRIGHT = newSprite(1);
-  cntxRestore();
+  cntx.cntxRestore();
 }
 
 // NOT OK : cntx (canvasFunctions.js)
 function createNightSky() {
-  cntx = backgroundLayer3.x;
+  cntx.cntx = backgroundLayer3.x;
   const xMax = BACKGROUNDLAYERWIDTH;
   const yMax = BACKGROUNDLAYERHEIGHT;
 
-  let gradient = cntxCreateLinearGradient(0, 0, 0, yMax);
+  let gradient = cntx.cntxCreateLinearGradient(0, 0, 0, yMax);
   gradient.addColorStop(0, "#00111e");
   gradient.addColorStop(1, "#033d5e");
 
-  cntxFillStyle(gradient); //'#00111e';
-  cntxFillRect(0, 0, BACKGROUNDLAYERWIDTH, BACKGROUNDLAYERHEIGHT);
+  cntx.cntxFillStyle(gradient); //'#00111e';
+  cntx.cntxFillRect(0, 0, BACKGROUNDLAYERWIDTH, BACKGROUNDLAYERHEIGHT);
 
   const hmTimes = Math.round(xMax + yMax);
   for (let i = 0; i <= hmTimes; i++) {
@@ -807,10 +807,10 @@ function createNightSky() {
     const randomOpacityTwo = mathRandInt(9) + 1;
     const randomHue = mathRandInt(360);
     if (randomSize > 1) {
-      cntx.shadowBlur = mathRandInt(15) + 5;
-      cntx.shadowColor = "white";
+      cntx.cntx.shadowBlur = mathRandInt(15) + 5;
+      cntx.cntx.shadowColor = "white";
     }
-    cntxFillStyle(
+    cntx.cntxFillStyle(
       "hsla(" +
       randomHue +
       ", 30%, 80%, ." +
@@ -818,44 +818,44 @@ function createNightSky() {
       randomOpacityTwo +
       ")"
     );
-    cntxFillRect(randomX, randomY, randomSize, randomSize);
+    cntx.cntxFillRect(randomX, randomY, randomSize, randomSize);
   }
 }
 
 // NOT OK : PI (mathFunctions.js)
 function createLeaf(s) {
-  cntxFillStyle(s);
-  cntxBeginPath();
+  cntx.cntxFillStyle(s);
+  cntx.cntxBeginPath();
 
-  cntxArc(3, 7, 3, PI / 2, PI);
-  cntxArc(10, 7, 10, PI, PI * 1.24);
-  cntxArc(-4.7, 7, 10, PI * 1.76, 0);
-  cntxArc(2.3, 7, 3, 0, PI / 2);
-  cntxFill();
+  cntx.cntxArc(3, 7, 3, PI / 2, PI);
+  cntx.cntxArc(10, 7, 10, PI, PI * 1.24);
+  cntx.cntxArc(-4.7, 7, 10, PI * 1.76, 0);
+  cntx.cntxArc(2.3, 7, 3, 0, PI / 2);
+  cntx.cntxFill();
 }
 
 // NOT OK : cntx (canvasFunctions.js)
 let SPRITES_FLOWERS = 0;
 function createFlowers() {
   eraseScratch();
-  cntx = scratchCanvas.x;
-  cntx.save();
+  cntx.cntx = scratchCanvas.x;
+  cntx.cntx.save();
 
-  let leafGradient = cntxCreateLinearGradient(0, 0, 0, 8);
+  let leafGradient = cntx.cntx.cntxCreateLinearGradient(0, 0, 0, 8);
   leafGradient.addColorStop(0, "#ff111e");
   leafGradient.addColorStop(1, "#aa3d5e");
 
   createLeaf(leafGradient);
 
-  cntx.translate(0, 20);
+  cntx.cntx.translate(0, 20);
+  cntx.createLeaf(leafGradient);
+
+  cntx.cntx.translate(0, 20);
   createLeaf(leafGradient);
 
-  cntx.translate(0, 20);
-  createLeaf(leafGradient);
-
-  cntx.translate(0, 20);
+  cntx.cntx.translate(0, 20);
   createLeaf("#44aa55");
-  cntx.restore();
+  cntx.cntx.restore();
 
   let canvas = scratchCanvas.c;
   let y = 100;
@@ -873,68 +873,68 @@ function createFlowers() {
       y = 100 + j * 16 - height + mathRand() * 12;
       // draw the stem
       if (mathRand() > 0.5) {
-        cntxFillStyle("#44aa55");
-        cntxFillRect(x, y, 2, height);
-        cntxFillStyle("#66cc88");
-        cntxFillRect(x, y, 1, height);
+        cntx.cntxFillStyle("#44aa55");
+        cntx.cntxFillRect(x, y, 2, height);
+        cntx.cntxFillStyle("#66cc88");
+        cntx.cntxFillRect(x, y, 1, height);
       } else {
-        cntxFillStyle("#449955");
-        cntxFillRect(x, y, 2, height);
-        cntxFillStyle("#66aa88");
-        cntxFillRect(x, y, 1, height);
+        cntx.cntxFillStyle("#449955");
+        cntx.cntxFillRect(x, y, 2, height);
+        cntx.cntxFillStyle("#66aa88");
+        cntx.cntxFillRect(x, y, 1, height);
       }
 
       const flower = mathRandInt(2) * 20;
 
       const dstX = x - 2,
         dstY = y - 6;
-      cntxSave();
-      cntxTranslate(dstX + 3, dstY);
-      cntxRotate(0.3);
-      cntxDrawImage(canvas, 0, flower, 6, 11, 0, 0, 6, 11);
-      cntxRestore();
+      cntx.cntxSave();
+      cntx.cntxTranslate(dstX + 3, dstY);
+      cntx.cntxRotate(0.3);
+      cntx.cntxDrawImage(canvas, 0, flower, 6, 11, 0, 0, 6, 11);
+      cntx.cntxRestore();
 
-      cntxSave();
-      cntxTranslate(dstX - 3, dstY + 1);
-      cntxRotate(-0.3);
-      cntxDrawImage(canvas, 0, flower, 6, 11, 0, 0, 6, 11);
-      cntxRestore();
+      cntx.cntxSave();
+      cntx.cntxTranslate(dstX - 3, dstY + 1);
+      cntx.cntxRotate(-0.3);
+      cntx.cntxDrawImage(canvas, 0, flower, 6, 11, 0, 0, 6, 11);
+      cntx.cntxRestore();
 
-      cntxSave();
-      cntxTranslate(dstX, dstY);
-      cntxDrawImage(canvas, 0, flower, 6, 11, 0, 0, 6, 11);
-      cntxRestore();
+      cntx.cntxSave();
+      cntx.cntxTranslate(dstX, dstY);
+      cntx.cntxDrawImage(canvas, 0, flower, 6, 11, 0, 0, 6, 11);
+      cntx.cntxRestore();
 
-      cntxSave();
-      cntxTranslate(dstX + 6, dstY + 10);
-      cntxRotate(0.6); //Math.random() * Math.PI * 2);
-      cntxDrawImage(canvas, 0, 60, 6, 11, 0, 0, 6, 11);
-      cntxRestore();
+      cntx.cntxSave();
+      cntx.cntxTranslate(dstX + 6, dstY + 10);
+      cntx.cntxRotate(0.6); //Math.random() * Math.PI * 2);
+      cntx.cntxDrawImage(canvas, 0, 60, 6, 11, 0, 0, 6, 11);
+      cntx.cntxRestore();
     }
   }
 
-  cntx.clearRect(0, 0, 22, 300);
+  cntx.cntx.clearRect(0, 0, 22, 300);
   SPRITES_FLOWERS = newSprite();
 }
 
 // OK
 function fillPoints(points, color) {
-  cntxBeginPath();
-  cntxFillStyle(color);
-  cntxMoveTo(points[0], points[1]);
+  cntx.cntxBeginPath();
+  cntx.cntxFillStyle(color);
+  cntx.cntxMoveTo(points[0], points[1]);
   for (let i = 2; i < points.length; i += 2) {
-    cntxLineTo(points[i], points[i + 1]);
+    cntx.cntxLineTo(points[i], points[i + 1]);
   }
-  cntxClosePath();
-  cntxFill();
+  cntx.cntxClosePath();
+  cntx.cntxFill();
 }
 
 // OK
 function drawLine(x1, y1, x2, y2) {
-  cntxBeginPath();
-  cntxMoveTo(x1, y1);
-  cntxLineTo(x2, y2);
-  cntx.stroke();
+  cntx.cntxBeginPath();
+  cntx.cntxMoveTo(x1, y1);
+  cntx.cntxLineTo(x2, y2);
+  cntx.cntx.stroke();
 }
 
 // NOT OK : cntx (canvasFunctions.js)
@@ -942,7 +942,7 @@ let SPRITES_CARLEFT = 0;
 let SPRITES_CARRIGHT = 0;
 function createCar() {
   eraseScratch();
-  cntx = scratchCanvas.x;
+  cntx.cntx = scratchCanvas.x;
 
   // car tyre
   let points = [8, 194, 11, 206, 14, 214, 18, 216, 41, 215, 46, 213, 47, 205];
@@ -1037,7 +1037,7 @@ function createCar() {
 let SPRITES_CARSTRAIGHT = 0;
 function createCar2() {
   eraseScratch();
-  cntx = scratchCanvas.x;
+  cntx.cntx = scratchCanvas.x;
 
   // car body bottom
   let points = [5, 197, 143, 197, 141, 87, 1, 87, 4, 106, 1, 121, 1, 180];
@@ -1111,11 +1111,11 @@ function createCar2() {
     drawLine(65, 21, 32, 82);
     drawLine(32, 82, 143, 82);
   */
-  cntxSave();
-  cntx.scale(-1, 1);
+  cntx.cntxSave();
+  cntx.cntx.scale(-1, 1);
 
-  cntxDrawImage(scratchCanvas.c, 0, 0, 143, 210, -143 - 132, 0, 143, 210);
-  cntxRestore();
+  cntx.cntxDrawImage(scratchCanvas.c, 0, 0, 143, 210, -143 - 132, 0, 143, 210);
+  cntx.cntxRestore();
 
   SPRITES_CARSTRAIGHT = newSprite(0);
 }
