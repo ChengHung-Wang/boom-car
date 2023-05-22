@@ -405,3 +405,4 @@ FodyWeavers.xsd
 !node_modules/.bin/binary-api
 
 node_modules
+.vscode/
