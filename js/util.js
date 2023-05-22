@@ -1,13 +1,12 @@
-
-function utilPercentRemaining(n, total) { 
-  return ( n % total) / total;
+export function utilPercentRemaining(n, total) {
+  return (n % total) / total;
 }
 
-function utilInterpolate(a,b,percent) { 
-  return a + (b-a)*percent                                        
+export function utilInterpolate(a, b, percent) {
+  return a + (b - a) * percent
 }
 
-function utilIncrease(start, increment, max) {
+export function utilIncrease(start, increment, max) {
   let result = start + increment;
 
   while (result >= max)

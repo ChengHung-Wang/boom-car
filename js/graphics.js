@@ -1,3 +1,7 @@
+import { BACKGROUNDLAYERHEIGHT, BACKGROUNDLAYERWIDTH } from "./constants";
+import { PI, mathRand, mathRandInt, sin, cos } from "./mathFunctions.js";
+import { cntx } from "./canvasFunctions";
+
 // generate graphics used in the game
 
 // constants
@@ -358,7 +362,7 @@ function terrain(startX) {
 
   let highlightBackpoints = [];
   // OK
-  for (let highlightY = y; highlightY > 0; ) {
+  for (let highlightY = y; highlightY > 0;) {
     highlightY -= mathRand() * 5;
     highlightBackpoints.push(highlightY);
   }
@@ -808,11 +812,11 @@ function createNightSky() {
     }
     cntxFillStyle(
       "hsla(" +
-        randomHue +
-        ", 30%, 80%, ." +
-        randomOpacityOne +
-        randomOpacityTwo +
-        ")"
+      randomHue +
+      ", 30%, 80%, ." +
+      randomOpacityOne +
+      randomOpacityTwo +
+      ")"
     );
     cntxFillRect(randomX, randomY, randomSize, randomSize);
   }

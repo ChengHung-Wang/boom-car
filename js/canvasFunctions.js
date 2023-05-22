@@ -1,77 +1,76 @@
-let cntx = null;
+export let cntx = null;
 
-
-function cntxClearRect(width, height) {
+export function cntxClearRect(width, height) {
   cntx.clearRect(0, 0, width, height);
 }
 
-function cntxGlobalAlpha(alpha) {
+export function cntxGlobalAlpha(alpha) {
   cntx.globalAlpha = alpha;
 }
-function cntxFillRect(x, y, width, height) {
+export function cntxFillRect(x, y, width, height) {
   cntx.fillRect(x, y, width, height);
 }
-  
-function cntxCreateLinearGradient(x0, y0, x1, y1) {
+
+export function cntxCreateLinearGradient(x0, y0, x1, y1) {
   return cntx.createLinearGradient(x0, y0, x1, y1);
 }
 
-function cntxStrokeStyle(s) {
+export function cntxStrokeStyle(s) {
   cntx.strokeStyle = s;
 }
 
-function cntxStroke() {
+export function cntxStroke() {
   cntx.stroke();
 }
 
-function cntxFillStyle(s) {
+export function cntxFillStyle(s) {
   cntx.fillStyle = s;
 }
 
-function cntxBeginPath() {
+export function cntxBeginPath() {
   cntx.beginPath();
 }
 
-function cntxMoveTo(x, y) {
+export function cntxMoveTo(x, y) {
   cntx.moveTo(x, y);
 }
 
-function cntxArc(x,y,r,sAngle,eAngle,counterclockwise) {
-  cntx.arc(x,y,r,sAngle,eAngle,counterclockwise);
+export function cntxArc(x, y, r, sAngle, eAngle, counterclockwise) {
+  cntx.arc(x, y, r, sAngle, eAngle, counterclockwise);
 }
 
-function cntxLineTo(x, y) {
+export function cntxLineTo(x, y) {
   cntx.lineTo(x, y);
 }
-function cntxClosePath() {
+export function cntxClosePath() {
   cntx.closePath();
 }
 
-function cntxFill() {
+export function cntxFill() {
   cntx.fill();
 }
 
-function cntxFillText(t,x,y) {
-  cntx.fillText(t,x,y);
+export function cntxFillText(t, x, y) {
+  cntx.fillText(t, x, y);
 
 }
 
-function cntxSave() {
+export function cntxSave() {
   cntx.save();
 }
 
-function cntxRestore() {
+export function cntxRestore() {
   cntx.restore();
 }
 
-function cntxTranslate(x, y) {
+export function cntxTranslate(x, y) {
   cntx.translate(x, y);
 }
 
-function cntxRotate(a) {
+export function cntxRotate(a) {
   cntx.rotate(a);
 }
 
-function cntxDrawImage(img, srcX, srcY, srcW, srcH, dstX, dstY, dstW, dstH) {
+export function cntxDrawImage(img, srcX, srcY, srcW, srcH, dstX, dstY, dstW, dstH) {
   cntx.drawImage(img, srcX, srcY, srcW, srcH, dstX, dstY, dstW, dstH);
 }

@@ -1,14 +1,17 @@
+import { PI, cos, sin, mathRand } from "./mathFunctions";
+import { COLORS_FOG } from "./constants";
+
 // define the tracks in the game
-let COLORS_KERBLIGHT = "#a02222",
+export let COLORS_KERBLIGHT = "#a02222",
   COLORS_KERBDARK = "#BBBBBB",
   COLORS_LANDLIGHT = "#000000",
   COLORS_LANDDARK = "#000000",
   COLORS_ROAD = "#000000";
 
-let laneWidth = 1200;
-let lanes = 1;
+const laneWidth = 1200;
+const lanes = 1;
 
-class Track {
+export class Track {
   constructor() {
     this.trackLength = 0;
     this.currentAngle = 0;

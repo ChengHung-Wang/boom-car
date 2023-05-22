@@ -1,18 +1,19 @@
 // hopefully  versions of math functions which take less bytes
 let M = Math;
-let PI = Math.PI;
+export let PI = Math.PI;
 
-function mathRand() {
+export function mathRand() {
   return M.random();
 }
-function mathRandInt(limit) {
+
+export function mathRandInt(limit) {
   return M.floor(mathRand() * limit);
 }
 
-function sin(angle) {
+export function sin(angle) {
   return M.sin(angle);
 }
 
-function cos(angle) {
+export function cos(angle) {
   return M.cos(angle);
 }

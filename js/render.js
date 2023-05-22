@@ -1,6 +1,13 @@
+import { utilPercentRemaining, utilInterpolate } from "./util.js";
+import { getTimestamp } from "./racer.js";
+import { BACKGROUNDLAYERHEIGHT, BACKGROUNDLAYERWIDTH } from "./racer.js";
+import { cars, player, camera, track } from "./racer.js";
+import { Track } from "./track.js";
+import { STATE_RACING } from "./constants.js";
+
 // draw all the race stuff to the screen
-let width = document.documentElement.clientWidth;
-let height = document.documentElement.clientHeight;
+export let width = document.documentElement.clientWidth;
+export let height = document.documentElement.clientHeight;
 let resolution = height / 480;
 
 addEventListener("resize", () => {
@@ -10,7 +17,7 @@ addEventListener("resize", () => {
 });
 
 // titleScreen.js racer.js
-let outlineOnly = false;
+export let outlineOnly = false;
 
 // draw a polygon
 // NOT OK : outlineOnly

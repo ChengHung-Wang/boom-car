@@ -1,24 +1,27 @@
-let canvas = document.getElementById("gameCanvas");
-let context = canvas.getContext("2d");
-let racing = false;
+import { Track } from "./track.js";
+import { Race } from "./race.js";
+
+export const canvas = document.getElementById("gameCanvas");
+export const context = canvas.getContext("2d");
+export let racing = false;
 
 canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight;
 
-let getTimestamp = function () {
+export function getTimestamp() {
   return performance.now();
-};
+}
 
-let now = getTimestamp();
-let last = getTimestamp();
+export const now = getTimestamp();
+export const last = getTimestamp();
 
-let dt = 0;
-let gdt = 0;
+export const dt = 0;
+export const gdt = 0;
 
-let cars = []; // array of cars on the road
-let player = null;
-let race = new Race();
-let track = new Track();
+export const cars = []; // array of cars on the road
+export const player = null;
+export const race = new Race();
+export const track = new Track();
 
 /*
 let stats = new Stats();

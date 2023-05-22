@@ -1,4 +1,6 @@
 import { camera, startGame, titleScreen } from "./racer2.js";
+import { KEYUP, KEYDOWN, KEYLEFT, KEYRIGHT } from "./constants.js";
+import { race, racing } from "./racer.js";
 
 const { createApp } = Vue
 const appOption = {
@@ -37,14 +39,14 @@ const app = createApp(appOption)
 app.use(ElementPlus);
 app.mount("#app");
 
-let arrowRightDown = new KeyboardEvent('keydown', { keyCode: KEYRIGHT });
-let arrowLeftDown = new KeyboardEvent('keydown', { keyCode: KEYLEFT });
-let arrowUpDown = new KeyboardEvent('keydown', { keyCode: KEYUP });
-let arrowDownDown = new KeyboardEvent('keydown', { keyCode: KEYDOWN  });
-let arrowRightUp = new KeyboardEvent('keyup', { keyCode: KEYRIGHT });
-let arrowLeftUp = new KeyboardEvent('keyup', { keyCode: KEYLEFT });
-let arrowUpUp = new KeyboardEvent('keyup', { keyCode: KEYUP });
-let arrowDownUp = new KeyboardEvent('keyup', { keyCode: KEYDOWN  });
+const arrowRightDown = new KeyboardEvent('keydown', { keyCode: KEYRIGHT });
+const arrowLeftDown = new KeyboardEvent('keydown', { keyCode: KEYLEFT });
+const arrowUpDown = new KeyboardEvent('keydown', { keyCode: KEYUP });
+const arrowDownDown = new KeyboardEvent('keydown', { keyCode: KEYDOWN });
+const arrowRightUp = new KeyboardEvent('keyup', { keyCode: KEYRIGHT });
+const arrowLeftUp = new KeyboardEvent('keyup', { keyCode: KEYLEFT });
+const arrowUpUp = new KeyboardEvent('keyup', { keyCode: KEYUP });
+const arrowDownUp = new KeyboardEvent('keyup', { keyCode: KEYDOWN });
 let RightDown = false;
 let LeftDown = false;
 let UpDown = false;
@@ -54,90 +56,90 @@ new JoyStick('joyDiv', {
     internalFillColor: "#ffffff",
     internalStrokeColor: "#aaaaaa",
     externalStrokeColor: "#ffffff"
-}, function(stickData) {
+}, function (stickData) {
     console.log("callback:", stickData.cardinalDirection);
-    if(stickData.cardinalDirection[0] == 'N'){
-        if(UpDown == false){
+    if (stickData.cardinalDirection[0] == 'N') {
+        if (UpDown == false) {
             UpDown = true;
             e = arrowUpDown;
-            if(racing) {
+            if (racing) {
                 race.keyDown(e);
             } else {
                 titleScreen.keyDown(e);
             }
         }
     }
-    else{
-        if(UpDown == true){
+    else {
+        if (UpDown == true) {
             UpDown = false;
             e = arrowUpUp;
-            if(racing) {
+            if (racing) {
                 race.keyUp(e);
             } else {
                 titleScreen.keyUp(e);
             }
         }
     }
-    if(stickData.cardinalDirection[0] == 'S'){
-        if(DownDown == false){
+    if (stickData.cardinalDirection[0] == 'S') {
+        if (DownDown == false) {
             DownDown = true;
             e = arrowDownDown;
-            if(racing) {
+            if (racing) {
                 race.keyDown(e);
             } else {
                 titleScreen.keyDown(e);
             }
         }
     }
-    else{
-        if(DownDown == true){
+    else {
+        if (DownDown == true) {
             DownDown = false;
             e = arrowDownUp;
-            if(racing) {
+            if (racing) {
                 race.keyUp(e);
             } else {
                 titleScreen.keyUp(e);
             }
         }
     }
-    if(stickData.cardinalDirection[0] == 'E' || stickData.cardinalDirection[1] == 'E'){
-        if(RightDown == false){
+    if (stickData.cardinalDirection[0] == 'E' || stickData.cardinalDirection[1] == 'E') {
+        if (RightDown == false) {
             RightDown = true;
             e = arrowRightDown;
-            if(racing) {
+            if (racing) {
                 race.keyDown(e);
             } else {
                 titleScreen.keyDown(e);
             }
         }
     }
-    else{
-        if(RightDown == true){
+    else {
+        if (RightDown == true) {
             RightDown = false;
             e = arrowRightUp;
-            if(racing) {
+            if (racing) {
                 race.keyUp(e);
             } else {
                 titleScreen.keyUp(e);
             }
         }
     }
-    if(stickData.cardinalDirection[0] == 'W' || stickData.cardinalDirection[1] == 'W'){
-        if(LeftDown == false){
+    if (stickData.cardinalDirection[0] == 'W' || stickData.cardinalDirection[1] == 'W') {
+        if (LeftDown == false) {
             LeftDown = true;
             e = arrowLeftDown;
-            if(racing) {
+            if (racing) {
                 race.keyDown(e);
             } else {
                 titleScreen.keyDown(e);
             }
         }
     }
-    else{
-        if(LeftDown == true){
+    else {
+        if (LeftDown == true) {
             LeftDown = false;
             e = arrowLeftUp;
-            if(racing) {
+            if (racing) {
                 race.keyUp(e);
             } else {
                 titleScreen.keyUp(e);

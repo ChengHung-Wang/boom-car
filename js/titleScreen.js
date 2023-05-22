@@ -1,5 +1,10 @@
-// the title screen
 import { camera } from './racer2.js'
+import { utilPercentRemaining, utilInterpolate, utilIncrease } from "./util.js";
+import { getTimestamp, track } from "./racer.js";
+import { Track } from './track.js';
+import { outlineOnly, width, height } from './render.js';
+
+// the title screen
 
 export class TitleScreen {
   constructor(canvas, context) {
@@ -34,8 +39,8 @@ export class TitleScreen {
     let cameraPercent = utilPercentRemaining(camera.z, Track.segmentLength);
 
     camera.y = 500 + utilInterpolate(baseSegment.p1.world.y,
-        baseSegment.p3.world.y,
-        cameraPercent);
+      baseSegment.p3.world.y,
+      cameraPercent);
 
     let n, i, segment, car, spriteX, spriteY;
     // var sprite, spriteScale;
@@ -54,8 +59,8 @@ export class TitleScreen {
 
 
       if ((segment.p1.camera.z <= camera.depth) || // behind us
-          (segment.p3.screen.y >= segment.p1.screen.y) || // back face cull
-          (segment.p3.screen.y >= maxy))                  // clip by (already rendered) hill
+        (segment.p3.screen.y >= segment.p1.screen.y) || // back face cull
+        (segment.p3.screen.y >= maxy))                  // clip by (already rendered) hill
         continue;
 
       renderSegment(segment);

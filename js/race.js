@@ -1,15 +1,27 @@
+import { raceAudioTone } from "./audio.js";
+import { Car } from "./car.js";
+import { utilPercentRemaining } from "./util.js";
+import { STATE_PRERACE, STATE_COUNTDOWN, STATE_RACING, STATE_RACEOVER } from "./constants.js";
+import { KEYUP, KEYDOWN, KEYLEFT, KEYRIGHT } from "./constants.js";
+import { getTimestamp, camera, track, player } from "./racer.js";
+import { cars } from "./racer.js";
+import { speak } from "./speech.js";
+import { Track } from "./track.js";
+import { mathRand } from "./mathFunctions.js";
+import { utilIncrease } from "./util.js";
+
 // TODO: let it become module type to solve camera undefined.
 // controls the race
 let PlayerIndex = 0;
 
-let numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
+const numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
 
-let STATE_PRERACE = 0;
-let STATE_COUNTDOWN = 1;
-let STATE_RACING = 4;
-let STATE_RACEOVER = 5;
+STATE_PRERACE = 0;
+STATE_COUNTDOWN = 1;
+STATE_RACING = 4;
+STATE_RACEOVER = 5;
 
-class Race {
+export class Race {
   constructor() {
     this.track = null;
 
@@ -37,7 +49,6 @@ class Race {
     }
 
     this.raceNumber = trackNumber;
-    // track = new Track();
 
     switch (trackNumber) {
       case 0:
@@ -378,7 +389,7 @@ class Race {
   }
 }
 //改變車輛
-function ChangeCar(carIndex){
+function ChangeCar(carIndex) {
   camera.WatchPlayer(carIndex);
   PlayerIndex = carIndex;
   // console.log()
@@ -393,9 +404,9 @@ function ChangeCar(carIndex){
   // }
 }
 //改變車輛最大速度
-function ChangeMaxSpeed(carIndex,Speed){
+function ChangeMaxSpeed(carIndex, Speed) {
   cars[carIndex].maxSpeed = Speed;
 }
-function getCarSpeed(carIndex){
+function getCarSpeed(carIndex) {
   return cars[carIndex].speed;
 }

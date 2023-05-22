@@ -1,3 +1,7 @@
+import { utilPercentRemaining, utilInterpolate } from "./util.js";
+import { track, cars } from "./racer.js";
+import { Track } from "./track.js";
+
 export class Camera {
   constructor() {
     this.fieldOfView = 100;
@@ -23,7 +27,7 @@ export class Camera {
     if (looped) {
       cameraZ -= track.getLength();
     }
-    let cameraX = this.x + cameraXOffset;
+    const cameraX = this.x + cameraXOffset;
 
     p.camera.x = (p.world.x || 0) - cameraX;
     p.camera.y = (p.world.y || 0) - this.y;
@@ -38,7 +42,7 @@ export class Camera {
     );
   }
 
-  update(dt) {
+  update() {
     this.z = cars[this.playern].z - this.zOffset;
     if (this.z < 0) {
       this.z += track.getLength();
@@ -46,8 +50,8 @@ export class Camera {
 
     this.x = cars[this.playern].x + cars[this.playern].width / 2;
 
-    let playerSegment = track.findSegment(cars[this.playern].z);
-    let playerPercent = utilPercentRemaining(cars[this.playern].z, Track.segmentLength);
+    const playerSegment = track.findSegment(cars[this.playern].z);
+    const playerPercent = utilPercentRemaining(cars[this.playern].z, Track.segmentLength);
 
     this.y =
       this.yOffset +
@@ -62,8 +66,9 @@ export class Camera {
     this.yOffset = y;
     this.zOffset = z;
   }
+
   //觀戰視角
-  WatchPlayer(n){
+  WatchPlayer(n) {
     this.playern = n;
   }
 }

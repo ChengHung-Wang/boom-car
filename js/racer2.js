@@ -1,5 +1,11 @@
 import { Camera } from "./camera.js";
 import { TitleScreen } from "./titleScreen.js";
+import { raceAudioInit } from "./audio.js";
+import { getTimestamp, dt, gdt, now } from "./racer.js";
+import { last, race, track, racing } from "./racer.js";
+import { canvas, context } from "./racer.js";
+import { speak } from "./speech.js";
+import { outlineOnly } from "./render.js";
 
 export const camera = new Camera();
 
@@ -42,7 +48,7 @@ export function frame() {
     else {
         outlineOnly = false;
 
-        let step = 1 / 180;
+        const step = 1 / 180;
         while (gdt > step) {
             gdt = gdt - step;
             race.update(step);
