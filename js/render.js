@@ -18,7 +18,7 @@ addEventListener("resize", () => {
 });
 
 // titleScreen.js racer.js
-export const outlineOnly = false;
+export let outlineOnly = false;
 
 // draw a polygon
 // NOT OK : outlineOnly
