@@ -4,7 +4,6 @@ import { utilPercentRemaining, utilIncrease, utilInterpolate } from "./util.js";
 import { STATE_RACEOVER } from "./constants.js";
 import { Track } from "./track.js";
 import { speak } from "./speech.js";
-import { camera } from "./racer2.js";
 import { width, height } from "./render.js";
 import * as racer from "./racer.js";
 
@@ -197,7 +196,7 @@ export class Car {
     for (let i = 0; i < this.slipstreamLines.length; i++) {
       const points = this.slipstreamLines[i];
       for (let j = 0; j < points.length; j++) {
-        camera.project(points[j], 0, 0, width, height);
+        racer.camera.project(points[j], 0, 0, width, height);
       }
     }
   }

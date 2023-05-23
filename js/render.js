@@ -1,5 +1,4 @@
 import { utilPercentRemaining, utilInterpolate } from "./util.js";
-import { camera } from "./racer2.js";
 import { STATE_RACING } from "../build/constants.js";
 import * as cntx from './canvasFunctions.js'
 import * as constants from "./constants.js";
@@ -330,9 +329,9 @@ export const bgLayer1Speed = 0.003;
 export function renderRender() {
     cntx.cntx = racer.context;
 
-    const baseSegment = racer.track.findSegment(camera.z);
+    const baseSegment = racer.track.findSegment(racer.camera.z);
 
-    const basePercent = utilPercentRemaining(camera.z, trackjs.Track.segmentLength);
+    const basePercent = utilPercentRemaining(racer.camera.z, trackjs.Track.segmentLength);
     const playerSegment = racer.track.findSegment(racer.player.z);
     const playerPercent = utilPercentRemaining(racer.player.z, trackjs.Track.segmentLength);
     //  racer.context.clearRect(0, 0, width, height);
@@ -356,26 +355,26 @@ export function renderRender() {
     let x = 0;
     let dx = - (baseSegment.curve * basePercent);
     // OK
-    for (let n = 0; n < camera.drawDistance; n++) {
+    for (let n = 0; n < racer.camera.drawDistance; n++) {
         //    segment        = segments[(baseSegment.index + n) % segments.length];
 
         const segment = racer.track.getSegment((baseSegment.index + n) % racer.track.getSegmentCount());
         segment.looped = segment.index < baseSegment.index;
 
-        segment.fog = renderExponentialFog(n / camera.drawDistance, camera.fogDensity);
+        segment.fog = renderExponentialFog(n / racer.camera.drawDistance, racer.camera.fogDensity);
         segment.clip = maxy;
 
-        camera.project(segment.p1, - x, segment.looped, width, height);
-        camera.project(segment.p2, - x, segment.looped, width, height);
-        camera.project(segment.p3, - x - dx, segment.looped, width, height);
-        camera.project(segment.p4, - x - dx, segment.looped, width, height);
+        racer.camera.project(segment.p1, - x, segment.looped, width, height);
+        racer.camera.project(segment.p2, - x, segment.looped, width, height);
+        racer.camera.project(segment.p3, - x - dx, segment.looped, width, height);
+        racer.camera.project(segment.p4, - x - dx, segment.looped, width, height);
 
         // do fake curved road
         x = x + dx;
         dx = dx + segment.curve;
 
         // cull segments if behind, facing other way or clipped
-        if ((segment.p1.camera.z <= camera.depth) ||
+        if ((segment.p1.camera.z <= racer.camera.depth) ||
             (segment.p3.screen.y >= segment.p1.screen.y) ||
             (segment.p3.screen.y >= maxy))
             continue;
@@ -388,7 +387,7 @@ export function renderRender() {
     // opponents still in view but closer than the player to the camera should be drawn after the player..
 
     // NOT OK : SPRITES_CARSTRAIGHT (graphics.js)
-    for (let n = (camera.drawDistance - 1); n > 0; n--) {
+    for (let n = (racer.camera.drawDistance - 1); n > 0; n--) {
         const segment = racer.track.getSegment((baseSegment.index + n) % racer.track.getSegmentCount());
         let spriteX, spriteY;
         // draw cars in the segment
@@ -477,12 +476,12 @@ export function renderRender() {
         // var playerScreenY = utilInterpolate(playerSegment.p1.screen.y, playerSegment.p3.screen.y, playerPercent);
 
         let playerScreenY = (height / 2)
-            - (camera.depth / camera.zOffset * utilInterpolate(playerSegment.p1.camera.y,
+            - (racer.camera.depth / racer.camera.zOffset * utilInterpolate(playerSegment.p1.camera.y,
                 playerSegment.p3.camera.y, playerPercent) * height / 2);
 
 
         if (racer.cars[PlayerIndex].yOffset > 0) {
-            playerScreenY -= racer.cars[PlayerIndex].yOffset * camera.depth / camera.zOffset * height / 2;
+            playerScreenY -= racer.cars[PlayerIndex].yOffset * racer.camera.depth / racer.camera.zOffset * height / 2;
         }
 
         // var carX = width / 2;
@@ -502,7 +501,7 @@ export function renderRender() {
             camera: {},
             screen: {}
         };
-        camera.project(p, 0, playerSegment.index < baseSegment.index, width, height);
+        racer.camera.project(p, 0, playerSegment.index < baseSegment.index, width, height);
 
         const carX = p.screen.x;
         let playerDirection = 0;
@@ -516,7 +515,7 @@ export function renderRender() {
 
         const playerShadowY = playerScreenY;
         renderPlayer(
-            camera.depth / camera.zOffset,  // scale
+            racer.camera.depth / racer.camera.zOffset,  // scale
             carX,//width/2,   // destx
             playerScreenY,
             playerDirection,

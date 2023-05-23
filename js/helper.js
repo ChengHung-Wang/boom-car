@@ -1,6 +1,5 @@
-import { camera, startGame, titleScreen } from "./racer2.js";
 import { KEYUP, KEYDOWN, KEYLEFT, KEYRIGHT } from "./constants.js";
-import { race, racing } from "./racer.js";
+import * as racer from "./racer.js";
 
 const { createApp } = Vue
 const appOption = {
@@ -16,19 +15,19 @@ const appOption = {
         }
     },
     created() {
-        this.camera.y = camera.yOffset;
-        this.camera.z = camera.zOffset;
+        this.camera.y = racer.camera.yOffset;
+        this.camera.z = racer.camera.zOffset;
     },
     methods: {
         startGame(trackNumber) {
             this.gameStarted = true;
-            startGame(trackNumber);
+            racer.startGame(trackNumber);
         }
     },
     watch: {
         camera: {
             handler() {
-                camera.adjust(this.camera.y, this.camera.z);
+                racer.camera.adjust(this.camera.y, this.camera.z);
             },
             deep: true
         }
@@ -62,10 +61,10 @@ new JoyStick('joyDiv', {
         if (UpDown == false) {
             UpDown = true;
             e = arrowUpDown;
-            if (racing) {
-                race.keyDown(e);
+            if (racer.racing) {
+                racer.race.keyDown(e);
             } else {
-                titleScreen.keyDown(e);
+                racer.titleScreen.keyDown(e);
             }
         }
     }
@@ -73,10 +72,10 @@ new JoyStick('joyDiv', {
         if (UpDown == true) {
             UpDown = false;
             e = arrowUpUp;
-            if (racing) {
-                race.keyUp(e);
+            if (racer.racing) {
+                racer.race.keyUp(e);
             } else {
-                titleScreen.keyUp(e);
+                racer.titleScreen.keyUp(e);
             }
         }
     }
@@ -84,10 +83,10 @@ new JoyStick('joyDiv', {
         if (DownDown == false) {
             DownDown = true;
             e = arrowDownDown;
-            if (racing) {
-                race.keyDown(e);
+            if (racer.racing) {
+                racer.race.keyDown(e);
             } else {
-                titleScreen.keyDown(e);
+                racer.titleScreen.keyDown(e);
             }
         }
     }
@@ -95,10 +94,10 @@ new JoyStick('joyDiv', {
         if (DownDown == true) {
             DownDown = false;
             e = arrowDownUp;
-            if (racing) {
-                race.keyUp(e);
+            if (racer.racing) {
+                racer.race.keyUp(e);
             } else {
-                titleScreen.keyUp(e);
+                racer.titleScreen.keyUp(e);
             }
         }
     }
@@ -106,10 +105,10 @@ new JoyStick('joyDiv', {
         if (RightDown == false) {
             RightDown = true;
             e = arrowRightDown;
-            if (racing) {
-                race.keyDown(e);
+            if (racer.racing) {
+                racer.race.keyDown(e);
             } else {
-                titleScreen.keyDown(e);
+                racer.titleScreen.keyDown(e);
             }
         }
     }
@@ -117,10 +116,10 @@ new JoyStick('joyDiv', {
         if (RightDown == true) {
             RightDown = false;
             e = arrowRightUp;
-            if (racing) {
-                race.keyUp(e);
+            if (racer.racing) {
+                racer.race.keyUp(e);
             } else {
-                titleScreen.keyUp(e);
+                racer.titleScreen.keyUp(e);
             }
         }
     }
@@ -128,10 +127,10 @@ new JoyStick('joyDiv', {
         if (LeftDown == false) {
             LeftDown = true;
             e = arrowLeftDown;
-            if (racing) {
-                race.keyDown(e);
+            if (racer.racing) {
+                racer.race.keyDown(e);
             } else {
-                titleScreen.keyDown(e);
+                racer.titleScreen.keyDown(e);
             }
         }
     }
@@ -139,10 +138,10 @@ new JoyStick('joyDiv', {
         if (LeftDown == true) {
             LeftDown = false;
             e = arrowLeftUp;
-            if (racing) {
-                race.keyUp(e);
+            if (racer.racing) {
+                racer.race.keyUp(e);
             } else {
-                titleScreen.keyUp(e);
+                racer.titleScreen.keyUp(e);
             }
         }
     }

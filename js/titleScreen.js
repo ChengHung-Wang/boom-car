@@ -1,6 +1,5 @@
-import { camera } from './racer2.js'
 import { utilPercentRemaining, utilInterpolate, utilIncrease } from "./util.js";
-import { getTimestamp, track } from "./racer.js";
+import { getTimestamp, track, camera } from "./racer.js";
 import { Track, laneWidth } from './track.js';
 import { outlineOnly, width, height, renderSegment } from './render.js';
 import { DARKGREY } from './constants.js';

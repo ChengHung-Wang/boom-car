@@ -1,8 +1,6 @@
 import { raceAudioTone, raceAudioEngineSpeed } from "./audio.js";
 import { Car } from "./car.js";
 import { utilPercentRemaining } from "./util.js";
-import { getTimestamp, track, player, context } from "./racer.js";
-import { camera } from "./racer2.js";
 import { STATE_COUNTDOWN, STATE_PRERACE, STATE_RACING, STATE_RACEOVER } from "../build/constants.js";
 import { cars } from "./racer.js";
 import { speak } from "./speech.js";
@@ -12,6 +10,7 @@ import { utilIncrease } from "./util.js";
 import * as cntx from "./canvasFunctions.js";
 import * as render from "./render.js";
 import * as constants from "./constants.js";
+import * as racer from "./racer.js";
 
 // TODO: let it become module type to solve camera undefined.
 // controls the race
@@ -55,25 +54,25 @@ export class Race {
 
     switch (trackNumber) {
       case 0:
-        track.buildTrack1();
+        racer.track.buildTrack1();
         break;
       case 1:
-        track.buildTrack2();
+        racer.track.buildTrack2();
         break;
       case 2:
-        track.buildTrack3();
+        racer.track.buildTrack3();
         break;
       case 3:
-        track.buildTrack4();
+        racer.track.buildTrack4();
         break;
     }
 
     this.resetCars();
-    player = cars[PlayerIndex];
-    player.initSlipstreamLines();
+    racer.player = cars[PlayerIndex];
+    racer.player.initSlipstreamLines();
     this.state = STATE_PRERACE;
     this.countdownNumber = 4;
-    this.lastTime = getTimestamp();
+    this.lastTime = racer.getTimestamp();
   }
 
   raceOver() {
@@ -85,24 +84,24 @@ export class Race {
       switch (e.keyCode) {
         case 90: // z
           this.zIsDown = true;
-          player.setDrift(true);
+          racer.player.setDrift(true);
           break;
         case 88: // x
           this.xIsDown = true;
-          player.setTurbo(true);
+          racer.player.setTurbo(true);
           break;
         case constants.KEYUP:
-          player.setAccelerate(true);
-          // console.log(player);
+          racer.player.setAccelerate(true);
+          // console.log(racer.player);
           break;
         case constants.KEYDOWN:
-          player.setBrake(true);
+          racer.player.setBrake(true);
           break;
         case constants.KEYLEFT:
-          player.setTurnLeft(true);
+          racer.player.setTurnLeft(true);
           break;
         case constants.KEYRIGHT:
-          player.setTurnRight(true);
+          racer.player.setTurnRight(true);
           break;
       }
     }
@@ -113,23 +112,23 @@ export class Race {
       switch (e.keyCode) {
         case 90: // z
           this.zIsDown = false;
-          player.setDrift(false);
+          racer.player.setDrift(false);
           break;
         case 88:
           this.xIsDown = false;
-          player.setTurbo(false);
+          racer.player.setTurbo(false);
           break;
         case constants.KEYUP:
-          player.setAccelerate(false);
+          racer.player.setAccelerate(false);
           break;
         case constants.KEYDOWN:
-          player.setBrake(false);
+          racer.player.setBrake(false);
           break;
         case constants.KEYLEFT:
-          player.setTurnLeft(false);
+          racer.player.setTurnLeft(false);
           break;
         case constants.KEYRIGHT:
-          player.setTurnRight(false);
+          racer.player.setTurnRight(false);
           break;
       }
     } else {
@@ -159,9 +158,9 @@ export class Race {
     cars = [];
     let car, segment, z, sprite;
     for (let n = 0; n < this.carCount; n++) {
-      z = track.getLength() - (this.carCount - n) * Track.segmentLength * 13;
+      z = racer.track.getLength() - (this.carCount - n) * Track.segmentLength * 13;
 
-      segment = track.findSegment(z);
+      segment = racer.track.findSegment(z);
 
       const trackLeft = segment.p1.world.x;
       const trackRight = segment.p2.world.x;
@@ -216,9 +215,9 @@ export class Race {
   }
 
   updatePrerace(dt) {
-    const time = getTimestamp();
+    const time = racer.getTimestamp();
     if (time - this.lastTime > Race.COUNTDOWN_INTERVAL) {
-      this.lastTime = getTimestamp();
+      this.lastTime = racer.getTimestamp();
       this.countdownNumber--;
       if (this.countdownNumber == 3) {
         speak("RACE");
@@ -233,13 +232,13 @@ export class Race {
         //        speak(this.countdownNumber);
       }
     }
-    camera.update(dt);
+    racer.camera.update(dt);
   }
 
   updateCountdown(dt) {
-    const time = getTimestamp();
+    const time = racer.getTimestamp();
     if (time - this.lastTime > Race.COUNTDOWN_INTERVAL) {
-      this.lastTime = getTimestamp();
+      this.lastTime = racer.getTimestamp();
       this.countdownNumber--;
       if (this.countdownNumber <= 0) {
         raceAudioTone(440, 1 / 2);
@@ -249,38 +248,38 @@ export class Race {
         //        speak(this.countdownNumber);
       }
     }
-    camera.update(dt);
+    racer.camera.update(dt);
   }
 
   updateRace(dt) {
-    const playerSegment = track.findSegment(player.z);
+    const playerSegment = racer.track.findSegment(racer.player.z);
     // const speedPercent = player.speedPercent; //player.speed / maxSpeed;
     // const dx = dt * 2 * speedPercent; // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
-    const startPosition = camera.z;
+    const startPosition = racer.camera.z;
 
     for (let i = 0; i < cars.length; i++) {
-      cars[i].update(dt); //, playerSegment, player.width);
+      cars[i].update(dt); //, playerSegment, racer.player.width);
     }
-    //  updateCars(dt, playerSegment, player.width);
+    //  updateCars(dt, playerSegment, racer.player.width);
 
-    //    player.update(dt);
-    camera.update(dt);
+    //    racer.player.update(dt);
+    racer.camera.update(dt);
 
     render.bgLayer3Offset = utilIncrease(
       render.bgLayer3Offset,
-      (render.bgLayer3Speed * playerSegment.curve * (camera.z - startPosition)) /
+      (render.bgLayer3Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
       Track.segmentLength,
       1
     );
     render.bgLayer2Offset = utilIncrease(
       render.bgLayer2Offset,
-      (render.bgLayer2Speed * playerSegment.curve * (camera.z - startPosition)) /
+      (render.bgLayer2Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
       Track.segmentLength,
       1
     );
     render.bgLayer1Offset = utilIncrease(
       render.bgLayer1Offset,
-      (render.bgLayer1Speed * playerSegment.curve * (camera.z - startPosition)) /
+      (render.bgLayer1Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
       Track.segmentLength,
       1
     );
@@ -306,8 +305,8 @@ export class Race {
   render() {
     render.renderRender();
     if (this.state == STATE_PRERACE) {
-      //      context.font = "120px \"Courier New\", Courier, monospace";
-      context.font = "italic bold 350px " + constants.helvetica;
+      //      racer.context.font = "120px \"Courier New\", Courier, monospace";
+      racer.context.font = "italic bold 350px " + constants.helvetica;
 
       if (this.countdownNumber < 4) {
         cntx.cntxFillStyle(constants.DARKGREY);
@@ -318,13 +317,13 @@ export class Race {
 
       if (this.countdownNumber < 3) {
         if (this.raceNumber == 0) {
-          context.font = "italic bold 440px " + constants.helvetica;
+          racer.context.font = "italic bold 440px " + constants.helvetica;
         } else if (this.raceNumber == 1) {
-          context.font = "italic bold 430px " + constants.helvetica;
+          racer.context.font = "italic bold 430px " + constants.helvetica;
         } else if (this.raceNumber == 2) {
-          context.font = "italic bold 290px " + constants.helvetica;
+          racer.context.font = "italic bold 290px " + constants.helvetica;
         } else if (this.raceNumber == 3) {
-          context.font = "italic bold 358px " + constants.helvetica;
+          racer.context.font = "italic bold 358px " + constants.helvetica;
         }
 
         cntx.cntxFillStyle(constants.DARKGREY);
@@ -335,74 +334,74 @@ export class Race {
     }
 
     if (this.state == STATE_COUNTDOWN) {
-      context.font = " 300px " + constants.helvetica;
-      context.fillStyle = "#111111";
-      context.fillText(this.countdownNumber, 449, 254);
-      context.fillStyle = constants.LIGHTGREY;
-      context.fillText(this.countdownNumber, 445, 250);
+      racer.context.font = " 300px " + constants.helvetica;
+      racer.context.fillStyle = "#111111";
+      racer.context.fillText(this.countdownNumber, 449, 254);
+      racer.context.fillStyle = constants.LIGHTGREY;
+      racer.context.fillText(this.countdownNumber, 445, 250);
     }
 
     if (this.state == STATE_RACING) {
       cntx.cntxFillStyle(constants.LIGHTGREY);
       cntx.cntxStrokeStyle(constants.LIGHTGREY);
-      context.font = " 80px " + constants.helvetica;
-      context.fillText(player.getPosition(), 10, 80);
+      racer.context.font = " 80px " + constants.helvetica;
+      racer.context.fillText(racer.player.getPosition(), 10, 80);
 
-      context.font = " 40px " + constants.helvetica;
-      context.fillText("Lap " + player.getLap() + " of 2", 10, 130);
-      context.fillText(
-        "Lap Time: " + player.getCurrentLapTime().toFixed(2),
+      racer.context.font = " 40px " + constants.helvetica;
+      racer.context.fillText("Lap " + racer.player.getLap() + " of 2", 10, 130);
+      racer.context.fillText(
+        "Lap Time: " + racer.player.getCurrentLapTime().toFixed(2),
         10,
         180
       );
 
-      context.font = " 80px " + constants.helvetica;
+      racer.context.font = " 80px " + constants.helvetica;
 
       const speed = (
-        "000" + Math.round(player.getSpeed() / 100).toString(10)
+        "000" + Math.round(racer.player.getSpeed() / 100).toString(10)
       ).substr(-3);
-      context.fillText(speed + "km/h", 695, 80);
-      context.font = " 40px " + constants.helvetica;
+      racer.context.fillText(speed + "km/h", 695, 80);
+      racer.context.font = " 40px " + constants.helvetica;
 
-      context.fillText("Turbo ", 670, 136);
+      racer.context.fillText("Turbo ", 670, 136);
       cntx.cntxBeginPath();
-      context.rect(796, 110, 208, 28);
+      racer.context.rect(796, 110, 208, 28);
       cntx.cntxStroke();
-      cntx.cntxFillRect(800, 114, player.turboAmount * 2, 20);
+      cntx.cntxFillRect(800, 114, racer.player.turboAmount * 2, 20);
 
       if (cars[PlayerIndex].newPositionTime > 0) {
-        context.font = " 160px " + constants.helvetica;
+        racer.context.font = " 160px " + constants.helvetica;
         cntx.cntxFillStyle(constants.LIGHTGREY);
-        context.fillText(cars[PlayerIndex].getPosition(), 334, 184);
+        racer.context.fillText(cars[PlayerIndex].getPosition(), 334, 184);
       }
     }
 
     if (this.state == STATE_RACEOVER) {
-      context.font = " 300px " + constants.helvetica;
+      racer.context.font = " 300px " + constants.helvetica;
       cntx.cntxFillStyle(constants.LIGHTGREY);
-      context.fillText(cars[PlayerIndex].finishPosition, 300, 290); //cars[PlayerIndex].finishPosition, 494, 254);
-      context.font = " 40px " + constants.helvetica;
+      racer.context.fillText(cars[PlayerIndex].finishPosition, 300, 290); //cars[PlayerIndex].finishPosition, 494, 254);
+      racer.context.font = " 40px " + constants.helvetica;
       let y = 380;
       if (cars[PlayerIndex].finishPosition == "1st") {
-        context.fillText("x: Next Race", 397, y);
+        racer.context.fillText("x: Next Race", 397, y);
         y += 80;
       }
-      context.fillText("z: Retry", 445, y);
+      racer.context.fillText("z: Retry", 445, y);
     }
   }
 }
 
 //改變車輛
 function ChangeCar(carIndex) {
-  camera.WatchPlayer(carIndex);
+  racer.camera.WatchPlayer(carIndex);
   PlayerIndex = carIndex;
   // console.log()
   cars.forEach(item => {
     if (item.PlayerIndex == n) {
-      player = item;
+      racer.player = item;
     }
   });
-  player = cars[carIndex];
+  racer.player = cars[carIndex];
   // for(let i =0;i<cars.length;++i){
   //   cars[i].PlayerIndex = n;
   // }
