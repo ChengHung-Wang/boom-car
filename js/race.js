@@ -378,12 +378,12 @@ class Race {
   }
 }
 //改變車輛
-function ChangeCar(carIndex){
+function ChangeCar(carIndex) {
   camera.WatchPlayer(carIndex);
   PlayerIndex = carIndex;
   // console.log()
   cars.forEach(item => {
-    if (item.PlayerIndex == n) {
+    if (item.PlayerIndex == carIndex) {
       player = item;
     }
   });
@@ -392,10 +392,12 @@ function ChangeCar(carIndex){
   //   cars[i].PlayerIndex = n;
   // }
 }
+
 //改變車輛最大速度
-function ChangeMaxSpeed(carIndex,Speed){
+function ChangeMaxSpeed(carIndex, Speed) {
   cars[carIndex].maxSpeed = Speed;
 }
-function getCarSpeed(carIndex){
+
+function getCarSpeed(carIndex) {
   return cars[carIndex].speed;
 }
