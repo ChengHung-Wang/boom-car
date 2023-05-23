@@ -1,15 +1,17 @@
-import { raceAudioTone } from "./audio.js";
+import { raceAudioTone, raceAudioEngineSpeed } from "./audio.js";
 import { Car } from "./car.js";
 import { utilPercentRemaining } from "./util.js";
-import { STATE_PRERACE, STATE_COUNTDOWN, STATE_RACING, STATE_RACEOVER } from "./constants.js";
-import { KEYUP, KEYDOWN, KEYLEFT, KEYRIGHT } from "./constants.js";
-import { getTimestamp, camera, track, player } from "./racer.js";
+import { getTimestamp, track, player, context } from "./racer.js";
+import { camera } from "./racer2.js";
+import { STATE_COUNTDOWN, STATE_PRERACE, STATE_RACING, STATE_RACEOVER } from "../build/constants.js";
 import { cars } from "./racer.js";
 import { speak } from "./speech.js";
 import { Track } from "./track.js";
 import { mathRand } from "./mathFunctions.js";
 import { utilIncrease } from "./util.js";
-import { cntxFillStyle, cntxFillText, cntxStrokeStyle, cntxBeginPath, cntxStroke, cntxFillRect } from './canvasFunctions.js'
+import * as cntx from "./canvasFunctions.js";
+import * as render from "./render.js";
+import * as constants from "./constants.js";
 
 // TODO: let it become module type to solve camera undefined.
 // controls the race
@@ -89,17 +91,17 @@ export class Race {
           this.xIsDown = true;
           player.setTurbo(true);
           break;
-        case KEYUP:
+        case constants.KEYUP:
           player.setAccelerate(true);
           // console.log(player);
           break;
-        case KEYDOWN:
+        case constants.KEYDOWN:
           player.setBrake(true);
           break;
-        case KEYLEFT:
+        case constants.KEYLEFT:
           player.setTurnLeft(true);
           break;
-        case KEYRIGHT:
+        case constants.KEYRIGHT:
           player.setTurnRight(true);
           break;
       }
@@ -117,16 +119,16 @@ export class Race {
           this.xIsDown = false;
           player.setTurbo(false);
           break;
-        case KEYUP:
+        case constants.KEYUP:
           player.setAccelerate(false);
           break;
-        case KEYDOWN:
+        case constants.KEYDOWN:
           player.setBrake(false);
           break;
-        case KEYLEFT:
+        case constants.KEYLEFT:
           player.setTurnLeft(false);
           break;
-        case KEYRIGHT:
+        case constants.KEYRIGHT:
           player.setTurnRight(false);
           break;
       }
@@ -155,14 +157,14 @@ export class Race {
   resetCars() {
     //    resetCars();
     cars = [];
-    let n, car, segment, offset, z, sprite, speed;
+    let car, segment, z, sprite;
     for (let n = 0; n < this.carCount; n++) {
       z = track.getLength() - (this.carCount - n) * Track.segmentLength * 13;
 
       segment = track.findSegment(z);
 
-      let trackLeft = segment.p1.world.x;
-      let trackRight = segment.p2.world.x;
+      const trackLeft = segment.p1.world.x;
+      const trackRight = segment.p2.world.x;
       //      let trackWidth = trackRight - trackLeft;
 
       //      sprite = SPRITES.CAR_STRAIGHT;
@@ -187,7 +189,7 @@ export class Race {
 
       // player speeds are set in car.js
       if (car.index !== 0) {
-        let maxSpeed = 23000; //23000;
+        const maxSpeed = 23000; //23000;
         if (car.index < 8 && car.index > 3) {
           car.maxSpeed =
             maxSpeed * 0.905 -
@@ -214,7 +216,7 @@ export class Race {
   }
 
   updatePrerace(dt) {
-    let time = getTimestamp();
+    const time = getTimestamp();
     if (time - this.lastTime > Race.COUNTDOWN_INTERVAL) {
       this.lastTime = getTimestamp();
       this.countdownNumber--;
@@ -235,7 +237,7 @@ export class Race {
   }
 
   updateCountdown(dt) {
-    let time = getTimestamp();
+    const time = getTimestamp();
     if (time - this.lastTime > Race.COUNTDOWN_INTERVAL) {
       this.lastTime = getTimestamp();
       this.countdownNumber--;
@@ -251,10 +253,10 @@ export class Race {
   }
 
   updateRace(dt) {
-    let playerSegment = track.findSegment(player.z);
-    let speedPercent = player.speedPercent; //player.speed / maxSpeed;
-    let dx = dt * 2 * speedPercent; // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
-    let startPosition = camera.z;
+    const playerSegment = track.findSegment(player.z);
+    // const speedPercent = player.speedPercent; //player.speed / maxSpeed;
+    // const dx = dt * 2 * speedPercent; // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
+    const startPosition = camera.z;
 
     for (let i = 0; i < cars.length; i++) {
       cars[i].update(dt); //, playerSegment, player.width);
@@ -264,21 +266,21 @@ export class Race {
     //    player.update(dt);
     camera.update(dt);
 
-    bgLayer3Offset = utilIncrease(
-      bgLayer3Offset,
-      (bgLayer3Speed * playerSegment.curve * (camera.z - startPosition)) /
+    render.bgLayer3Offset = utilIncrease(
+      render.bgLayer3Offset,
+      (render.bgLayer3Speed * playerSegment.curve * (camera.z - startPosition)) /
       Track.segmentLength,
       1
     );
-    bgLayer2Offset = utilIncrease(
-      bgLayer2Offset,
-      (bgLayer2Speed * playerSegment.curve * (camera.z - startPosition)) /
+    render.bgLayer2Offset = utilIncrease(
+      render.bgLayer2Offset,
+      (render.bgLayer2Speed * playerSegment.curve * (camera.z - startPosition)) /
       Track.segmentLength,
       1
     );
-    bgLayer1Offset = utilIncrease(
-      bgLayer1Offset,
-      (bgLayer1Speed * playerSegment.curve * (camera.z - startPosition)) /
+    render.bgLayer1Offset = utilIncrease(
+      render.bgLayer1Offset,
+      (render.bgLayer1Speed * playerSegment.curve * (camera.z - startPosition)) /
       Track.segmentLength,
       1
     );
@@ -302,51 +304,51 @@ export class Race {
   }
 
   render() {
-    renderRender();
+    render.renderRender();
     if (this.state == STATE_PRERACE) {
       //      context.font = "120px \"Courier New\", Courier, monospace";
-      context.font = "italic bold 350px " + helvetica;
+      context.font = "italic bold 350px " + constants.helvetica;
 
       if (this.countdownNumber < 4) {
-        cntxFillStyle(DARKGREY);
-        cntxFillText("RACE", 14, 304);
-        cntxFillStyle(LIGHTGREY);
-        cntxFillText("RACE", 10, 300);
+        cntx.cntxFillStyle(constants.DARKGREY);
+        cntx.cntxFillText("RACE", 14, 304);
+        cntx.cntxFillStyle(constants.LIGHTGREY);
+        cntx.cntxFillText("RACE", 10, 300);
       }
 
       if (this.countdownNumber < 3) {
         if (this.raceNumber == 0) {
-          context.font = "italic bold 440px " + helvetica;
+          context.font = "italic bold 440px " + constants.helvetica;
         } else if (this.raceNumber == 1) {
-          context.font = "italic bold 430px " + helvetica;
+          context.font = "italic bold 430px " + constants.helvetica;
         } else if (this.raceNumber == 2) {
-          context.font = "italic bold 290px " + helvetica;
+          context.font = "italic bold 290px " + constants.helvetica;
         } else if (this.raceNumber == 3) {
-          context.font = "italic bold 358px " + helvetica;
+          context.font = "italic bold 358px " + constants.helvetica;
         }
 
-        cntxFillStyle(DARKGREY);
-        cntxFillText(numbers[this.raceNumber], 14, 674);
-        cntxFillStyle(LIGHTGREY);
-        cntxFillText(numbers[this.raceNumber], 10, 670);
+        cntx.cntxFillStyle(constants.DARKGREY);
+        cntx.cntxFillText(numbers[this.raceNumber], 14, 674);
+        cntx.cntxFillStyle(constants.LIGHTGREY);
+        cntx.cntxFillText(numbers[this.raceNumber], 10, 670);
       }
     }
 
     if (this.state == STATE_COUNTDOWN) {
-      context.font = " 300px " + helvetica;
+      context.font = " 300px " + constants.helvetica;
       context.fillStyle = "#111111";
       context.fillText(this.countdownNumber, 449, 254);
-      context.fillStyle = LIGHTGREY;
+      context.fillStyle = constants.LIGHTGREY;
       context.fillText(this.countdownNumber, 445, 250);
     }
 
     if (this.state == STATE_RACING) {
-      cntxFillStyle(LIGHTGREY);
-      cntxStrokeStyle(LIGHTGREY);
-      context.font = " 80px " + helvetica;
+      cntx.cntxFillStyle(constants.LIGHTGREY);
+      cntx.cntxStrokeStyle(constants.LIGHTGREY);
+      context.font = " 80px " + constants.helvetica;
       context.fillText(player.getPosition(), 10, 80);
 
-      context.font = " 40px " + helvetica;
+      context.font = " 40px " + constants.helvetica;
       context.fillText("Lap " + player.getLap() + " of 2", 10, 130);
       context.fillText(
         "Lap Time: " + player.getCurrentLapTime().toFixed(2),
@@ -354,32 +356,32 @@ export class Race {
         180
       );
 
-      context.font = " 80px " + helvetica;
+      context.font = " 80px " + constants.helvetica;
 
-      let speed = (
+      const speed = (
         "000" + Math.round(player.getSpeed() / 100).toString(10)
       ).substr(-3);
       context.fillText(speed + "km/h", 695, 80);
-      context.font = " 40px " + helvetica;
+      context.font = " 40px " + constants.helvetica;
 
       context.fillText("Turbo ", 670, 136);
-      cntxBeginPath();
+      cntx.cntxBeginPath();
       context.rect(796, 110, 208, 28);
-      cntxStroke();
-      cntxFillRect(800, 114, player.turboAmount * 2, 20);
+      cntx.cntxStroke();
+      cntx.cntxFillRect(800, 114, player.turboAmount * 2, 20);
 
       if (cars[PlayerIndex].newPositionTime > 0) {
-        context.font = " 160px " + helvetica;
-        cntxFillStyle(LIGHTGREY);
+        context.font = " 160px " + constants.helvetica;
+        cntx.cntxFillStyle(constants.LIGHTGREY);
         context.fillText(cars[PlayerIndex].getPosition(), 334, 184);
       }
     }
 
     if (this.state == STATE_RACEOVER) {
-      context.font = " 300px " + helvetica;
-      cntxFillStyle(LIGHTGREY);
+      context.font = " 300px " + constants.helvetica;
+      cntx.cntxFillStyle(constants.LIGHTGREY);
       context.fillText(cars[PlayerIndex].finishPosition, 300, 290); //cars[PlayerIndex].finishPosition, 494, 254);
-      context.font = " 40px " + helvetica;
+      context.font = " 40px " + constants.helvetica;
       let y = 380;
       if (cars[PlayerIndex].finishPosition == "1st") {
         context.fillText("x: Next Race", 397, y);
@@ -389,6 +391,7 @@ export class Race {
     }
   }
 }
+
 //改變車輛
 function ChangeCar(carIndex) {
   camera.WatchPlayer(carIndex);
@@ -404,10 +407,12 @@ function ChangeCar(carIndex) {
   //   cars[i].PlayerIndex = n;
   // }
 }
+
 //改變車輛最大速度
 function ChangeMaxSpeed(carIndex, Speed) {
   cars[carIndex].maxSpeed = Speed;
 }
+
 function getCarSpeed(carIndex) {
   return cars[carIndex].speed;
 }

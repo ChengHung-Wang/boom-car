@@ -1,11 +1,11 @@
 import { utilPercentRemaining, utilInterpolate } from "./util.js";
-import { getTimestamp } from "./racer.js";
-import { BACKGROUNDLAYERHEIGHT, BACKGROUNDLAYERWIDTH } from "./racer.js";
-import { cars, player, camera, track } from "./racer.js";
-import { Track } from "./track.js";
-import { STATE_RACING } from "./constants.js";
+import { camera } from "./racer2.js";
+import { STATE_RACING } from "../build/constants.js";
 import * as cntx from './canvasFunctions.js'
-
+import * as constants from "./constants.js";
+import * as trackjs from "./track.js";
+import * as graphics from "./graphics.js";
+import * as racer from "./racer.js";
 
 // draw all the race stuff to the screen
 export let width = document.documentElement.clientWidth;
@@ -19,7 +19,7 @@ addEventListener("resize", () => {
 });
 
 // titleScreen.js racer.js
-export let outlineOnly = false;
+export const outlineOnly = false;
 
 // draw a polygon
 // NOT OK : outlineOnly
@@ -32,7 +32,7 @@ function renderPolygon(x1, y1, x2, y2, x3, y3, x4, y4, color) {
     cntx.cntxLineTo(x4, y4);
     cntx.cntxClosePath();
     if (outlineOnly) {
-        cntx.cntxStrokeStyle(MEDIUMGREY);
+        cntx.cntxStrokeStyle(constants.MEDIUMGREY);
         cntx.cntxStroke();
     } else {
         cntx.cntxFill();
@@ -41,11 +41,11 @@ function renderPolygon(x1, y1, x2, y2, x3, y3, x4, y4, color) {
 
 // draw a segment, coordinates passed in are screen coordinates
 // NOT OK : outlineOnly
-function renderSegment(segment) {
+export function renderSegment(segment) {
     const dark = Math.floor(segment.index / 2) % 2;// (segment.index / 2) % 2;
 
-    let kerbColor = dark ? COLORS_KERBDARK : COLORS_KERBLIGHT;
-    let landColor = dark ? COLORS_LANDDARK : COLORS_LANDLIGHT;
+    const kerbColor = dark ? trackjs.COLORS_KERBDARK : trackjs.COLORS_KERBLIGHT;
+    const landColor = dark ? trackjs.COLORS_LANDDARK : trackjs.COLORS_LANDLIGHT;
 
     // draw side land
     if (!outlineOnly) {
@@ -80,7 +80,7 @@ function renderSegment(segment) {
 
     // road
     if (!outlineOnly) {
-        let colour = (segment.index == 0) ? MEDIUMGREY : COLORS_ROAD;
+        const colour = (segment.index == 0) ? trackjs.MEDIUMGREY : trackjs.COLORS_ROAD;
         renderPolygon(
             segment.p1.screen.x,
             segment.p1.screen.y,
@@ -109,7 +109,7 @@ function renderSegment(segment) {
         segment.p3.screen.y,
         lanex2 - l2 / 2,
         segment.p3.screen.y,
-        COLORS_LANEMARKER);
+        constants.COLORS_LANEMARKER);
 
     lanex1 = segment.p2.screen.x - 100 * segment.p1.screen.scale * width / 2;
     lanex2 = segment.p3.screen.x - 100 * segment.p4.screen.scale * width / 2;
@@ -123,13 +123,13 @@ function renderSegment(segment) {
         segment.p3.screen.y,
         lanex2 - l2 / 2,
         segment.p3.screen.y,
-        COLORS_LANEMARKER);
+        constants.COLORS_LANEMARKER);
 
     // lane marker
     if (dark) { //segment.color.laneMarker) {
         const lanes = 2;
-        let lanew1 = (segment.p2.screen.x - segment.p1.screen.x) / lanes;
-        let lanew2 = (segment.p3.screen.x - segment.p4.screen.x) / lanes;
+        const lanew1 = (segment.p2.screen.x - segment.p1.screen.x) / lanes;
+        const lanew2 = (segment.p3.screen.x - segment.p4.screen.x) / lanes;
         lanex1 = segment.p1.screen.x + lanew1;
         lanex2 = segment.p4.screen.x + lanew2;
         for (let lane = 1; lane < lanes; lanex1 += lanew1, lanex2 += lanew2, lane++) {
@@ -142,11 +142,11 @@ function renderSegment(segment) {
                 segment.p3.screen.y,
                 lanex2 - l2 / 2,
                 segment.p3.screen.y,
-                COLORS_LANEMARKER);
+                constants.COLORS_LANEMARKER);
         }
     }
 
-    if (COLORS_FOG != 0) {
+    if (constants.COLORS_FOG != 0) {
         renderFog(0, segment.p1.screen.y, width, segment.p3.screen.y - segment.p1.screen.y, segment.fog);
     }
 }
@@ -159,12 +159,12 @@ function renderBackground(background, width, height, rotation, offset) {
     rotation = rotation || 0;
     offset = offset || 0;
 
-    const imageW = BACKGROUNDLAYERWIDTH / 2;
-    const imageH = BACKGROUNDLAYERHEIGHT;
+    const imageW = racer.BACKGROUNDLAYERWIDTH / 2;
+    const imageH = racer.BACKGROUNDLAYERHEIGHT;
 
-    const sourceX = Math.floor(BACKGROUNDLAYERWIDTH * rotation);
+    const sourceX = Math.floor(racer.BACKGROUNDLAYERWIDTH * rotation);
     const sourceY = 0;
-    const sourceW = Math.min(imageW, BACKGROUNDLAYERWIDTH - sourceX);
+    const sourceW = Math.min(imageW, racer.BACKGROUNDLAYERWIDTH - sourceX);
     const sourceH = imageH;
 
     const destX = 0;
@@ -172,9 +172,9 @@ function renderBackground(background, width, height, rotation, offset) {
     const destW = Math.floor(width * (sourceW / imageW));
     const destH = height;
 
-    context.drawImage(background.c, sourceX, sourceY, sourceW, sourceH, destX, destY, destW, destH);
+    racer.context.drawImage(background.c, sourceX, sourceY, sourceW, sourceH, destX, destY, destW, destH);
     if (sourceW < imageW)
-        context.drawImage(background.c, 0, sourceY, imageW - sourceW, sourceH, destW - 1, destY, width - destW, destH);
+        racer.context.drawImage(background.c, 0, sourceY, imageW - sourceW, sourceH, destW - 1, destY, width - destW, destH);
 }
 
 //---------------------------------------------------------------------------
@@ -189,7 +189,7 @@ function renderSprite(sprite, scale, destX, destY, clipY, fog) {
     // clip y for appearing behind a hill..
     const clipH = clipY ? Math.max(0, destY + destH - clipY) : 0;
     if (clipH < destH) {
-        context.drawImage(spritesCanvas,
+        racer.context.drawImage(graphics.spritesCanvas,
             sprite.x,
             sprite.y,
             sprite.w,
@@ -199,7 +199,7 @@ function renderSprite(sprite, scale, destX, destY, clipY, fog) {
             destW,
             destH - clipH);
 
-        if (fog !== false && COLORS_FOG != 0) {
+        if (fog !== false && constants.COLORS_FOG != 0) {
             renderFog(destX, destY, destW, destH, fog);//ctx, x, y, width, height, fog) {
         }
     }
@@ -216,41 +216,42 @@ let lastDriftDraw = 0;
 function renderPlayer(scale, destX, destY, steer, updown, playerShadowY) {
     let sprite;
     if (steer < 0) {
-        sprite = SPRITES_CARLEFT;
+        sprite = graphics.SPRITES_CARLEFT;
     } else if (steer > 0) {
-        sprite = SPRITES_CARRIGHT;
+        sprite = graphics.SPRITES_CARRIGHT;
     } else {
-        sprite = SPRITES_CARSTRAIGHT;
+        sprite = graphics.SPRITES_CARSTRAIGHT;
     }
 
     // ************* DRAW SLIP STREAM ********** //
-    if (player.slipstreamTime > 0 || player.slipstream > 0) {
-        cars[PlayerIndex].initSlipstreamLines();
+    if (racer.player.slipstreamTime > 0 || racer.player.slipstream > 0) {
+        racer.cars[PlayerIndex].initSlipstreamLines();
 
         let amount = 0;
-        if (player.slipstreamTime <= 0) {
-            amount = player.slipstream;
+        if (racer.player.slipstreamTime <= 0) {
+            amount = racer.player.slipstream;
             while (amount > 1) {
                 amount -= 1;
             }
         }
         cntx.cntxGlobalAlpha(1 - amount);
 
-        for (let i = 0; i < cars[PlayerIndex].slipstreamLines.length; i++) {
-            const points = cars[PlayerIndex].slipstreamLines[i];
+        for (let i = 0; i < racer.cars[PlayerIndex].slipstreamLines.length; i++) {
+            const points = racer.cars[PlayerIndex].slipstreamLines[i];
             cntx.cntxBeginPath();
             cntx.cntxMoveTo(points[PlayerIndex].screen.x, points[0].screen.y);
             for (let j = 1; j < points.length; j++) {
                 cntx.cntxLineTo(points[j].screen.x, points[j].screen.y);
             }
 
-            cntx.cntxFillStyle(MEDIUMGREY);
+            cntx.cntxFillStyle(constants.MEDIUMGREY);
             cntx.cntxFill();
         }
         cntx.cntxGlobalAlpha(1);
     }
 
-    let spriteScale = player.width * scale / sprite.w;
+    const spriteScale = racer.player.width * scale / sprite.w;
+
     // ***** DRAW SHADOW IF IN AIR *******/
     /*
         if(playerShadowY != destY) {
@@ -271,17 +272,17 @@ function renderPlayer(scale, destX, destY, steer, updown, playerShadowY) {
         sprite,
         spriteScale,
         destX,
-        destY + player.bounce,
+        destY + racer.player.bounce,
         false);
 
     // ************** DRAW DRIFT *************** //
-    if (player.driftAmount > 0) {
-        const time = getTimestamp();
+    if (racer.player.driftAmount > 0) {
+        const time = racer.getTimestamp();
         if (time - lastDriftDraw > 100) {
             cntx.cntxGlobalAlpha(0.8);
-            cntx.cntxFillStyle(MEDIUMGREY);
+            cntx.cntxFillStyle(constants.MEDIUMGREY);
             let x = destX + 12;
-            let y = destY - 4;
+            const y = destY - 4;
             cntx.cntxFillRect(x, y, 50, 10)
 
             x = destX + 260;
@@ -293,14 +294,14 @@ function renderPlayer(scale, destX, destY, steer, updown, playerShadowY) {
     }
 
     //  ******  DRAW TURBO  ***** /
-    if (player.turbo) {
+    if (racer.player.turbo) {
         let centreX = destX + 82;
-        let centreY = destY - 10;
-        drawFuzzyCircle(centreX, centreY, 10, '#dd9925');
-        drawFuzzyCircle(centreX, centreY, 5, '#cccc55');
+        const centreY = destY - 10;
+        graphics.drawFuzzyCircle(centreX, centreY, 10, '#dd9925');
+        graphics.drawFuzzyCircle(centreX, centreY, 5, '#cccc55');
         centreX = destX + 230;
-        drawFuzzyCircle(centreX, centreY, 10, '#dd9925');
-        drawFuzzyCircle(centreX, centreY, 5, '#cccc55');
+        graphics.drawFuzzyCircle(centreX, centreY, 10, '#dd9925');
+        graphics.drawFuzzyCircle(centreX, centreY, 5, '#cccc55');
     }
 }
 
@@ -308,42 +309,42 @@ function renderPlayer(scale, destX, destY, steer, updown, playerShadowY) {
 function renderFog(x, y, width, height, fog) {
     if (fog < 1) {
         cntx.cntxGlobalAlpha(1 - fog)
-        cntx.cntxFillStyle(COLORS_FOG);
+        cntx.cntxFillStyle(constants.COLORS_FOG);
         cntx.cntxFillRect(x, y, width, height);
         cntx.cntxGlobalAlpha(1);
     }
 }
 
 // race.js
-let bgLayer3Offset = 0;
-let bgLayer2Offset = 0;
-let bgLayer1Offset = 0;
+export const bgLayer3Offset = 0;
+export const bgLayer2Offset = 0;
+export const bgLayer1Offset = 0;
 
-const bgLayer3Speed = 0.001;
-const bgLayer2Speed = 0.002;
-const bgLayer1Speed = 0.003;
+export const bgLayer3Speed = 0.001;
+export const bgLayer2Speed = 0.002;
+export const bgLayer1Speed = 0.003;
 
 // NOT OK : cntx (canvasFunctions.js)
 //          bgLayer3Offset, bgLayer2Offset, bgLayer1Offset (race.js)
 //          backgroundLayer3, backgroundLayer2, backgroundLayer1 (graphics.js)
-function renderRender() {
-    cntx.cntx = context;
+export function renderRender() {
+    cntx.cntx = racer.context;
 
-    const baseSegment = track.findSegment(camera.z);
+    const baseSegment = racer.track.findSegment(camera.z);
 
-    const basePercent = utilPercentRemaining(camera.z, Track.segmentLength);
-    const playerSegment = track.findSegment(player.z);
-    const playerPercent = utilPercentRemaining(player.z, Track.segmentLength);
-    //  context.clearRect(0, 0, width, height);
+    const basePercent = utilPercentRemaining(camera.z, trackjs.Track.segmentLength);
+    const playerSegment = racer.track.findSegment(racer.player.z);
+    const playerPercent = utilPercentRemaining(racer.player.z, trackjs.Track.segmentLength);
+    //  racer.context.clearRect(0, 0, width, height);
 
-    context.fillStyle = '#4576aa';
+    racer.context.fillStyle = '#4576aa';
     cntx.cntxFillRect(0, 0, width, height);
 
     // render background hills, sky, trees
     const playerY = utilInterpolate(playerSegment.p1.world.y, playerSegment.p3.world.y, playerPercent);
-    renderBackground(backgroundLayer3, width, height, bgLayer3Offset, resolution * bgLayer3Speed * playerY);
-    renderBackground(backgroundLayer2, width, height, bgLayer2Offset, resolution * bgLayer2Speed * playerY);
-    renderBackground(backgroundLayer1, width, height, bgLayer1Offset, resolution * bgLayer1Speed * playerY);
+    renderBackground(graphics.backgroundLayer3, width, height, bgLayer3Offset, resolution * bgLayer3Speed * playerY);
+    renderBackground(graphics.backgroundLayer2, width, height, bgLayer2Offset, resolution * bgLayer2Speed * playerY);
+    renderBackground(graphics.backgroundLayer1, width, height, bgLayer1Offset, resolution * bgLayer1Speed * playerY);
 
     /*
       front to back to render the road
@@ -358,7 +359,7 @@ function renderRender() {
     for (let n = 0; n < camera.drawDistance; n++) {
         //    segment        = segments[(baseSegment.index + n) % segments.length];
 
-        let segment = track.getSegment((baseSegment.index + n) % track.getSegmentCount());
+        const segment = racer.track.getSegment((baseSegment.index + n) % racer.track.getSegmentCount());
         segment.looped = segment.index < baseSegment.index;
 
         segment.fog = renderExponentialFog(n / camera.drawDistance, camera.fogDensity);
@@ -388,16 +389,16 @@ function renderRender() {
 
     // NOT OK : SPRITES_CARSTRAIGHT (graphics.js)
     for (let n = (camera.drawDistance - 1); n > 0; n--) {
-        let segment = track.getSegment((baseSegment.index + n) % track.getSegmentCount());
+        const segment = racer.track.getSegment((baseSegment.index + n) % racer.track.getSegmentCount());
         let spriteX, spriteY;
         // draw cars in the segment
         // OK
         for (let i = 0; i < segment.cars.length; i++) {
-            let car = segment.cars[i];
+            const car = segment.cars[i];
 
             if (car.index !== 0) {
                 // sprite = car.sprite;
-                let scale = utilInterpolate(segment.p1.screen.scale, segment.p3.screen.scale, car.percent);
+                const scale = utilInterpolate(segment.p1.screen.scale, segment.p3.screen.scale, car.percent);
 
                 spriteX = utilInterpolate(
                     (segment.p1.screen.x + segment.p2.screen.x) / 2,
@@ -407,13 +408,13 @@ function renderRender() {
 
                 spriteY = utilInterpolate(segment.p1.screen.y, segment.p4.screen.y, car.percent);
 
-                let sprite = SPRITES_CARSTRAIGHT;
-                let spriteScale = car.width * scale / sprite.w;
+                let sprite = graphics.SPRITES_CARSTRAIGHT;
+                const spriteScale = car.width * scale / sprite.w;
 
                 if (car.turnLeft) {
-                    sprite = SPRITES_CARLEFT;
+                    sprite = graphics.SPRITES_CARLEFT;
                 } else if (car.turnRight) {
-                    sprite = SPRITES_CARRIGHT;
+                    sprite = graphics.SPRITES_CARRIGHT;
                 }
 
                 renderSprite(
@@ -429,7 +430,7 @@ function renderRender() {
         // roadside objects
         // OK
         for (let i = 0; i < segment.sprites.length; i++) {
-            let sprite = segment.sprites[i];
+            const sprite = segment.sprites[i];
             let spriteScale = segment.p1.screen.scale;
 
             spriteX = segment.p1.screen.x - segment.p1.world.x * segment.p1.screen.scale * width / 2
@@ -465,8 +466,8 @@ function renderRender() {
             // const collisionw = sprite.source.cw * spriteScale * width / 2;
             spriteX = destX + collisionx;// + collisionx * spriteScale * width / 2;// + spriteScale * collisionx * width / 2;
 
-            //context.fillStyle = '#ff0000';
-            //context.fillRect(spriteX, spriteY - 10, collisionw, 10);
+            //racer.context.fillStyle = '#ff0000';
+            //racer.context.fillRect(spriteX, spriteY - 10, collisionw, 10);
             //-------- COLLISION DISPLAY END ----------- //
         }
 
@@ -480,23 +481,23 @@ function renderRender() {
                 playerSegment.p3.camera.y, playerPercent) * height / 2);
 
 
-        if (cars[PlayerIndex].yOffset > 0) {
-            playerScreenY -= cars[PlayerIndex].yOffset * camera.depth / camera.zOffset * height / 2;
+        if (racer.cars[PlayerIndex].yOffset > 0) {
+            playerScreenY -= racer.cars[PlayerIndex].yOffset * camera.depth / camera.zOffset * height / 2;
         }
 
         // var carX = width / 2;
-        let scale = utilInterpolate(playerSegment.p1.screen.scale, playerSegment.p3.screen.scale, playerPercent);
+        const scale = utilInterpolate(playerSegment.p1.screen.scale, playerSegment.p3.screen.scale, playerPercent);
         spriteX = utilInterpolate(
             (playerSegment.p1.screen.x + playerSegment.p2.screen.x) / 2,
             (playerSegment.p3.screen.x + playerSegment.p4.screen.x) / 2,
             playerPercent)
-            + (scale * cars[PlayerIndex].x * width / 2);
+            + (scale * racer.cars[PlayerIndex].x * width / 2);
 
         const p = {
             world: {
-                x: player.x,
-                y: player.y,
-                z: player.z
+                x: racer.player.x,
+                y: racer.player.y,
+                z: racer.player.z
             },
             camera: {},
             screen: {}
@@ -505,11 +506,11 @@ function renderRender() {
 
         const carX = p.screen.x;
         let playerDirection = 0;
-        if (player.speed > 0) {
-            if (player.driftDirection != 0) {
-                playerDirection = player.driftDirection;
+        if (racer.player.speed > 0) {
+            if (racer.player.driftDirection != 0) {
+                playerDirection = racer.player.driftDirection;
             } else {
-                playerDirection = (player.turnLeft ? -1 : player.turnRight ? 1 : 0);
+                playerDirection = (racer.player.turnLeft ? -1 : racer.player.turnRight ? 1 : 0);
             }
         }
 
@@ -522,8 +523,8 @@ function renderRender() {
             playerSegment.p3.world.y - playerSegment.p1.world.y,
             playerShadowY);
 
-        if (race.state == STATE_RACING) {
-            context.drawImage(track.overheadMap, -40, 200, 400, 400);
+        if (racer.race.state == STATE_RACING) {
+            racer.context.drawImage(racer.track.overheadMap, -40, 200, 400, 400);
         }
     }
 }

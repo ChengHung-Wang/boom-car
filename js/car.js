@@ -2,10 +2,11 @@ import { raceAudioSetTurboTime, raceAudioEngineSpeed, raceAudioCrash } from "./a
 import { PI, mathRand, sin } from "./mathFunctions.js";
 import { utilPercentRemaining, utilIncrease, utilInterpolate } from "./util.js";
 import { STATE_RACEOVER } from "./constants.js";
-import { getTimestamp, track, cars, player, race } from "./racer.js";
 import { Track } from "./track.js";
 import { speak } from "./speech.js";
 import { camera } from "./racer2.js";
+import { width, height } from "./render.js";
+import * as racer from "./racer.js";
 
 export class Car {
   constructor() {
@@ -274,8 +275,8 @@ export class Car {
     //}, playerSegment, playerW) {
     let maxSpeed = this.maxSpeed;
     this.speedPercent = this.speed / this.maxSpeed;
-    const currentSegment = track.findSegment(this.z);
-    const playerSegment = track.findSegment(cars[PlayerIndex].z);
+    const currentSegment = racer.track.findSegment(this.z);
+    const playerSegment = racer.track.findSegment(racer.cars[PlayerIndex].z);
     const speedPercent = this.speedPercent;
     this.percent = utilPercentRemaining(this.z, Track.segmentLength);
 
@@ -392,7 +393,7 @@ export class Car {
 
     this.bounce = this.bounce * mathRand() * speedPercent;
 
-    if (this.index == PlayerIndex && race.state != STATE_RACEOVER) {
+    if (this.index == PlayerIndex && racer.race.state != STATE_RACEOVER) {
       // its the player
 
       this.x =
@@ -411,7 +412,7 @@ export class Car {
       this.z = utilIncrease(
         this.z,
         dt * this.speed * extraSpeed,
-        track.getLength()
+        racer.track.getLength()
       );
 
       this.y = utilInterpolate(
@@ -423,7 +424,7 @@ export class Car {
 
       if (this.accelerate) {
         if (this.turbo) {
-          const time = getTimestamp();
+          const time = racer.getTimestamp();
           if (!turboOn) {
             this.turboStartTime = time;
           }
@@ -461,20 +462,20 @@ export class Car {
             this.slipstreamTime = 0;
           }
           this.speed = maxSpeed / 5;
-          this.z = utilIncrease(playerSegment.p1.world.z, 0, track.getLength()); // stop in front of sprite (at front of segment)
+          this.z = utilIncrease(playerSegment.p1.world.z, 0, racer.track.getLength()); // stop in front of sprite (at front of segment)
           break;
         }
       }
 
       let isBehind = false;
-      for (let i = 0; i < cars.length; i++) {
-        let distance = cars[i].z - player.z;
-        if (player.z > track.getLength() - 1200) {
-          distance -= track.getLength();
+      for (let i = 0; i < racer.cars.length; i++) {
+        let distance = racer.cars[i].z - racer.player.z;
+        if (racer.player.z > racer.track.getLength() - 1200) {
+          distance -= racer.track.getLength();
         }
 
         if (distance > 0 && distance < 1800) {
-          let offCentre = (player.x - cars[i].x) / cars[i].width;
+          let offCentre = (racer.player.x - racer.cars[i].x) / racer.cars[i].width;
           if (offCentre < 0) {
             offCentre = -offCentre;
           }
@@ -504,7 +505,7 @@ export class Car {
       const turnDir = this.updateCarPosition(
         currentSegment,
         playerSegment,
-        player.width
+        racer.player.width
       );
 
       const newX = this.x + turnDir * dx;
@@ -520,11 +521,11 @@ export class Car {
       if (newX + this.width < trackRight * 0.6 && newX > trackLeft * 0.8) {
         this.x = newX;
       }
-      this.z = utilIncrease(this.z, dt * this.speed, track.getLength());
+      this.z = utilIncrease(this.z, dt * this.speed, racer.track.getLength());
     }
 
     this.percent = utilPercentRemaining(this.z, Track.segmentLength); // useful for interpolation during rendering phase
-    const newSegment = track.findSegment(this.z);
+    const newSegment = racer.track.findSegment(this.z);
 
     // check collisions with other cars
     // check other cars
@@ -603,12 +604,12 @@ export class Car {
     //計算當前排名
     const currentPosition = this.position;
     this.position = 1;
-    for (let i = 0; i < cars.length; i++) {
+    for (let i = 0; i < racer.cars.length; i++) {
       if (i != this.index) {
-        if (cars[i].lap > this.lap) {
+        if (racer.cars[i].lap > this.lap) {
           this.position++;
-        } else if (cars[i].lap === this.lap) {
-          if (cars[i].z > this.z) {
+        } else if (racer.cars[i].lap === this.lap) {
+          if (racer.cars[i].z > this.z) {
             this.position++;
           }
         }
@@ -626,7 +627,7 @@ export class Car {
       }
     }
     //this.lap圈數
-    if (this.index === PlayerIndex && this.lap === 3 && race.state != STATE_RACEOVER) {
+    if (this.index === PlayerIndex && this.lap === 3 && racer.race.state != STATE_RACEOVER) {
       // race over!!!
       this.finishPosition = this.getPosition();
       speak("Race. Over.");
@@ -636,7 +637,7 @@ export class Car {
       this.slipstream = 0;
       this.slipstreamTime = 0;
 
-      race.raceOver();
+      racer.race.raceOver();
     }
   }
 
@@ -645,10 +646,10 @@ export class Car {
 
     let segment = null;
 
-    const trackSegments = track.getSegmentCount();
+    const trackSegments = racer.track.getSegmentCount();
 
     for (let i = 1; i < lookAhead; i++) {
-      segment = track.getSegment((carSegment.index + i) % trackSegments);
+      segment = racer.track.getSegment((carSegment.index + i) % trackSegments);
       const trackLeft = segment.p1.world.x;
       const trackRight = segment.p2.world.x;
       let dir = 0;
@@ -688,7 +689,7 @@ export class Car {
 
     if (this.takeCornerOnInside) {
       for (let i = 1; i < lookAhead; i++) {
-        segment = track.getSegment((carSegment.index + i) % trackSegments);
+        segment = racer.track.getSegment((carSegment.index + i) % trackSegments);
         const trackLeft = segment.p1.world.x;
         const trackRight = segment.p2.world.x;
 

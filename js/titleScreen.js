@@ -1,8 +1,9 @@
 import { camera } from './racer2.js'
 import { utilPercentRemaining, utilInterpolate, utilIncrease } from "./util.js";
 import { getTimestamp, track } from "./racer.js";
-import { Track } from './track.js';
-import { outlineOnly, width, height } from './render.js';
+import { Track, laneWidth } from './track.js';
+import { outlineOnly, width, height, renderSegment } from './render.js';
+import { DARKGREY } from './constants.js';
 import * as cntx from './canvasFunctions.js'
 
 // the title screen
@@ -36,8 +37,8 @@ export class TitleScreen {
     camera.depth = 0.83909963117728;
     camera.x = 0;
 
-    let baseSegment = track.findSegment(camera.z);
-    let cameraPercent = utilPercentRemaining(camera.z, Track.segmentLength);
+    const baseSegment = track.findSegment(camera.z);
+    const cameraPercent = utilPercentRemaining(camera.z, Track.segmentLength);
 
     camera.y = 500 + utilInterpolate(baseSegment.p1.world.y,
       baseSegment.p3.world.y,
@@ -45,7 +46,7 @@ export class TitleScreen {
 
     let n, i, segment, car, spriteX, spriteY;
     // var sprite, spriteScale;
-    let dx = 0;
+    const dx = 0;
     for (n = 0; n < camera.drawDistance; n++) {
       segment = track.getSegment((baseSegment.index + n) % track.getSegmentCount());
       segment.looped = segment.index < baseSegment.index;
@@ -72,7 +73,7 @@ export class TitleScreen {
 
   render(dt) {
     cntx.cntx = this.context;
-    let t = getTimestamp();
+    const t = getTimestamp();
 
     cntx.cntxFillStyle(DARKGREY);
     cntx.cntxFillRect(0, 0, this.canvas.width, this.canvas.height);

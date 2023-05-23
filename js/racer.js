@@ -3,7 +3,7 @@ import { Race } from "./race.js";
 
 export const canvas = document.getElementById("gameCanvas");
 export const context = canvas.getContext("2d");
-export let racing = false;
+export const racing = false;
 
 canvas.width = document.documentElement.clientWidth;
 canvas.height = document.documentElement.clientHeight;
