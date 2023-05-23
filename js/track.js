@@ -472,7 +472,7 @@ export class Track {
     //    context.fillRect(0, 0, width, height);
     cntx.cntxClearRect(600, 600);
     cntx.cntxStrokeStyle("#666666");
-    cntx.lineWidth = 5;
+    cntx.cntx.lineWidth = 5;
 
     let angle = 0;
     let x = 300;
