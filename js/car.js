@@ -1,7 +1,7 @@
 import { raceAudioSetTurboTime, raceAudioEngineSpeed, raceAudioCrash } from "./audio.js";
 import { PI, mathRand, sin } from "./mathFunctions.js";
 import { utilPercentRemaining, utilIncrease, utilInterpolate } from "./util.js";
-import { STATE_RACEOVER } from "./constants.js";
+import { STATE_RACEOVER } from "./race.js";
 import { Track } from "./track.js";
 import { speak } from "./speech.js";
 import { width, height } from "./render.js";

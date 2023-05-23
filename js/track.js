@@ -1,6 +1,6 @@
-import { context, canvas, cars } from "./racer";
-import * as mathFunc from "./mathFunctions";
-import * as cntx from "./canvasFunctions";
+import { context, canvas, cars } from "./racer.js";
+import * as mathFunc from "./mathFunctions.js";
+import * as cntx from "./canvasFunctions.js";
 import * as constants from "./constants.js";
 import * as graphics from "./graphics.js";
 

@@ -1,7 +1,6 @@
 import { raceAudioTone, raceAudioEngineSpeed } from "./audio.js";
 import { Car } from "./car.js";
 import { utilPercentRemaining } from "./util.js";
-import { STATE_COUNTDOWN, STATE_PRERACE, STATE_RACING, STATE_RACEOVER } from "../build/constants.js";
 import { cars } from "./racer.js";
 import { speak } from "./speech.js";
 import { Track } from "./track.js";
@@ -18,10 +17,10 @@ let PlayerIndex = 0;
 
 const numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
 
-STATE_PRERACE = 0;
-STATE_COUNTDOWN = 1;
-STATE_RACING = 4;
-STATE_RACEOVER = 5;
+export const STATE_PRERACE = 0;
+export const STATE_COUNTDOWN = 1;
+export const STATE_RACING = 4;
+export const STATE_RACEOVER = 5;
 
 export class Race {
   constructor() {
