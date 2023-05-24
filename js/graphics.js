@@ -5,10 +5,11 @@ const SCRATCHWIDTH = 600;
 const SCRATCHHEIGHT = 600;
 const SPRITESWIDTH = 2400;
 const SPRITESHEIGHT = 2400;
-const OVERHEADTRACKWIDTH = 600;
+const OVERHEADTRACKWIDTH = 200;
 const OVERHEADTRACKHEIGHT = 600;
-
+//車子
 const scratchCanvas = createCanvas(SCRATCHWIDTH, SCRATCHHEIGHT);
+//場上物件
 const sprites = createCanvas(SPRITESWIDTH, SPRITESHEIGHT);
 const spritesCanvas = sprites.c;
 const spritesContext = sprites.x;
@@ -35,6 +36,15 @@ function eraseScratch() {
 // OK
 function createCanvas(width, height) {
   let c = document.createElement("canvas");
+  let x = c.getContext("2d");
+  c.width = width;
+  c.height = height;
+
+  return { c: c, x: x };
+}
+
+function createCanvasMap(width, height) {
+  let c = document.getElementById('map');
   let x = c.getContext("2d");
   c.width = width;
   c.height = height;

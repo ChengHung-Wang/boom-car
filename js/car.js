@@ -1,7 +1,6 @@
 class Car {
   constructor() {
     this.sprite = 0;
-    PlayerIndex = 0;
     this.index = 0;
     this.width = 500; //530; // width
     this.height = 0;

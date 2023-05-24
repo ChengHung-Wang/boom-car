@@ -453,17 +453,17 @@ class Track {
 
   drawMap() {
     if (this.map == null) {
-      this.map = document.createElement("canvas");
+      // this.map = document.createElement("canvas");
+      this.map =document.getElementById('map');
     }
     this.map.width = 600;
-    this.map.height = 600;
+    this.map.height = 400;
     cntx = this.map.getContext("2d");
 
     let width = canvas.width;
     let height = canvas.height;
-    //    context.fillStyle = '#222222';
-    //    context.fillRect(0, 0, width, height);
-    cntxClearRect(600, 600);
+    //無作用
+    cntxClearRect(this.map.width, this.width);
     cntxStrokeStyle("#666666");
     cntx.lineWidth = 5;
 
@@ -507,11 +507,13 @@ class Track {
   }
 
   drawOverheadTrack() {
-    //let canvas = document.getElementById('trackCanvas');
+    
     cntx = overheadTrack.x; //canvas.getContext('2d');
+    // console.log(this)
     this.overheadMap = overheadTrack.c;
 
     cntxClearRect(600, 600);
+    this.drawMap();
     cntxDrawImage(this.map, 0, 0, 600, 600, 0, 0, 600, 600);
 
     // opponents
@@ -533,7 +535,6 @@ class Track {
     //小地圖紅點
     let playerPosition = cars[PlayerIndex].z;
     let playerSegment = this.findSegment(playerPosition);
-
     cntxBeginPath();
     cntxArc(playerSegment.x, playerSegment.y, 5, 0, 2 * PI, false);
     cntxFillStyle("#ff0000");

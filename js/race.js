@@ -245,7 +245,8 @@ class Race {
     let startPosition = camera.z;
 
     for (let i = 0; i < cars.length; i++) {
-      cars[i].update(dt); //, playerSegment, player.width);
+        cars[i].update(dt); //, playerSegment, player.width);
+      
     }
     //  updateCars(dt, playerSegment, player.width);
 
@@ -381,16 +382,7 @@ class Race {
 function ChangeCar(carIndex){
   camera.WatchPlayer(carIndex);
   PlayerIndex = carIndex;
-  // console.log()
-  cars.forEach(item => {
-    if (item.PlayerIndex == n) {
-      player = item;
-    }
-  });
   player = cars[carIndex];
-  // for(let i =0;i<cars.length;++i){
-  //   cars[i].PlayerIndex = n;
-  // }
 }
 //改變車輛最大速度
 function ChangeMaxSpeed(carIndex,Speed){
