@@ -7,8 +7,8 @@ import { Track } from "./track.js";
 import { mathRand } from "./mathFunctions.js";
 import { utilIncrease } from "./util.js";
 import { cntx } from "./canvasFunctions"
+import { constants } from "./constants.js";
 import * as render from "./render.js";
-import * as constants from "./constants.js";
 
 // TODO: let it become module type to solve camera undefined.
 // controls the race

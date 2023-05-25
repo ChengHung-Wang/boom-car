@@ -1,4 +1,4 @@
-import { BACKGROUNDLAYERHEIGHT, BACKGROUNDLAYERWIDTH, MEDIUMGREY, DARKGREY } from "./constants.js";
+import { constants } from "./constants.js";
 import { cntx } from "./canvasFunctions"
 import * as mathFunc from "./mathFunctions.js";
 
@@ -18,16 +18,16 @@ export const spritesCanvas = sprites.c;
 const spritesContext = sprites.x;
 
 export const backgroundLayer3 = createCanvas(
-  BACKGROUNDLAYERWIDTH,
-  BACKGROUNDLAYERHEIGHT
+  constants.BACKGROUNDLAYERWIDTH,
+  constants.BACKGROUNDLAYERHEIGHT
 );
 export const backgroundLayer2 = createCanvas(
-  BACKGROUNDLAYERWIDTH,
-  BACKGROUNDLAYERHEIGHT
+  constants.BACKGROUNDLAYERWIDTH,
+  constants.BACKGROUNDLAYERHEIGHT
 );
 export const backgroundLayer1 = createCanvas(
-  BACKGROUNDLAYERWIDTH,
-  BACKGROUNDLAYERHEIGHT
+  constants.BACKGROUNDLAYERWIDTH,
+  constants.BACKGROUNDLAYERHEIGHT
 );
 export const overheadTrack = createCanvas(OVERHEADTRACKWIDTH, OVERHEADTRACKHEIGHT);
 
@@ -62,20 +62,20 @@ export function resetGraphics() {
   backgroundLayer1.x.clearRect(
     0,
     0,
-    BACKGROUNDLAYERWIDTH,
-    BACKGROUNDLAYERHEIGHT
+    constants.BACKGROUNDLAYERWIDTH,
+    constants.BACKGROUNDLAYERHEIGHT
   );
   backgroundLayer2.x.clearRect(
     0,
     0,
-    BACKGROUNDLAYERWIDTH,
-    BACKGROUNDLAYERHEIGHT
+    constants.BACKGROUNDLAYERWIDTH,
+    constants.BACKGROUNDLAYERHEIGHT
   );
   backgroundLayer3.x.clearRect(
     0,
     0,
-    BACKGROUNDLAYERWIDTH,
-    BACKGROUNDLAYERHEIGHT
+    constants.BACKGROUNDLAYERWIDTH,
+    constants.BACKGROUNDLAYERHEIGHT
   );
 }
 
@@ -232,7 +232,7 @@ export function createTurnArrows() {
   cntx.cntxFillStyle("#996644");
   cntx.cntxFillRect(180, 200, 10, 10);
 
-  cntx.cntxFillStyle(MEDIUMGREY);
+  cntx.cntxFillStyle(constants.MEDIUMGREY);
   cntx.cntxFillRect(10, 10, 180, 180);
   cntx.cntxBeginPath();
   cntx.cntxMoveTo(20, 100);
@@ -242,7 +242,7 @@ export function createTurnArrows() {
   cntx.cntxFillStyle("#cc2211");
   cntx.cntxFill();
 
-  cntx.cntxFillStyle(MEDIUMGREY);
+  cntx.cntxFillStyle(constants.MEDIUMGREY);
   cntx.cntxFillRect(10, 10, 20, 180);
 
   SPRITES_TURNLEFT = newSprite();
@@ -782,15 +782,15 @@ export function createStreetlights(night) {
 // NOT OK : cntx (canvasFunctions.js)
 export function createNightSky() {
   cntx.cntx = backgroundLayer3.x;
-  const xMax = BACKGROUNDLAYERWIDTH;
-  const yMax = BACKGROUNDLAYERHEIGHT;
+  const xMax = constants.BACKGROUNDLAYERWIDTH;
+  const yMax = constants.BACKGROUNDLAYERHEIGHT;
 
   const gradient = cntx.cntxCreateLinearGradient(0, 0, 0, yMax);
   gradient.addColorStop(0, "#00111e");
   gradient.addColorStop(1, "#033d5e");
 
   cntx.cntxFillStyle(gradient); //'#00111e';
-  cntx.cntxFillRect(0, 0, BACKGROUNDLAYERWIDTH, BACKGROUNDLAYERHEIGHT);
+  cntx.cntxFillRect(0, 0, constants.BACKGROUNDLAYERWIDTH, constants.BACKGROUNDLAYERHEIGHT);
 
   const hmTimes = Math.round(xMax + yMax);
   for (let i = 0; i <= hmTimes; i++) {
@@ -933,11 +933,11 @@ function createCar() {
 
   // car tyre
   let points = [8, 194, 11, 206, 14, 214, 18, 216, 41, 215, 46, 213, 47, 205];
-  fillPoints(points, DARKGREY);
+  fillPoints(points, constants.DARKGREY);
 
   // car tyre
   points = [227, 193, 230, 200, 241, 204, 258, 203, 265, 197, 268, 191];
-  fillPoints(points, DARKGREY);
+  fillPoints(points, constants.DARKGREY);
 
   // car body
   points = [
@@ -1065,7 +1065,7 @@ function createCar2() {
 
   // wheel
   points = [13, 197, 16, 205, 23, 208, 49, 207, 56, 202, 58, 197];
-  fillPoints(points, DARKGREY);
+  fillPoints(points, constants.DARKGREY);
 
   // strip under lights
   points = [1, 155, 1, 167, 143, 167, 143, 155];

@@ -2,7 +2,7 @@ import { utilPercentRemaining, utilInterpolate, utilIncrease } from "./util.js";
 import { racer } from "./racer.js";
 import { Track, laneWidth } from './track.js';
 import { outlineOnly, width, height, renderSegment } from './render.js';
-import { DARKGREY } from './constants.js';
+import { constants } from './constants.js';
 import { cntx } from "./canvasFunctions"
 
 // the title screen
@@ -69,7 +69,7 @@ export class TitleScreen {
     cntx.cntx = this.context;
     // const t = getTimestamp();
 
-    cntx.cntxFillStyle(DARKGREY);
+    cntx.cntxFillStyle(constants.DARKGREY);
     cntx.cntxFillRect(0, 0, this.canvas.width, this.canvas.height);
     // for(var i = 0; i < 30; i++) {
     //   var fontSize = 100 + i * 10;

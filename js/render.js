@@ -2,7 +2,7 @@ import { utilPercentRemaining, utilInterpolate } from "./util.js";
 import { STATE_RACING, PlayerIndex } from "./race.js";
 import { cntx } from "./canvasFunctions"
 import { racer } from "./racer.js";
-import * as constants from "./constants.js";
+import { constants } from "./constants.js";
 import * as trackjs from "./track.js";
 import * as graphics from "./graphics.js";
 

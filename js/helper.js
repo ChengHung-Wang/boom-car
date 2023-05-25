@@ -1,4 +1,4 @@
-import { KEYUP, KEYDOWN, KEYLEFT, KEYRIGHT } from "./constants.js";
+import { constants } from "./constants.js";
 import { racer } from "./racer.js";
 
 const { createApp } = Vue;
@@ -38,14 +38,14 @@ const app = createApp(appOption);
 app.use(ElementPlus);
 app.mount("#app");
 
-const arrowRightDown = new KeyboardEvent('keydown', { keyCode: KEYRIGHT });
-const arrowLeftDown = new KeyboardEvent('keydown', { keyCode: KEYLEFT });
-const arrowUpDown = new KeyboardEvent('keydown', { keyCode: KEYUP });
-const arrowDownDown = new KeyboardEvent('keydown', { keyCode: KEYDOWN });
-const arrowRightUp = new KeyboardEvent('keyup', { keyCode: KEYRIGHT });
-const arrowLeftUp = new KeyboardEvent('keyup', { keyCode: KEYLEFT });
-const arrowUpUp = new KeyboardEvent('keyup', { keyCode: KEYUP });
-const arrowDownUp = new KeyboardEvent('keyup', { keyCode: KEYDOWN });
+const arrowRightDown = new KeyboardEvent('keydown', { keyCode: constants.KEYRIGHT });
+const arrowLeftDown = new KeyboardEvent('keydown', { keyCode: constants.KEYLEFT });
+const arrowUpDown = new KeyboardEvent('keydown', { keyCode: constants.KEYUP });
+const arrowDownDown = new KeyboardEvent('keydown', { keyCode: constants.KEYDOWN });
+const arrowRightUp = new KeyboardEvent('keyup', { keyCode: constants.KEYRIGHT });
+const arrowLeftUp = new KeyboardEvent('keyup', { keyCode: constants.KEYLEFT });
+const arrowUpUp = new KeyboardEvent('keyup', { keyCode: constants.KEYUP });
+const arrowDownUp = new KeyboardEvent('keyup', { keyCode: constants.KEYDOWN });
 let RightDown = false;
 let LeftDown = false;
 let UpDown = false;
