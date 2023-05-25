@@ -1,5 +1,5 @@
 import { utilPercentRemaining, utilInterpolate, utilIncrease } from "./util.js";
-import { getTimestamp, track, camera } from "./racer.js";
+import { racer } from "./racer.js";
 import { Track, laneWidth } from './track.js';
 import { outlineOnly, width, height, renderSegment } from './render.js';
 import { DARKGREY } from './constants.js';
@@ -15,51 +15,46 @@ export class TitleScreen {
   }
 
   init() {
-    camera.reset();
-    track.buildTrack0();
+    racer.camera.reset();
+    racer.track.buildTrack0();
   }
 
-  keyDown(e) {
-    // if(e.keyCode === 88) {
-    //   startGame();
-    // }
+  keyDown() {
   }
 
-  keyUp(e) {
-
+  keyUp() {
   }
 
   renderRoad() {
-    outlineOnly = true;
+    outlineOnly.outlineOnly = true;
+
     let maxy = height;
-    camera.y = 400;
-    camera.depth = 0.83909963117728;
-    camera.x = 0;
+    racer.camera.y = 400;
+    racer.camera.depth = 0.83909963117728;
+    racer.camera.x = 0;
 
-    const baseSegment = track.findSegment(camera.z);
-    const cameraPercent = utilPercentRemaining(camera.z, Track.segmentLength);
+    const baseSegment = racer.track.findSegment(racer.camera.z);
+    const cameraPercent = utilPercentRemaining(racer.camera.z, Track.segmentLength);
 
-    camera.y = 500 + utilInterpolate(baseSegment.p1.world.y,
+    racer.camera.y = 500 + utilInterpolate(baseSegment.p1.world.y,
       baseSegment.p3.world.y,
       cameraPercent);
 
-    let n, i, segment, car, spriteX, spriteY;
-    // var sprite, spriteScale;
-    const dx = 0;
-    for (n = 0; n < camera.drawDistance; n++) {
-      segment = track.getSegment((baseSegment.index + n) % track.getSegmentCount());
+    // const dx = 0;
+    for (let n = 0; n < racer.camera.drawDistance; n++) {
+      const segment = racer.track.getSegment((baseSegment.index + n) % racer.track.getSegmentCount());
       segment.looped = segment.index < baseSegment.index;
       segment.clip = maxy;
       segment.clip = 0;
 
-      camera.project(segment.p1, 0, segment.looped, width, height, laneWidth);
-      camera.project(segment.p2, 0, segment.looped, width, height, laneWidth);
-      camera.project(segment.p3, 0, segment.looped, width, height, laneWidth);
-      camera.project(segment.p4, 0, segment.looped, width, height, laneWidth);
+      racer.camera.project(segment.p1, 0, segment.looped, width, height, laneWidth);
+      racer.camera.project(segment.p2, 0, segment.looped, width, height, laneWidth);
+      racer.camera.project(segment.p3, 0, segment.looped, width, height, laneWidth);
+      racer.camera.project(segment.p4, 0, segment.looped, width, height, laneWidth);
 
 
 
-      if ((segment.p1.camera.z <= camera.depth) || // behind us
+      if ((segment.p1.camera.z <= racer.camera.depth) || // behind us
         (segment.p3.screen.y >= segment.p1.screen.y) || // back face cull
         (segment.p3.screen.y >= maxy))                  // clip by (already rendered) hill
         continue;
@@ -72,7 +67,7 @@ export class TitleScreen {
 
   render(dt) {
     cntx.cntx = this.context;
-    const t = getTimestamp();
+    // const t = getTimestamp();
 
     cntx.cntxFillStyle(DARKGREY);
     cntx.cntxFillRect(0, 0, this.canvas.width, this.canvas.height);
@@ -94,8 +89,8 @@ export class TitleScreen {
     // context.font = '44px ' + helvetica;
     // cntxFillText("Arrow keys to drive, x for Turbo, z for Handbrake", 38, 570);
     // cntxFillText("x To Start", 423, 460);
-    // console.log(camera.z, dt*120, track.getLength());
-    camera.z = utilIncrease(camera.z, dt * 120, track.getLength());
+    // console.log(racer.camera.z, dt*120, racer.track.getLength());
+    racer.camera.z = utilIncrease(racer.camera.z, dt * 120, racer.track.getLength());
     this.renderRoad();
   }
 }

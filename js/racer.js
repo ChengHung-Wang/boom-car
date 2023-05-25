@@ -6,87 +6,79 @@ import { raceAudioInit } from "./audio.js";
 import { speak } from "./speech.js";
 import { outlineOnly } from "./render.js";
 
-export const canvas = document.getElementById("gameCanvas");
-export const context = canvas.getContext("2d");
-export let racing = false;
+export const racer = new Object();
 
-canvas.width = document.documentElement.clientWidth;
-canvas.height = document.documentElement.clientHeight;
+racer.canvas = document.getElementById("gameCanvas");
+racer.canvas.width = document.documentElement.clientWidth;
+racer.canvas.height = document.documentElement.clientHeight;
+racer.context = racer.canvas.getContext("2d");
 
-export function getTimestamp() {
+racer.racing = false;
+
+racer.now = racer.getTimestamp();
+racer.last = racer.getTimestamp();
+
+racer.dt = 0;
+racer.gdt = 0;
+
+racer.cars = [];
+racer.player = null;
+racer.camera = new Camera();
+racer.race = new Race();
+racer.track = new Track();
+racer.titleScreen = new TitleScreen(racer.canvas, racer.context);
+
+racer.getTimestamp = function () {
   return performance.now();
 }
 
-export let now = getTimestamp();
-export let last = getTimestamp();
-
-export let dt = 0;
-export let gdt = 0;
-
-export const cars = []; // array of cars on the road
-export const player = null;
-export const race = new Race();
-export const track = new Track();
-
-/*
-let stats = new Stats();
-stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild( stats.dom );
-stats.dom.style.right = 0;
-stats.dom.style.left = 'auto';
-*/
-
-export const camera = new Camera();
-
-export const titleScreen = new TitleScreen(canvas, context);
-
-export function startGame(trackNumber) {
+racer.startGame = function (trackNumber) {
   raceAudioInit();
   speak("Start");
-  racing = true;
-  camera.reset();
-  race.start(trackNumber);
+  racer.racing = true;
+  racer.camera.reset();
+  racer.race.start(trackNumber);
 }
 
 document.addEventListener("keydown", function (e) {
-  if (racing) {
-    race.keyDown(e);
+  if (racer.racing) {
+    racer.race.keyDown(e);
   } else {
-    titleScreen.keyDown(e);
+    racer.titleScreen.keyDown(e);
   }
 });
 
 document.addEventListener("keyup", function (e) {
-  if (racing) {
-    race.keyUp(e);
+  if (racer.racing) {
+    racer.race.keyUp(e);
   } else {
-    titleScreen.keyUp(e);
+    racer.titleScreen.keyUp(e);
   }
 });
 
 function frame() {
   //  stats.begin();
-  now = getTimestamp();
-  dt = Math.min(1, (now - last) / 1000);
-  gdt = gdt + dt;
+  racer.now = racer.getTimestamp();
+  racer.dt = Math.min(1, (racer.now - racer.last) / 1000);
+  racer.gdt = racer.gdt + racer.dt;
   //
-  if (!racing) {
-    titleScreen.render(dt);
-    gdt = 0;
+  if (!racer.racing) {
+    racer.titleScreen.render(racer.dt);
+    racer.gdt = 0;
   }
   else {
-    outlineOnly = false;
+    outlineOnly.outlineOnly = false;
 
     const step = 1 / 180;
-    while (gdt > step) {
-      gdt = gdt - step;
-      race.update(step);
+    while (racer.gdt > step) {
+      racer.gdt = racer.gdt - step;
+      racer.race.update(step);
     }
 
-    track.drawOverheadTrack();
-    race.render();
+    racer.track.drawOverheadTrack();
+    racer.race.render();
 
-    last = now;
+    racer.last = racer.now;
   }
   requestAnimationFrame(frame);
   //  stats.end();

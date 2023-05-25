@@ -1,7 +1,7 @@
 import { raceAudioTone, raceAudioEngineSpeed } from "./audio.js";
 import { Car } from "./car.js";
 import { utilPercentRemaining } from "./util.js";
-import { cars } from "./racer.js";
+import { racer } from "./racer.js";
 import { speak } from "./speech.js";
 import { Track } from "./track.js";
 import { mathRand } from "./mathFunctions.js";
@@ -9,11 +9,10 @@ import { utilIncrease } from "./util.js";
 import { cntx } from "./canvasFunctions"
 import * as render from "./render.js";
 import * as constants from "./constants.js";
-import * as racer from "./racer.js";
 
 // TODO: let it become module type to solve camera undefined.
 // controls the race
-let PlayerIndex = 0;
+export let PlayerIndex = 0;
 
 const numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
 
@@ -67,7 +66,7 @@ export class Race {
     }
 
     this.resetCars();
-    racer.player = cars[PlayerIndex];
+    racer.player = racer.cars[PlayerIndex];
     racer.player.initSlipstreamLines();
     this.state = STATE_PRERACE;
     this.countdownNumber = 4;
@@ -143,7 +142,7 @@ export class Race {
       if (e.keyCode == 88) {
         if (!this.xIsDown) {
           // next race
-          if (cars[PlayerIndex].finishPosition == "1st") {
+          if (racer.cars[PlayerIndex].finishPosition == "1st") {
             this.start(this.raceNumber + 1);
           }
         }
@@ -154,7 +153,7 @@ export class Race {
 
   resetCars() {
     //    resetCars();
-    cars = [];
+    racer.cars = [];
     let car, segment, z, sprite;
     for (let n = 0; n < this.carCount; n++) {
       z = racer.track.getLength() - (this.carCount - n) * Track.segmentLength * 13;
@@ -209,7 +208,7 @@ export class Race {
         }
       }
       segment.cars.push(car);
-      cars.push(car);
+      racer.cars.push(car);
     }
   }
 
@@ -256,27 +255,27 @@ export class Race {
     // const dx = dt * 2 * speedPercent; // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
     const startPosition = racer.camera.z;
 
-    for (let i = 0; i < cars.length; i++) {
-      cars[i].update(dt); //, playerSegment, racer.player.width);
+    for (let i = 0; i < racer.cars.length; i++) {
+      racer.cars[i].update(dt); //, playerSegment, racer.player.width);
     }
     //  updateCars(dt, playerSegment, racer.player.width);
 
     //    racer.player.update(dt);
     racer.camera.update(dt);
 
-    render.bgLayer3Offset = utilIncrease(
+    render.bgLayerSpeed.bgLayer3Offset = utilIncrease(
       render.bgLayer3Offset,
       (render.bgLayer3Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
       Track.segmentLength,
       1
     );
-    render.bgLayer2Offset = utilIncrease(
+    render.bgLayerSpeed.bgLayer2Offset = utilIncrease(
       render.bgLayer2Offset,
       (render.bgLayer2Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
       Track.segmentLength,
       1
     );
-    render.bgLayer1Offset = utilIncrease(
+    render.bgLayerSpeed.bgLayer1Offset = utilIncrease(
       render.bgLayer1Offset,
       (render.bgLayer1Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
       Track.segmentLength,
@@ -368,20 +367,20 @@ export class Race {
       cntx.cntxStroke();
       cntx.cntxFillRect(800, 114, racer.player.turboAmount * 2, 20);
 
-      if (cars[PlayerIndex].newPositionTime > 0) {
+      if (racer.cars[PlayerIndex].newPositionTime > 0) {
         racer.context.font = " 160px " + constants.helvetica;
         cntx.cntxFillStyle(constants.LIGHTGREY);
-        racer.context.fillText(cars[PlayerIndex].getPosition(), 334, 184);
+        racer.context.fillText(racer.cars[PlayerIndex].getPosition(), 334, 184);
       }
     }
 
     if (this.state == STATE_RACEOVER) {
       racer.context.font = " 300px " + constants.helvetica;
       cntx.cntxFillStyle(constants.LIGHTGREY);
-      racer.context.fillText(cars[PlayerIndex].finishPosition, 300, 290); //cars[PlayerIndex].finishPosition, 494, 254);
+      racer.context.fillText(racer.cars[PlayerIndex].finishPosition, 300, 290); //cars[PlayerIndex].finishPosition, 494, 254);
       racer.context.font = " 40px " + constants.helvetica;
       let y = 380;
-      if (cars[PlayerIndex].finishPosition == "1st") {
+      if (racer.cars[PlayerIndex].finishPosition == "1st") {
         racer.context.fillText("x: Next Race", 397, y);
         y += 80;
       }
@@ -394,23 +393,14 @@ export class Race {
 function ChangeCar(carIndex) {
   racer.camera.WatchPlayer(carIndex);
   PlayerIndex = carIndex;
-  // console.log()
-  cars.forEach(item => {
-    if (item.PlayerIndex == n) {
-      racer.player = item;
-    }
-  });
-  racer.player = cars[carIndex];
-  // for(let i =0;i<cars.length;++i){
-  //   cars[i].PlayerIndex = n;
-  // }
+  racer.player = racer.cars[carIndex];
 }
 
 //改變車輛最大速度
 function ChangeMaxSpeed(carIndex, Speed) {
-  cars[carIndex].maxSpeed = Speed;
+  racer.cars[carIndex].maxSpeed = Speed;
 }
 
 function getCarSpeed(carIndex) {
-  return cars[carIndex].speed;
+  return racer.cars[carIndex].speed;
 }

@@ -1,10 +1,10 @@
 import { utilPercentRemaining, utilInterpolate } from "./util.js";
-import { STATE_RACING } from "./race.js";
+import { STATE_RACING, PlayerIndex } from "./race.js";
 import { cntx } from "./canvasFunctions"
+import { racer } from "./racer.js";
 import * as constants from "./constants.js";
 import * as trackjs from "./track.js";
 import * as graphics from "./graphics.js";
-import * as racer from "./racer.js";
 
 // draw all the race stuff to the screen
 export let width = document.documentElement.clientWidth;
@@ -18,7 +18,8 @@ addEventListener("resize", () => {
 });
 
 // titleScreen.js racer.js
-export let outlineOnly = false;
+export const outlineOnly = new Object();
+outlineOnly.outlineOnly = false
 
 function renderPolygon(x1, y1, x2, y2, x3, y3, x4, y4, color) {
     cntx.cntxFillStyle(color);
@@ -28,7 +29,7 @@ function renderPolygon(x1, y1, x2, y2, x3, y3, x4, y4, color) {
     cntx.cntxLineTo(x3, y3);
     cntx.cntxLineTo(x4, y4);
     cntx.cntxClosePath();
-    if (outlineOnly) {
+    if (outlineOnly.outlineOnly) {
         cntx.cntxStrokeStyle(constants.MEDIUMGREY);
         cntx.cntxStroke();
     } else {
@@ -45,7 +46,7 @@ export function renderSegment(segment) {
     const landColor = dark ? trackjs.COLORS_LANDDARK : trackjs.COLORS_LANDLIGHT;
 
     // draw side land
-    if (!outlineOnly) {
+    if (!outlineOnly.outlineOnly) {
         cntx.cntxFillStyle(landColor);
         cntx.cntxFillRect(0, segment.p3.screen.y, width, segment.p1.screen.y - segment.p3.screen.y);
     }
@@ -76,7 +77,7 @@ export function renderSegment(segment) {
         kerbColor);
 
     // road
-    if (!outlineOnly) {
+    if (!outlineOnly.outlineOnly) {
         const colour = (segment.index == 0) ? trackjs.MEDIUMGREY : trackjs.COLORS_ROAD;
         renderPolygon(
             segment.p1.screen.x,
@@ -210,7 +211,7 @@ function renderExponentialFog(distance, density) {
 
 let lastDriftDraw = 0;
 // NOT OK : SPRITES_CARLEFT, SPRITES_CARRIGHT, SPRITES_CARSTRAIGHT (graphics.js)
-function renderPlayer(scale, destX, destY, steer, updown, playerShadowY) {
+function renderPlayer(scale, destX, destY, steer) {
     let sprite;
     if (steer < 0) {
         sprite = graphics.SPRITES_CARLEFT;
@@ -317,9 +318,10 @@ export const bgLayer3Offset = 0;
 export const bgLayer2Offset = 0;
 export const bgLayer1Offset = 0;
 
-export const bgLayer3Speed = 0.001;
-export const bgLayer2Speed = 0.002;
-export const bgLayer1Speed = 0.003;
+export const bgLayerSpeed = new Object();
+bgLayerSpeed.bgLayer3Speed = 0.001;
+bgLayerSpeed.bgLayer2Speed = 0.002;
+bgLayerSpeed.bgLayer1Speed = 0.003;
 
 // NOT OK : cntx (canvasFunctions.js)
 //          bgLayer3Offset, bgLayer2Offset, bgLayer1Offset (race.js)
@@ -339,9 +341,9 @@ export function renderRender() {
 
     // render background hills, sky, trees
     const playerY = utilInterpolate(playerSegment.p1.world.y, playerSegment.p3.world.y, playerPercent);
-    renderBackground(graphics.backgroundLayer3, width, height, bgLayer3Offset, resolution * bgLayer3Speed * playerY);
-    renderBackground(graphics.backgroundLayer2, width, height, bgLayer2Offset, resolution * bgLayer2Speed * playerY);
-    renderBackground(graphics.backgroundLayer1, width, height, bgLayer1Offset, resolution * bgLayer1Speed * playerY);
+    renderBackground(graphics.backgroundLayer3, width, height, bgLayer3Offset, resolution * bgLayerSpeed.bgLayer3Speed * playerY);
+    renderBackground(graphics.backgroundLayer2, width, height, bgLayer2Offset, resolution * bgLayerSpeed.bgLayer2Speed * playerY);
+    renderBackground(graphics.backgroundLayer1, width, height, bgLayer1Offset, resolution * bgLayerSpeed.bgLayer1Speed * playerY);
 
     /*
       front to back to render the road

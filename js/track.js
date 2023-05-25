@@ -1,7 +1,8 @@
-import { context, canvas, cars } from "./racer.js";
-import * as mathFunc from "./mathFunctions.js";
+import { racer } from "./racer.js";
 import { cntx } from "./canvasFunctions"
 import { constants } from "./constants.js";
+import { PlayerIndex } from "./race.js";
+import * as mathFunc from "./mathFunctions.js";
 import * as graphics from "./graphics.js";
 
 // define the tracks in the game
@@ -466,10 +467,11 @@ export class Track {
     this.map.height = 600;
     cntx.cntx = this.map.getContext("2d");
 
-    const width = canvas.width;
-    const height = canvas.height;
-    //    context.fillStyle = '#222222';
-    //    context.fillRect(0, 0, width, height);
+    // const width = canvas.width;
+    // const height = canvas.height;
+    // racer.context.fillStyle = '#222222';
+    // racer.context.fillRect(0, 0, width, height);
+
     cntx.cntxClearRect(600, 600);
     cntx.cntxStrokeStyle("#666666");
     cntx.cntx.lineWidth = 5;
@@ -499,7 +501,7 @@ export class Track {
 
     // draw the start line
     segmentDrawLength = 4;
-    context.lineWidth = 3;
+    racer.context.lineWidth = 3;
     cntx.cntxStrokeStyle(constants.LIGHTGREY);
     cntx.cntxBeginPath();
     angle = ((this.segments[0].angle + 90) / 180) * mathFunc.PI;
@@ -522,8 +524,8 @@ export class Track {
     cntx.cntxDrawImage(this.map, 0, 0, 600, 600, 0, 0, 600, 600);
 
     // opponents
-    for (let i = 0; i < cars.length; i++) {
-      const carPosition = cars[i].z;
+    for (let i = 0; i < racer.cars.length; i++) {
+      const carPosition = racer.cars[i].z;
       const segment = this.findSegment(carPosition);
 
       cntx.cntxBeginPath();
@@ -538,7 +540,7 @@ export class Track {
 
     // camera z position plus player z position from camera
     //小地圖紅點
-    const playerPosition = cars[PlayerIndex].z;
+    const playerPosition = racer.cars[PlayerIndex].z;
     const playerSegment = this.findSegment(playerPosition);
 
     cntx.cntxBeginPath();
@@ -546,7 +548,7 @@ export class Track {
     cntx.cntxFillStyle("#ff0000");
     cntx.cntxFill();
 
-    context.lineWidth = 2;
+    racer.context.lineWidth = 2;
     cntx.cntxStrokeStyle(constants.MEDIUMGREY);
     cntx.cntxStroke();
   }

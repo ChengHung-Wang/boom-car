@@ -1,16 +1,15 @@
 import { raceAudioSetTurboTime, raceAudioEngineSpeed, raceAudioCrash } from "./audio.js";
 import { PI, mathRand, sin } from "./mathFunctions.js";
 import { utilPercentRemaining, utilIncrease, utilInterpolate } from "./util.js";
-import { STATE_RACEOVER } from "./race.js";
+import { STATE_RACEOVER, PlayerIndex } from "./race.js";
 import { Track } from "./track.js";
 import { speak } from "./speech.js";
 import { width, height } from "./render.js";
-import * as racer from "./racer.js";
+import { racer } from "./racer.js";
 
 export class Car {
   constructor() {
     this.sprite = 0;
-    PlayerIndex = 0;
     this.index = 0;
     this.width = 500; //530; // width
     this.height = 0;
@@ -664,7 +663,7 @@ export class Car {
           const otherCar = segment.cars[n];
 
           const otherCarLeft = otherCar.x;
-          const otherCarWidth = otherCar.width;
+          // const otherCarWidth = otherCar.width;
           const otherCarRight = otherCar.x + otherCar.width;
 
           if (trackRight - otherCarRight < this.width * 1.4) {
@@ -689,8 +688,8 @@ export class Car {
     if (this.takeCornerOnInside) {
       for (let i = 1; i < lookAhead; i++) {
         segment = racer.track.getSegment((carSegment.index + i) % trackSegments);
-        const trackLeft = segment.p1.world.x;
-        const trackRight = segment.p2.world.x;
+        // const trackLeft = segment.p1.world.x;
+        // const trackRight = segment.p2.world.x;
 
         if (segment.curve > 0) {
           // move to the right

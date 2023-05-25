@@ -1,7 +1,7 @@
 import { KEYUP, KEYDOWN, KEYLEFT, KEYRIGHT } from "./constants.js";
-import * as racer from "./racer.js";
+import { racer } from "./racer.js";
 
-const { createApp } = Vue
+const { createApp } = Vue;
 const appOption = {
     data() {
         return {
@@ -34,7 +34,7 @@ const appOption = {
     }
 }
 
-const app = createApp(appOption)
+const app = createApp(appOption);
 app.use(ElementPlus);
 app.mount("#app");
 

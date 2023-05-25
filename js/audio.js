@@ -1,4 +1,4 @@
-import { getTimestamp, player } from "./racer.js";
+import { racer } from "./racer.js";
 
 let audioCtx = null;
 let noiseBuffer = null;
@@ -37,7 +37,7 @@ export function raceAudioInit() {
       for (let i = 0; i < channel.length; ++i) {
         // skip more data frames on higher speed
 
-        if (player.turbo) {
+        if (racer.player.turbo) {
           audioEngineFrame += audioScriptSpeed + Math.random();
           audioTurboFrame += audioTurboSpeed;
           index = Math.floor(audioTurboFrame) % audioTurboData.length;
@@ -51,7 +51,7 @@ export function raceAudioInit() {
           channel[i] = audioEngineData[index] + Math.random() * 0.01;
         }
 
-        if (player.slipstreamTime > 0) {
+        if (racer.player.slipstreamTime > 0) {
           channel[i] += Math.random() * 0.4;
         }
         //channel[i] += audioEngineData[index] + Math.random() * 0.01;
@@ -162,7 +162,7 @@ export function raceAudioEngineSpeed(speed) {
 let lastCrashTime = 0;
 
 export function raceAudioCrash() {
-  const crashTime = getTimestamp();
+  const crashTime = racer.getTimestamp();
   if (crashTime - lastCrashTime < 1000) {
     return;
 

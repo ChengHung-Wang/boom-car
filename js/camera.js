@@ -1,5 +1,5 @@
 import { utilPercentRemaining, utilInterpolate } from "./util.js";
-import { track, cars } from "./racer.js";
+import { racer } from "./racer.js";
 import { Track } from "./track.js";
 
 export class Camera {
@@ -25,7 +25,7 @@ export class Camera {
   project(p, cameraXOffset, looped, width, height) {
     let cameraZ = this.z;
     if (looped) {
-      cameraZ -= track.getLength();
+      cameraZ -= racer.track.getLength();
     }
     const cameraX = this.x + cameraXOffset;
 
@@ -43,15 +43,15 @@ export class Camera {
   }
 
   update() {
-    this.z = cars[this.playern].z - this.zOffset;
+    this.z = racer.cars[this.playern].z - this.zOffset;
     if (this.z < 0) {
-      this.z += track.getLength();
+      this.z += racer.track.getLength();
     }
 
-    this.x = cars[this.playern].x + cars[this.playern].width / 2;
+    this.x = racer.cars[this.playern].x + racer.cars[this.playern].width / 2;
 
-    const playerSegment = track.findSegment(cars[this.playern].z);
-    const playerPercent = utilPercentRemaining(cars[this.playern].z, Track.segmentLength);
+    const playerSegment = racer.track.findSegment(racer.cars[this.playern].z);
+    const playerPercent = utilPercentRemaining(racer.cars[this.playern].z, Track.segmentLength);
 
     this.y =
       this.yOffset +
