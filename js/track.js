@@ -1,5 +1,5 @@
 import { racer } from "./racer.js";
-import { cntx } from "./canvasFunctions"
+import { cntx } from "./canvasFunctions.js";
 import { constants } from "./constants.js";
 import { PlayerIndex } from "./race.js";
 import * as mathFunc from "./mathFunctions.js";

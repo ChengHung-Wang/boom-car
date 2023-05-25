@@ -15,6 +15,10 @@ racer.context = racer.canvas.getContext("2d");
 
 racer.racing = false;
 
+racer.getTimestamp = function () {
+  return performance.now();
+}
+
 racer.now = racer.getTimestamp();
 racer.last = racer.getTimestamp();
 
@@ -27,10 +31,6 @@ racer.camera = new Camera();
 racer.race = new Race();
 racer.track = new Track();
 racer.titleScreen = new TitleScreen(racer.canvas, racer.context);
-
-racer.getTimestamp = function () {
-  return performance.now();
-}
 
 racer.startGame = function (trackNumber) {
   raceAudioInit();

@@ -1,4 +1,4 @@
-export let Vue = (function (exports) {
+var Vue = (function (exports) {
   'use strict';
 
   function makeMap(str, expectsLowerCase) {

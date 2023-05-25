@@ -1,6 +1,6 @@
 import { utilPercentRemaining, utilInterpolate } from "./util.js";
 import { STATE_RACING, PlayerIndex } from "./race.js";
-import { cntx } from "./canvasFunctions"
+import { cntx } from "./canvasFunctions.js";
 import { racer } from "./racer.js";
 import { constants } from "./constants.js";
 import * as trackjs from "./track.js";

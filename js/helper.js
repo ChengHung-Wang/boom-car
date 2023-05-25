@@ -1,5 +1,4 @@
 import { racer } from "./racer.js";
-import { Vue } from "./vue.global.js";
 // import { constants } from "./constants.js";
 
 const { createApp } = Vue;

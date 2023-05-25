@@ -1,5 +1,5 @@
 import { constants } from "./constants.js";
-import { cntx } from "./canvasFunctions"
+import { cntx } from "./canvasFunctions.js"
 import * as mathFunc from "./mathFunctions.js";
 
 // generate graphics used in the game

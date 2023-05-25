@@ -3,7 +3,7 @@ import { racer } from "./racer.js";
 import { Track, laneWidth } from './track.js';
 import { outlineOnly, width, height, renderSegment } from './render.js';
 import { constants } from './constants.js';
-import { cntx } from "./canvasFunctions"
+import { cntx } from "./canvasFunctions.js";
 
 // the title screen
 
