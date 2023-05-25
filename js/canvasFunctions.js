@@ -57,7 +57,7 @@ cntx.cntxFillText = function (t, x, y) {
 }
 
 cntx.cntxSave = function () {
-  cntx.save();
+  cntx.cntx.save();
 }
 
 cntx.cntxRestore = function () {
