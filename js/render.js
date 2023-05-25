@@ -1,6 +1,6 @@
 import { utilPercentRemaining, utilInterpolate } from "./util.js";
 import { STATE_RACING } from "./race.js";
-import * as cntx from './canvasFunctions.js'
+import { cntx } from "./canvasFunctions"
 import * as constants from "./constants.js";
 import * as trackjs from "./track.js";
 import * as graphics from "./graphics.js";
@@ -20,8 +20,6 @@ addEventListener("resize", () => {
 // titleScreen.js racer.js
 export let outlineOnly = false;
 
-// draw a polygon
-// NOT OK : outlineOnly
 function renderPolygon(x1, y1, x2, y2, x3, y3, x4, y4, color) {
     cntx.cntxFillStyle(color);
     cntx.cntxBeginPath();

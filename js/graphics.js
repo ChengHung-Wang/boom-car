@@ -1,5 +1,5 @@
 import { BACKGROUNDLAYERHEIGHT, BACKGROUNDLAYERWIDTH, MEDIUMGREY, DARKGREY } from "./constants.js";
-import * as cntx from "./canvasFunctions.js";
+import { cntx } from "./canvasFunctions"
 import * as mathFunc from "./mathFunctions.js";
 
 // generate graphics used in the game
@@ -31,12 +31,12 @@ export const backgroundLayer1 = createCanvas(
 );
 export const overheadTrack = createCanvas(OVERHEADTRACKWIDTH, OVERHEADTRACKHEIGHT);
 
-// OK
+
 function eraseScratch() {
   scratchCanvas.x.clearRect(0, 0, SCRATCHWIDTH, SCRATCHHEIGHT);
 }
 
-// OK
+
 function createCanvas(width, height) {
   const c = document.createElement("canvas");
   const x = c.getContext("2d");
@@ -46,12 +46,12 @@ function createCanvas(width, height) {
   return { c: c, x: x };
 }
 
-// NOT OK : newSprite
+
 let spriteDstX = 0;
 let spriteDstY = 0;
 let spriteMaxRowHeight = 0;
 
-// NOT OK : spriteDstX, spriteDstY, spriteMaxRowHeight
+
 export function resetGraphics() {
   spriteDstX = 0;
   spriteDstY = 0;
@@ -79,7 +79,7 @@ export function resetGraphics() {
   );
 }
 
-// OK
+
 export function drawFuzzyCircle(x, y, r, c) {
   cntx.cntxFillStyle(c);
   let angle = 0;
@@ -95,7 +95,7 @@ export function drawFuzzyCircle(x, y, r, c) {
   cntx.cntxFill();
 }
 
-// OK
+
 function getScratchSpriteBounds() {
   // get the bounds
   const data = scratchCanvas.x.getImageData(
@@ -168,7 +168,6 @@ function getScratchSpriteBounds() {
 }
 
 // create a sprite from the scratch canvas, put into new sprites
-// OK
 function newSprite(flipH) {
   // get the bounds
   const bounds = getScratchSpriteBounds();
@@ -218,7 +217,6 @@ function newSprite(flipH) {
 }
 
 // ***************** TURN ARROWS ******************** //
-// NOT OK : cntx (canvasFunctions.js)
 export let SPRITES_TURNLEFT = 0;
 export let SPRITES_TURNRIGHT = 0;
 export function createTurnArrows() {
@@ -252,7 +250,6 @@ export function createTurnArrows() {
 }
 
 // ***************** BACKGROUND TREES ******************** //
-// OK
 function smallTree(width, slope) {
   const points = [];
   let y = 0,
@@ -271,7 +268,6 @@ function smallTree(width, slope) {
   return points;
 }
 
-// NOT OK : cntx (canvasFunctions.js)
 export function createBackgroundTrees() {
   cntx.cntx = backgroundLayer1.x;
 
@@ -424,8 +420,6 @@ function terrain(startX) {
     cntx.cntxLineTo(x, heightOffset - highlightBackpoints[t]);
     if (mathFunc.mathRand() > 0.4) {
       x--;
-    } else if (mathFunc.mathRand() > 0.4) {
-      x++;
     }
   }
   cntx.cntxClosePath();
@@ -929,13 +923,6 @@ function fillPoints(points, color) {
   cntx.cntxFill();
 }
 
-// OK
-function drawLine(x1, y1, x2, y2) {
-  cntx.cntxBeginPath();
-  cntx.cntxMoveTo(x1, y1);
-  cntx.cntxLineTo(x2, y2);
-  cntx.cntx.stroke();
-}
 
 // NOT OK : cntx (canvasFunctions.js)
 export let SPRITES_CARLEFT = 0;

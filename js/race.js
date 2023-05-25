@@ -6,7 +6,7 @@ import { speak } from "./speech.js";
 import { Track } from "./track.js";
 import { mathRand } from "./mathFunctions.js";
 import { utilIncrease } from "./util.js";
-import * as cntx from "./canvasFunctions.js";
+import { cntx } from "./canvasFunctions"
 import * as render from "./render.js";
 import * as constants from "./constants.js";
 import * as racer from "./racer.js";

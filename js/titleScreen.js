@@ -3,7 +3,7 @@ import { getTimestamp, track, camera } from "./racer.js";
 import { Track, laneWidth } from './track.js';
 import { outlineOnly, width, height, renderSegment } from './render.js';
 import { DARKGREY } from './constants.js';
-import * as cntx from './canvasFunctions.js'
+import { cntx } from "./canvasFunctions"
 
 // the title screen
 
