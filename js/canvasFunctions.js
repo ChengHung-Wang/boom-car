@@ -1,4 +1,5 @@
 export const cntx = {};
+
 cntx.cntx = null;
 
 cntx.cntxClearRect = function (width, height) {
@@ -8,6 +9,7 @@ cntx.cntxClearRect = function (width, height) {
 cntx.cntxGlobalAlpha = function (alpha) {
   cntx.cntx.globalAlpha = alpha;
 }
+
 cntx.cntxFillRect = function (x, y, width, height) {
   cntx.cntx.fillRect(x, y, width, height);
 }
