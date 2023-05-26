@@ -17,7 +17,7 @@ export class Camera {
   }
 
   reset() {
-    this.depth = 1 / Math.tan(((this.fieldOfView / 2) * Math.PI) / 180);
+    this.depth = 1 / Math.tan((this.fieldOfView / 2) * Math.PI / 180);
     this.yOffset = 1740;
     this.zOffset = 1500;
   }
@@ -31,15 +31,11 @@ export class Camera {
 
     p.camera.x = (p.world.x || 0) - cameraX;
     p.camera.y = (p.world.y || 0) - this.y;
-    p.camera.z = (p.world.z || 0) - cameraZ; //this.z;
+    p.camera.z = (p.world.z || 0) - cameraZ;
     p.screen.scale = this.depth / p.camera.z;
 
-    p.screen.x = Math.round(
-      width / 2 + (p.screen.scale * p.camera.x * width) / 2
-    );
-    p.screen.y = Math.round(
-      height / 2 - (p.screen.scale * p.camera.y * height) / 2
-    );
+    p.screen.x = Math.round((width / 2) + (p.screen.scale * p.camera.x * width / 2));
+    p.screen.y = Math.round((height / 2) - (p.screen.scale * p.camera.y * height / 2));
   }
 
   update() {
@@ -48,7 +44,7 @@ export class Camera {
       this.z += racer.track.getLength();
     }
 
-    this.x = racer.cars[this.playern].x + racer.cars[this.playern].width / 2;
+    racer.camera.x = racer.cars[this.playern].x + racer.cars[this.playern].width / 2;
 
     const playerSegment = racer.track.findSegment(racer.cars[this.playern].z);
     const playerPercent = utilPercentRemaining(racer.cars[this.playern].z, Track.segmentLength);

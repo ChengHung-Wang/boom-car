@@ -89,7 +89,7 @@ function raceAudioCreateTurboBuffer() {
 }
 
 function raceAudioCreateEngineBuffer() {
-  const bufferSize = 1024;//2 * audioCtx.sampleRate;
+  const bufferSize = 1024;
   audioEngineData = [];
 
   let lastValue = 1;
@@ -132,7 +132,7 @@ export function raceAudioTone(freq, duration) {
 
   osc.connect(gain);
   gain.connect(audioCtx.destination);
-  osc.type = "triangle";//"sawtooth";
+  osc.type = "triangle";
   osc.frequency.value = freq;
   gain.gain.value = 0.1;
   osc.start(audioCtx.currentTime);
