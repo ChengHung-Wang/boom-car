@@ -6,7 +6,7 @@ import { raceAudioInit } from "./audio.js";
 import { speak } from "./speech.js";
 import { outlineOnly } from "./render.js";
 
-export const racer = new Object();
+export const racer = {};
 
 racer.canvas = document.getElementById("gameCanvas");
 racer.canvas.width = document.documentElement.clientWidth;
@@ -39,6 +39,8 @@ racer.startGame = function (trackNumber) {
   racer.camera.reset();
   racer.race.start(trackNumber);
 }
+
+racer.titleScreen.init();
 
 document.addEventListener("keydown", function (e) {
   if (racer.racing) {
