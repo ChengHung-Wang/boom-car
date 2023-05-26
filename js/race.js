@@ -251,32 +251,28 @@ export class Race {
 
   updateRace(dt) {
     const playerSegment = racer.track.findSegment(racer.player.z);
-    // const speedPercent = player.speedPercent; //player.speed / maxSpeed;
-    // const dx = dt * 2 * speedPercent; // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
     const startPosition = racer.camera.z;
 
     for (let i = 0; i < racer.cars.length; i++) {
-      racer.cars[i].update(dt); //, playerSegment, racer.player.width);
+      racer.cars[i].update(dt);
     }
-    //  updateCars(dt, playerSegment, racer.player.width);
 
-    //    racer.player.update(dt);
     racer.camera.update(dt);
 
-    render.bgLayer3Offset = utilIncrease(
-      render.bgLayer3Offset,
+    render.bgLayerOffset.bgLayer3Offset = utilIncrease(
+      render.bgLayerOffset.bgLayer3Offset,
       (render.bgLayerSpeed.bgLayer3Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
       Track.segmentLength,
       1
     );
-    render.bgLayer2Offset = utilIncrease(
-      render.bgLayer2Offset,
+    render.bgLayerOffset.bgLayer2Offset = utilIncrease(
+      render.bgLayerOffset.bgLayer2Offset,
       (render.bgLayerSpeed.bgLayer2Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
       Track.segmentLength,
       1
     );
-    render.bgLayer1Offset = utilIncrease(
-      render.bgLayer1Offset,
+    render.bgLayerOffset.bgLayer1Offset = utilIncrease(
+      render.bgLayerOffset.bgLayer1Offset,
       (render.bgLayerSpeed.bgLayer1Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
       Track.segmentLength,
       1
@@ -303,7 +299,6 @@ export class Race {
   render() {
     render.renderRender();
     if (this.state == STATE_PRERACE) {
-      //      racer.context.font = "120px \"Courier New\", Courier, monospace";
       racer.context.font = "italic bold 350px " + constants.helvetica;
 
       if (this.countdownNumber < 4) {

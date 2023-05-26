@@ -16,9 +16,10 @@ bgLayerSpeed.bgLayer3Speed = 0.001;
 bgLayerSpeed.bgLayer2Speed = 0.002;
 bgLayerSpeed.bgLayer1Speed = 0.003;
 
-export const bgLayer3Offset = 0;
-export const bgLayer2Offset = 0;
-export const bgLayer1Offset = 0;
+export const bgLayerOffset = {};
+bgLayerOffset.bgLayer3Offset = 0;
+bgLayerOffset.bgLayer2Offset = 0;
+bgLayerOffset.bgLayer1Offset = 0;
 
 export const outlineOnly = {};
 outlineOnly.outlineOnly = false
@@ -49,7 +50,7 @@ function renderPolygon(x1, y1, x2, y2, x3, y3, x4, y4, color) {
 
 // draw a segment, coordinates passed in are screen coordinates
 export function renderSegment(segment) {
-    let lanew1, lanew2, lanex1, lanex2, lanes;
+    let lanew1, lanew2, lanex1, lanex2
     const dark = Math.floor(segment.index / 2) % 2;
 
     const kerbColor = dark ? trackjs.COLORS_KERBDARK : trackjs.COLORS_KERBLIGHT;
@@ -134,7 +135,7 @@ export function renderSegment(segment) {
         constants.COLORS_LANEMARKER);
 
     // lane marker
-    lanes = 2;
+    const lanes = 2;
     if (dark) { //segment.color.laneMarker) {
         lanew1 = (segment.p2.screen.x - segment.p1.screen.x) / lanes;
         lanew2 = (segment.p3.screen.x - segment.p4.screen.x) / lanes;
@@ -290,7 +291,6 @@ function renderPlayer(scale, destX, destY, steer) {
     }
 }
 
-// OK
 function renderFog(x, y, width, height, fog) {
     if (fog < 1) {
         cntx.cntxGlobalAlpha(1 - fog)
@@ -300,12 +300,6 @@ function renderFog(x, y, width, height, fog) {
     }
 }
 
-// race.js
-
-
-// NOT OK : cntx (canvasFunctions.js)
-//          bgLayer3Offset, bgLayer2Offset, bgLayer1Offset (race.js)
-//          backgroundLayer3, backgroundLayer2, backgroundLayer1 (graphics.js)
 export function renderRender() {
     cntx.cntx = racer.context;
 
@@ -323,9 +317,9 @@ export function renderRender() {
     cntx.cntxFillRect(0, 0, width, height);
 
     // render background hills, sky, trees
-    renderBackground(graphics.backgroundLayer3, width, height, bgLayer3Offset, resolution * bgLayerSpeed.bgLayer3Speed * playerY);
-    renderBackground(graphics.backgroundLayer2, width, height, bgLayer2Offset, resolution * bgLayerSpeed.bgLayer2Speed * playerY);
-    renderBackground(graphics.backgroundLayer1, width, height, bgLayer1Offset, resolution * bgLayerSpeed.bgLayer1Speed * playerY);
+    renderBackground(graphics.backgroundLayer3, width, height, bgLayerOffset.bgLayer3Offset, resolution * bgLayerSpeed.bgLayer3Speed * playerY);
+    renderBackground(graphics.backgroundLayer2, width, height, bgLayerOffset.bgLayer2Offset, resolution * bgLayerSpeed.bgLayer2Speed * playerY);
+    renderBackground(graphics.backgroundLayer1, width, height, bgLayerOffset.bgLayer1Offset, resolution * bgLayerSpeed.bgLayer1Speed * playerY);
 
     /*
       front to back to render the road

@@ -9,10 +9,7 @@ import { outlineOnly } from "./render.js";
 export const racer = {};
 
 racer.canvas = document.getElementById("gameCanvas");
-racer.canvas.width = document.documentElement.clientWidth;
-racer.canvas.height = document.documentElement.clientHeight;
 racer.context = racer.canvas.getContext("2d");
-
 racer.racing = false;
 
 racer.getTimestamp = function () {
