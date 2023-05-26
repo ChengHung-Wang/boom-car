@@ -165,12 +165,12 @@ function renderBackground(background, width, height, rotation, offset) {
     rotation = rotation || 0;
     offset = offset || 0;
 
-    const imageW = racer.BACKGROUNDLAYERWIDTH / 2;
-    const imageH = racer.BACKGROUNDLAYERHEIGHT;
+    const imageW = graphics.BACKGROUNDLAYERWIDTH / 2;
+    const imageH = graphics.BACKGROUNDLAYERHEIGHT;
 
-    const sourceX = Math.floor(racer.BACKGROUNDLAYERWIDTH * rotation);
+    const sourceX = Math.floor(graphics.BACKGROUNDLAYERWIDTH * rotation);
     const sourceY = 0;
-    const sourceW = Math.min(imageW, racer.BACKGROUNDLAYERWIDTH - sourceX);
+    const sourceW = Math.min(imageW, graphics.BACKGROUNDLAYERWIDTH - sourceX);
     const sourceH = imageH;
 
     const destX = 0;
