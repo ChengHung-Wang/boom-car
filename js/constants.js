@@ -1,4 +1,4 @@
-export const constants = new Object();
+export const constants = {};
 constants.KEYUP = 38;
 constants.KEYDOWN = 40;
 constants.KEYLEFT = 37;

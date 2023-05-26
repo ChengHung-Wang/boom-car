@@ -18,7 +18,7 @@ addEventListener("resize", () => {
 });
 
 // titleScreen.js racer.js
-export const outlineOnly = new Object();
+export const outlineOnly = {};
 outlineOnly.outlineOnly = false
 
 function renderPolygon(x1, y1, x2, y2, x3, y3, x4, y4, color) {
@@ -78,7 +78,7 @@ export function renderSegment(segment) {
 
     // road
     if (!outlineOnly.outlineOnly) {
-        const colour = (segment.index == 0) ? trackjs.MEDIUMGREY : trackjs.COLORS_ROAD;
+        const colour = (segment.index == 0) ? constants.MEDIUMGREY : trackjs.COLORS_ROAD;
         renderPolygon(
             segment.p1.screen.x,
             segment.p1.screen.y,

@@ -11,7 +11,9 @@ export function utilIncrease(start, increment, max) {
 
   while (result >= max)
     result -= max;
+
   while (result < 0)
     result += max;
+
   return result;
 }

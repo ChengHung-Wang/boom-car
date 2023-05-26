@@ -59,11 +59,10 @@ document.addEventListener("keyup", function (e) {
 });
 
 function frame() {
-  //  stats.begin();
   racer.now = racer.getTimestamp();
   racer.dt = Math.min(1, (racer.now - racer.last) / 1000);
   racer.gdt = racer.gdt + racer.dt;
-  //
+
   if (!racer.racing) {
     racer.titleScreen.render(racer.dt);
     racer.gdt = 0;
@@ -83,7 +82,6 @@ function frame() {
     racer.last = racer.now;
   }
   requestAnimationFrame(frame);
-  //  stats.end();
 }
 
 frame();
