@@ -26,7 +26,7 @@ export class Track {
   static segmentLength = 300;
 
   buildTrack0() {
-    constants.COLORS_FOG = 0;
+    graphics.COLORS_FOG.COLORS_FOG = 0;
 
     this.segments = [];
     this.addStraight(200);
@@ -112,8 +112,8 @@ export class Track {
     COLORS_LANDLIGHT = "#047804";
     COLORS_LANDDARK = "#006A00";
 
-    constants.COLORS_LANEMARKER = constants.MEDIUMGREY;
-    constants.COLORS_FOG = 0;
+    constants.COLORS_LANEMARKER = graphics.MEDIUMGREY;
+    graphics.COLORS_FOG.COLORS_FOG = 0;
 
     graphics.resetGraphics();
     graphics.createTurnArrows();
@@ -156,8 +156,8 @@ export class Track {
 
     COLORS_LANDLIGHT = "#047804";
     COLORS_LANDDARK = "#006A00";
-    constants.COLORS_LANEMARKER = constants.MEDIUMGREY;
-    constants.COLORS_FOG = 0;
+    constants.COLORS_LANEMARKER = graphics.MEDIUMGREY;
+    graphics.COLORS_FOG.COLORS_FOG = 0;
 
     graphics.resetGraphics();
     graphics.createCars();
@@ -204,8 +204,8 @@ export class Track {
     COLORS_LANDLIGHT = "#5a5a5a";
     COLORS_LANDDARK = "#626262";
 
-    constants.COLORS_LANEMARKER = constants.MEDIUMGREY;
-    constants.COLORS_FOG = 0; //'#eeeeee';
+    constants.COLORS_LANEMARKER = graphics.MEDIUMGREY;
+    graphics.COLORS_FOG.COLORS_FOG = 0;
 
     graphics.resetGraphics();
     graphics.createCars();
@@ -243,17 +243,15 @@ export class Track {
   buildTrack4() {
     COLORS_ROAD = "#111111";
     constants.COLORS_LANEMARKER = "#555555";
-    constants.COLORS_FOG = "#000000";
+    graphics.COLORS_FOG.COLORS_FOG = "#000000";
     COLORS_LANDLIGHT = "#090909";
     COLORS_LANDDARK = "#030303";
 
     graphics.resetGraphics();
     graphics.createCars();
     graphics.createBuildings(true);
-    // createTurnArrows();
     graphics.createStreetlights(true);
     graphics.createBackgroundBuildings(true);
-    // createBackgroundMountains();
     graphics.createNightSky();
 
     this.addStraight(100);
@@ -495,14 +493,14 @@ export class Track {
 
     cntx.cntxStroke();
 
-    cntx.cntxStrokeStyle(constants.LIGHTGREY);
+    cntx.cntxStrokeStyle(graphics.LIGHTGREY);
     cntx.cntx.lineWidth = 4;
     cntx.cntxStroke();
 
     // draw the start line
     segmentDrawLength = 4;
     racer.context.lineWidth = 3;
-    cntx.cntxStrokeStyle(constants.LIGHTGREY);
+    cntx.cntxStrokeStyle(graphics.LIGHTGREY);
     cntx.cntxBeginPath();
     angle = ((this.segments[0].angle + 90) / 180) * mathFunc.PI;
     x -= segmentDrawLength * mathFunc.cos(angle);
@@ -531,7 +529,7 @@ export class Track {
       cntx.cntxBeginPath();
 
       cntx.cntxArc(segment.x, segment.y, 5, 0, 2 * mathFunc.PI, false);
-      cntx.cntxFillStyle(constants.DARKGREY);
+      cntx.cntxFillStyle(graphics.DARKGREY);
       cntx.cntxFill();
       cntx.cntx.lineWidth = 2;
       cntx.cntxStrokeStyle("#999999");
@@ -549,7 +547,7 @@ export class Track {
     cntx.cntxFill();
 
     racer.context.lineWidth = 2;
-    cntx.cntxStrokeStyle(constants.MEDIUMGREY);
+    cntx.cntxStrokeStyle(graphics.MEDIUMGREY);
     cntx.cntxStroke();
   }
 }

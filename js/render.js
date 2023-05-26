@@ -41,7 +41,7 @@ function renderPolygon(x1, y1, x2, y2, x3, y3, x4, y4, color) {
     cntx.cntxLineTo(x4, y4);
     cntx.cntxClosePath();
     if (outlineOnly.outlineOnly) {
-        cntx.cntxStrokeStyle(constants.MEDIUMGREY);
+        cntx.cntxStrokeStyle(graphics.MEDIUMGREY);
         cntx.cntxStroke();
     } else {
         cntx.cntxFill();
@@ -89,7 +89,7 @@ export function renderSegment(segment) {
 
     // road
     if (!outlineOnly.outlineOnly) {
-        const colour = (segment.index == 0) ? constants.MEDIUMGREY : trackjs.COLORS_ROAD;
+        const colour = (segment.index == 0) ? graphics.MEDIUMGREY : trackjs.COLORS_ROAD;
         renderPolygon(
             segment.p1.screen.x,
             segment.p1.screen.y,
@@ -155,7 +155,7 @@ export function renderSegment(segment) {
         }
     }
 
-    if (constants.COLORS_FOG != 0) {
+    if (graphics.COLORS_FOG.COLORS_FOG != 0) {
         renderFog(0, segment.p1.screen.y, width, segment.p3.screen.y - segment.p1.screen.y, segment.fog);
     }
 }
@@ -203,7 +203,7 @@ function renderSprite(sprite, scale, destX, destY, clipY, fog) {
             destW,
             destH - clipH);
 
-        if (fog !== false && constants.COLORS_FOG != 0) {
+        if (fog !== false && graphics.COLORS_FOG.COLORS_FOG != 0) {
             renderFog(destX, destY, destW, destH, fog);
         }
     }
@@ -248,7 +248,7 @@ function renderPlayer(scale, destX, destY, steer) {
             for (let j = 1; j < points.length; ++j) {
                 cntx.cntxLineTo(points[j].screen.x, points[j].screen.y);
             }
-            cntx.cntxFillStyle(constants.MEDIUMGREY);
+            cntx.cntxFillStyle(graphics.MEDIUMGREY);
             cntx.cntxFill();
         }
         cntx.cntxGlobalAlpha(1);
@@ -266,7 +266,7 @@ function renderPlayer(scale, destX, destY, steer) {
         const time = racer.getTimestamp();
         if (time - lastDriftDraw > 100) {
             cntx.cntxGlobalAlpha(0.8);
-            cntx.cntxFillStyle(constants.MEDIUMGREY);
+            cntx.cntxFillStyle(graphics.MEDIUMGREY);
             let x = destX + 12;
             const y = destY - 4;
             cntx.cntxFillRect(x, y, 50, 10)
@@ -294,7 +294,7 @@ function renderPlayer(scale, destX, destY, steer) {
 function renderFog(x, y, width, height, fog) {
     if (fog < 1) {
         cntx.cntxGlobalAlpha(1 - fog)
-        cntx.cntxFillStyle(constants.COLORS_FOG);
+        cntx.cntxFillStyle(graphics.COLORS_FOG.COLORS_FOG);
         cntx.cntxFillRect(x, y, width, height);
         cntx.cntxGlobalAlpha(1);
     }

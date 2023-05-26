@@ -1,56 +1,64 @@
-import { constants } from "./constants.js";
 import { cntx } from "./canvasFunctions.js"
 import * as mathFunc from "./mathFunctions.js";
-
-// generate graphics used in the game
 
 // constants
 const SCRATCHWIDTH = 600;
 const SCRATCHHEIGHT = 600;
 const SPRITESWIDTH = 2400;
 const SPRITESHEIGHT = 2400;
+const BACKGROUNDLAYERWIDTH = 600;
+const BACKGROUNDLAYERHEIGHT = 600;
 const OVERHEADTRACKWIDTH = 600;
 const OVERHEADTRACKHEIGHT = 600;
-
 const scratchCanvas = createCanvas(SCRATCHWIDTH, SCRATCHHEIGHT);
 const sprites = createCanvas(SPRITESWIDTH, SPRITESHEIGHT);
 export const spritesCanvas = sprites.c;
 const spritesContext = sprites.x;
-
 export const backgroundLayer3 = createCanvas(
-  constants.BACKGROUNDLAYERWIDTH,
-  constants.BACKGROUNDLAYERHEIGHT
+  BACKGROUNDLAYERWIDTH,
+  BACKGROUNDLAYERHEIGHT
 );
 export const backgroundLayer2 = createCanvas(
-  constants.BACKGROUNDLAYERWIDTH,
-  constants.BACKGROUNDLAYERHEIGHT
+  BACKGROUNDLAYERWIDTH,
+  BACKGROUNDLAYERHEIGHT
 );
 export const backgroundLayer1 = createCanvas(
-  constants.BACKGROUNDLAYERWIDTH,
-  constants.BACKGROUNDLAYERHEIGHT
+  BACKGROUNDLAYERWIDTH,
+  BACKGROUNDLAYERHEIGHT
 );
 export const overheadTrack = createCanvas(OVERHEADTRACKWIDTH, OVERHEADTRACKHEIGHT);
+export let SPRITES_STREETLIGHTLEFT = 0;
+export let SPRITES_STREETLIGHTRIGHT = 0;
+export let SPRITES_CARLEFT = 0;
+export let SPRITES_CARRIGHT = 0;
+export let SPRITES_CARSTRAIGHT = 0;
+export let SPRITES_TURNLEFT = 0;
+export let SPRITES_TURNRIGHT = 0;
+export let SPRITES_FLOWERS = 0;
+let SPRITES_BUILDINGS = [];
 
+export const COLORS_FOG = {};
+COLORS_FOG.COLORS_FOG = 0;
+
+export const DARKGREY = "#333333";
+export const MEDIUMGREY = "cccccc";
+export const LIGHTGREY = "e5e5e5";
 
 function eraseScratch() {
   scratchCanvas.x.clearRect(0, 0, SCRATCHWIDTH, SCRATCHHEIGHT);
 }
 
-
 function createCanvas(width, height) {
   const c = document.createElement("canvas");
-  const x = c.getContext("2d");
   c.width = width;
   c.height = height;
-
+  const x = c.getContext("2d");
   return { c: c, x: x };
 }
-
 
 let spriteDstX = 0;
 let spriteDstY = 0;
 let spriteMaxRowHeight = 0;
-
 
 export function resetGraphics() {
   spriteDstX = 0;
@@ -62,39 +70,38 @@ export function resetGraphics() {
   backgroundLayer1.x.clearRect(
     0,
     0,
-    constants.BACKGROUNDLAYERWIDTH,
-    constants.BACKGROUNDLAYERHEIGHT
+    BACKGROUNDLAYERWIDTH,
+    BACKGROUNDLAYERHEIGHT
   );
   backgroundLayer2.x.clearRect(
     0,
     0,
-    constants.BACKGROUNDLAYERWIDTH,
-    constants.BACKGROUNDLAYERHEIGHT
+    BACKGROUNDLAYERWIDTH,
+    BACKGROUNDLAYERHEIGHT
   );
   backgroundLayer3.x.clearRect(
     0,
     0,
-    constants.BACKGROUNDLAYERWIDTH,
-    constants.BACKGROUNDLAYERHEIGHT
+    BACKGROUNDLAYERWIDTH,
+    BACKGROUNDLAYERHEIGHT
   );
 }
 
 
 export function drawFuzzyCircle(x, y, r, c) {
-  cntx.cntxFillStyle(c);
   let angle = 0;
+  cntx.cntxFillStyle(c);
   let radius = r + r * mathFunc.mathRand();
   cntx.cntxBeginPath();
   cntx.cntxMoveTo(x + radius * mathFunc.cos(angle), y + radius * mathFunc.sin(angle));
-  for (let i = 1; i < 30; i++) {
-    angle = (i * mathFunc.PI * 2) / 30;
+  for (let i = 1; i < 30; ++i) {
+    angle = i * mathFunc.PI * 2 / 30;
     radius = r + r * mathFunc.mathRand();
     cntx.cntxLineTo(x + radius * mathFunc.cos(angle), y + radius * mathFunc.sin(angle));
   }
   cntx.cntxClosePath();
   cntx.cntxFill();
 }
-
 
 function getScratchSpriteBounds() {
   // get the bounds
@@ -103,20 +110,21 @@ function getScratchSpriteBounds() {
     0,
     scratchCanvas.c.width,
     scratchCanvas.c.height
-  ); // get image data for canvas
+  );
+  // get image data for canvas
   const buffer32 = new Uint32Array(data.data.buffer); // get a 32-bit representation
 
   const w = scratchCanvas.c.width;
   const h = scratchCanvas.c.height;
-  let x1 = w,
-    y1 = h,
-    x2 = 0,
-    y2 = 0; // min/max values
+  let x1 = w;
+  let y1 = h;
+  let x2 = 0;
+  let y2 = 0;
   // get left edge
 
-  for (let testY = 0; testY < h; testY++) {
+  for (let testY = 0; testY < h; ++testY) {
     // line by line
-    for (let testX = 0; testX < w; testX++) {
+    for (let testX = 0; testX < w; ++testX) {
       // 0 to width
       if (buffer32[testX + testY * w] > 0) {
         // non-transparent pixel?
@@ -137,14 +145,14 @@ function getScratchSpriteBounds() {
   }
 
   // work out collision box for bottom 100 pixels.
-  const collisionYStart = Math.max(y2 - 50, 0);
-  // if (collisionYStart < 0) {
-  //   collisionYStart = 0;
-  // }
+  let collisionYStart = y2 - 50;
+  if (collisionYStart < 0) {
+    collisionYStart = 0;
+  }
   let cx1 = w,
     cx2 = 0;
-  for (let testY = collisionYStart; testY < y2; testY++) {
-    for (let testX = 0; testX < w; testX++) {
+  for (let testY = collisionYStart; testY < y2; ++testY) {
+    for (let testX = 0; testX < w; ++testX) {
       if (buffer32[testX + testY * w] > 0) {
         // non-transparent pixel?
         if (testX < cx1) {
@@ -169,6 +177,8 @@ function getScratchSpriteBounds() {
 
 // create a sprite from the scratch canvas, put into new sprites
 function newSprite(flipH) {
+  const fh = flipH || 0;
+
   // get the bounds
   const bounds = getScratchSpriteBounds();
 
@@ -185,7 +195,7 @@ function newSprite(flipH) {
   spritesContext.save();
   let dstX = spriteDstX;
 
-  if (flipH || 0) {
+  if (fh) {
     spritesContext.scale(-1, 1);
     dstX = -spriteDstX - bounds.w;
     bounds.cx = bounds.w - bounds.cx - bounds.cw;
@@ -213,12 +223,11 @@ function newSprite(flipH) {
     cw: bounds.cw,
   };
   spriteDstX += bounds.w + 5;
+
   return result;
 }
 
 // ***************** TURN ARROWS ******************** //
-export let SPRITES_TURNLEFT = 0;
-export let SPRITES_TURNRIGHT = 0;
 export function createTurnArrows() {
   cntx.cntx = scratchCanvas.x;
   eraseScratch();
@@ -232,7 +241,7 @@ export function createTurnArrows() {
   cntx.cntxFillStyle("#996644");
   cntx.cntxFillRect(180, 200, 10, 10);
 
-  cntx.cntxFillStyle(constants.MEDIUMGREY);
+  cntx.cntxFillStyle(MEDIUMGREY);
   cntx.cntxFillRect(10, 10, 180, 180);
   cntx.cntxBeginPath();
   cntx.cntxMoveTo(20, 100);
@@ -242,7 +251,7 @@ export function createTurnArrows() {
   cntx.cntxFillStyle("#cc2211");
   cntx.cntxFill();
 
-  cntx.cntxFillStyle(constants.MEDIUMGREY);
+  cntx.cntxFillStyle(MEDIUMGREY);
   cntx.cntxFillRect(10, 10, 20, 180);
 
   SPRITES_TURNLEFT = newSprite();
@@ -252,10 +261,10 @@ export function createTurnArrows() {
 // ***************** BACKGROUND TREES ******************** //
 function smallTree(width, slope) {
   const points = [];
-  let y = 0,
-    index = 1;
-  points[index] = 0;
-  for (let i = 0; i < width; i++) {
+  let y = 0;
+  let index = 1;
+  points[index++] = 0;
+  for (let i = 0; i < width; ++i) {
     y = y + mathFunc.mathRand() * slope;
     points[index++] = y;
   }
@@ -275,22 +284,17 @@ export function createBackgroundTrees() {
   let colours = ["#114433", "#114e33", "#115433", "#113433", "#114433"];
 
   let sx = 0;
-  // OK
-  for (let j = 0; j < 4; j++) {
+  for (let j = 0; j < 4; ++j) {
     let x = sx;
     const width = 10 + 40 * mathFunc.mathRand();
 
-    // OK
     for (let i = 0; i < width; i++) {
-      // get the points
-
       const terPoints = smallTree(8, 7);
-      //var terPoints = terrain(width, height, height / 2, 0.6);
       const colour = mathFunc.mathRandInt(colours.length);
       cntx.cntxFillStyle(colours[colour]);
       cntx.cntxBeginPath();
       cntx.cntxMoveTo(x, 240 - terPoints[0]);
-      for (let t = 1; t < terPoints.length; t++) {
+      for (let t = 1; t < terPoints.length; ++t) {
         cntx.cntxLineTo(x + t, 240 - terPoints[t]);
       }
       // finish creating the rect so we can fill it
@@ -302,17 +306,15 @@ export function createBackgroundTrees() {
 
     colours = ["#226639", "#115e33", "#316433", "#215433", "#114433"];
 
-    // OK
+    x = sx;
     for (let i = 0; i < width; i++) {
       // get the points
-
       const terPoints = smallTree(4, 4);
-      // var terPoints = terrain(width, height, height / 2, 0.6);
       const colour = mathFunc.mathRandInt(colours.length);
       cntx.cntxFillStyle(colours[colour]);
       cntx.cntxBeginPath();
       cntx.cntxMoveTo(x, 240 - terPoints[0]);
-      for (let t = 1; t < terPoints.length; t++) {
+      for (let t = 1; t < terPoints.length; ++t) {
         cntx.cntxLineTo(x + t, 240 - terPoints[t]);
       }
       cntx.cntxClosePath();
@@ -325,22 +327,20 @@ export function createBackgroundTrees() {
 }
 
 // **** BACKGROUND MOUNTAIN RANGE ******** //
-// NOT OK : cntx (canvasFunctions.js)
 function terrain(startX) {
-  //}, width, height, displace, roughness) {
   cntx.cntx = backgroundLayer2.x;
 
   const points = [];
   const highlightpoints = [];
   const highlightpoints2 = [];
   const highlightBackpoints2 = [];
-
-  // var across = 20 * 100 * mathFunc.mathRand();
-  let multiplier = 0.1 + 3 * mathFunc.mathRand();
   let y = 0;
   let index = 0;
-  // OK
-  for (let i = 0; i < 100; i++) {
+  let multiplier = 1;
+
+  multiplier = 0.1 + 3 * mathFunc.mathRand();
+  let across = 5 + 8 * mathFunc.mathRand();
+  for (let i = 0; i < 100; ++i) {
     y = y + mathFunc.mathRand() * multiplier;
     points[index] = y;
     highlightpoints[index] = y;
@@ -348,8 +348,6 @@ function terrain(startX) {
     multiplier += 0.01;
   }
 
-  let across = 5 + 8 * mathFunc.mathRand();
-  // OK
   for (let i = 0; i < across; i++) {
     y = y + (0.4 - mathFunc.mathRand()) * 2;
     highlightpoints[index] = y;
@@ -357,22 +355,19 @@ function terrain(startX) {
   }
 
   const highlightBackpoints = [];
-  // OK
-  for (let highlightY = y; highlightY > 0;) {
+  let highlightY = y;
+  while (highlightY > 0) {
     highlightY -= mathFunc.mathRand() * 5;
     highlightBackpoints.push(highlightY);
   }
 
   across = (mathFunc.mathRand() > 0.6 ? 160 : 20) * mathFunc.mathRand();
-  // OK
-  for (let i = 0; i < across; i++) {
+
+  for (let i = 0; i < across; ++i) {
     y = y + (0.4 - mathFunc.mathRand()) * 2;
     points[index++] = y;
   }
 
-  //  multiplier = 1;
-  //  for(var i = 0; i < 100; i++) {
-  // OK
   while (y > 0) {
     y = y - mathFunc.mathRand() * multiplier;
     points[index++] = y;
@@ -382,25 +377,23 @@ function terrain(startX) {
     }
   }
 
-  // OK
-  let highlightY;
-  for (let i = 0; i < highlightpoints.length - 20; i++) {
+  for (let i = 0; i < highlightpoints.length - 20; ++i) {
     highlightY = highlightpoints[i] + mathFunc.mathRand();
     highlightpoints2.push(highlightY);
   }
 
-  // OK
-  for (let i = 0; i < highlightpoints2.length - 10; i++) {
+  for (let i = 0; i < highlightpoints2.length - 10; ++i) {
     highlightY -= mathFunc.mathRand() * 2;
     highlightBackpoints2.push(highlightY);
   }
 
   const heightOffset = 260;
+
   let x = startX;
   cntx.cntxFillStyle("#114433");
   cntx.cntxBeginPath();
   cntx.cntxMoveTo(x, heightOffset - points[0]);
-  for (let t = 1; t < points.length; t++) {
+  for (let t = 1; t < points.length; ++t) {
     cntx.cntxLineTo(x + t, heightOffset - points[t]);
   }
   cntx.cntxClosePath();
@@ -415,8 +408,7 @@ function terrain(startX) {
     x++;
   }
 
-  // OK
-  for (let t = 1; t < highlightBackpoints.length; t++) {
+  for (let t = 1; t < highlightBackpoints.length; ++t) {
     cntx.cntxLineTo(x, heightOffset - highlightBackpoints[t]);
     if (mathFunc.mathRand() > 0.4) {
       x--;
@@ -430,7 +422,7 @@ function terrain(startX) {
   cntx.cntxFillStyle("#335a3a");
   cntx.cntxBeginPath();
   cntx.cntxMoveTo(x, heightOffset - highlightpoints2[0]);
-  for (let t = 1; t < highlightpoints2.length; t++) {
+  for (let t = 1; t < highlightpoints2.length; ++t) {
     cntx.cntxLineTo(x, heightOffset - highlightpoints2[t]);
     x++;
   }
@@ -450,17 +442,15 @@ function terrain(startX) {
   return points;
 }
 
-// OK
 export function createBackgroundMountains() {
   let x = 0;
-  for (let i = 0; i < 20; i++) {
-    terrain(x); //, width, height, height / 2, 0.6);
+  for (let i = 0; i < 20; ++i) {
+    terrain(x);
     x += 3 + mathFunc.mathRand() * 100;
   }
 }
 
 // *********   TREES *********** //
-// OK
 const tree = {
   leavesColor: "",
 
@@ -507,14 +497,15 @@ const tree = {
   },
 };
 
-// NOT OK : SPRITES_TREES (track.js)
 export let SPRITES_TREES = [];
 export function createTrees() {
   SPRITES_TREES = [];
 
   // NOT OK : SPRITES_TREES (track.js)
-  for (let ti = 0; ti < 6; ti++) {
-    for (let treeOK = false, c = 0; !treeOK; c++) {
+  for (let ti = 0; ti < 6; ++ti) {
+    let treeOK = false;
+    let c = 0;
+    while (!treeOK) {
       cntx.cntx = scratchCanvas.x;
       scratchCanvas.x.save();
       eraseScratch();
@@ -522,42 +513,38 @@ export function createTrees() {
       const bounds = getScratchSpriteBounds();
       treeOK = (bounds.w < 300 && bounds.h < 400) || c > 5;
       scratchCanvas.x.restore();
+      c++;
     }
     SPRITES_TREES[ti] = newSprite();
   }
 }
 
 // ***************** BACKGROUND BUILDINGS ******************** //
-
-// NOT OK : cntx (canvasFunctions.js)
 function backgroundBuilding(x, type, buildingColor, windowColor) {
   cntx.cntx = backgroundLayer1.x;
 
-  const windowSpacing = 2; //2;
+  let buildingHeight = 30;
+  let buildingWidth = 20;
 
-  let windowWidth = 1; //3;
-  let windowHeight = 1; //3;
+  const windowSpacing = 2;
+  let windowWidth = 1;
+  let windowHeight = 1;
   let windowColumns = 4;
   let windowRows = 8;
-  let buildingHeight = 30; //40 ;
-  let buildingWidth = 20; //25;
 
   if (type == 1) {
-    //    windowSpacing = 2;
-    windowWidth = 2; //8;
+    windowWidth = 2;
     windowHeight = 2;
     windowColumns = 3;
     windowRows = 10;
-    buildingHeight = 40; //60;
-    buildingWidth = 25; //30;
+    buildingHeight = 40;
+    buildingWidth = 25;
   } else if (type == 2) {
-    //    windowSpacing = 2;
-    windowWidth = 4; //26;
-    //    windowHeight = 1;
+    windowWidth = 4;
     windowColumns = 2;
     windowRows = 6;
-    buildingHeight = 20; //40;
-    buildingWidth = 18; //30;
+    buildingHeight = 20;
+    buildingWidth = 18;
   }
 
   const yOffset = 260;
@@ -590,9 +577,9 @@ function backgroundBuilding(x, type, buildingColor, windowColor) {
     );
   }
 
-  for (let row = 0; row < windowRows; row++) {
+  for (let row = 0; row < windowRows; ++row) {
     const wy = windowSpacing + row * (windowHeight + windowSpacing);
-    for (let col = 0; col < windowColumns; col++) {
+    for (let col = 0; col < windowColumns; ++col) {
       const wx = windowSpacing + col * (windowWidth + windowSpacing);
       cntx.cntxFillStyle(windowColor);
       cntx.cntxFillRect(
@@ -605,11 +592,11 @@ function backgroundBuilding(x, type, buildingColor, windowColor) {
   }
 }
 
-// OK
 export function createBackgroundBuildings(night) {
   let buildingColor = night ? "#060606" : "#777799";
   let windowColor = night ? "#929156" : "#9999ee";
-  for (let i = 0, x = 0; i < 80; i++) {
+
+  for (let i = 0, x = 0; i < 80; ++i) {
     const n = mathFunc.mathRand();
     if (n < 0.4) {
       backgroundBuilding(x, 0, buildingColor, windowColor);
@@ -637,12 +624,9 @@ export function createBackgroundBuildings(night) {
 }
 
 // ------------ building     --------------
-// NOT OK : cntx (canvasFunctions.js)
-//          SPRITES_BUILDINGS (track.js)
-export let SPRITES_BUILDINGS = [];
 export function createBuildings(night) {
   SPRITES_BUILDINGS = [];
-  for (let ti = 0; ti < 4; ti++) {
+  for (let ti = 0; ti < 4; ++ti) {
     eraseScratch();
     cntx.cntx = scratchCanvas.x;
     const grey = night ? 10 + mathFunc.mathRand() * 20 : 100 + mathFunc.mathRand() * 80;
@@ -685,7 +669,6 @@ export function createBuildings(night) {
           }
         } else {
           cntx.cntxFillStyle("#5555a7");
-          //ctx.filter = 'blur(1px)';
           cntx.cntxFillRect(x, y, windowWidth, windowHeight);
           cntx.cntxFillStyle("#444495");
           cntx.cntxFillRect(x, y + windowHeight / 2, windowWidth, windowHeight / 2);
@@ -697,20 +680,12 @@ export function createBuildings(night) {
 }
 
 // ***************** STREET LIGHTS ******************** //
-
-// NOT OK : cntx (canvasFunctions.js)
-export let SPRITES_STREETLIGHTLEFT = 0;
-export let SPRITES_STREETLIGHTRIGHT = 0;
 export function createStreetlights(night) {
   cntx.cntx = scratchCanvas.x;
   eraseScratch();
   cntx.cntxSave();
 
-  if (night) {
-    cntx.cntxFillStyle("#555555");
-  } else {
-    cntx.cntxFillStyle("#999999");
-  }
+  night ? cntx.cntxFillStyle("#555555") : cntx.cntxFillStyle("#999999");
 
   const poleWidth = 7;
 
@@ -725,11 +700,8 @@ export function createStreetlights(night) {
   cntx.cntxFillRect(70, 150 - 30, 70, poleWidth);
   cntx.cntxFillRect(130, 150 - 30 - 1, 35, 6);
 
-  if (night) {
-    cntx.cntxFillStyle("#777777");
-  } else {
-    cntx.cntxFillStyle("#aaaaaa");
-  }
+  night ? cntx.cntxFillStyle("#777777") : cntx.cntxFillStyle("#aaaaaa");
+
   cntx.cntxFillRect(40 + poleWidth - 4, 150, 2, 300);
   cntx.cntxFillRect(70, 150 - 30 + poleWidth - 4, 70, 2);
 
@@ -740,11 +712,8 @@ export function createStreetlights(night) {
   cntx.cntxLineTo(70 - 30, 150);
   cntx.cntxFill();
 
-  if (night) {
-    cntx.cntxFillStyle("#999999");
-  } else {
-    cntx.cntxFillStyle("#aaaaaa");
-  }
+  night ? cntx.cntxFillStyle("#999999") : cntx.cntxFillStyle("#aaaaaa");
+
   cntx.cntxFillRect(40 + poleWidth - 2, 150, 2, 300);
   cntx.cntxFillRect(70, 150 - 30 + poleWidth - 2, 70, 2);
 
@@ -771,29 +740,25 @@ export function createStreetlights(night) {
     cntx.cntxGlobalAlpha(1);
   }
 
-  //  cntx.filter = null;
-  //  cntx.globalCompositeOperation = 'source-over';
-
   SPRITES_STREETLIGHTLEFT = newSprite();
   SPRITES_STREETLIGHTRIGHT = newSprite(1);
   cntx.cntxRestore();
 }
 
-// NOT OK : cntx (canvasFunctions.js)
 export function createNightSky() {
+  const xMax = BACKGROUNDLAYERWIDTH;
+  const yMax = BACKGROUNDLAYERHEIGHT;
   cntx.cntx = backgroundLayer3.x;
-  const xMax = constants.BACKGROUNDLAYERWIDTH;
-  const yMax = constants.BACKGROUNDLAYERHEIGHT;
 
   const gradient = cntx.cntxCreateLinearGradient(0, 0, 0, yMax);
   gradient.addColorStop(0, "#00111e");
   gradient.addColorStop(1, "#033d5e");
 
-  cntx.cntxFillStyle(gradient); //'#00111e';
-  cntx.cntxFillRect(0, 0, constants.BACKGROUNDLAYERWIDTH, constants.BACKGROUNDLAYERHEIGHT);
+  cntx.cntxFillStyle(gradient);
+  cntx.cntxFillRect(0, 0, BACKGROUNDLAYERWIDTH, BACKGROUNDLAYERHEIGHT);
 
   const hmTimes = Math.round(xMax + yMax);
-  for (let i = 0; i <= hmTimes; i++) {
+  for (let i = 0; i <= hmTimes; ++i) {
     const randomX = mathFunc.mathRandInt(xMax);
     const randomY = mathFunc.mathRandInt(yMax);
     const randomSize = mathFunc.mathRandInt(2) + 1;
@@ -816,7 +781,6 @@ export function createNightSky() {
   }
 }
 
-// NOT OK : PI (mathFunctions.js)
 function createLeaf(s) {
   cntx.cntxFillStyle(s);
   cntx.cntxBeginPath();
@@ -828,11 +792,10 @@ function createLeaf(s) {
   cntx.cntxFill();
 }
 
-// NOT OK : cntx (canvasFunctions.js)
-export let SPRITES_FLOWERS = 0;
 export function createFlowers() {
   eraseScratch();
   cntx.cntx = scratchCanvas.x;
+  const canvas = scratchCanvas.c;
   cntx.cntx.save();
 
   const leafGradient = cntx.cntxCreateLinearGradient(0, 0, 0, 8);
@@ -851,10 +814,8 @@ export function createFlowers() {
   createLeaf("#44aa55");
   cntx.cntx.restore();
 
-  const canvas = scratchCanvas.c;
   let y = 100;
-  // OK
-  for (let j = 0; j < 2; j++) {
+  for (let j = 0; j < 2; ++j) {
     let x = 30;
     for (let i = 0; i < 60; i++) {
       x += 4 + 6 * mathFunc.mathRand();
@@ -880,8 +841,8 @@ export function createFlowers() {
 
       const flower = mathFunc.mathRandInt(2) * 20;
 
-      const dstX = x - 2,
-        dstY = y - 6;
+      const dstX = x - 2;
+      const dstY = y - 6;
       cntx.cntxSave();
       cntx.cntxTranslate(dstX + 3, dstY);
       cntx.cntxRotate(0.3);
@@ -911,7 +872,6 @@ export function createFlowers() {
   SPRITES_FLOWERS = newSprite();
 }
 
-// OK
 function fillPoints(points, color) {
   cntx.cntxBeginPath();
   cntx.cntxFillStyle(color);
@@ -923,44 +883,33 @@ function fillPoints(points, color) {
   cntx.cntxFill();
 }
 
-
-// NOT OK : cntx (canvasFunctions.js)
-export let SPRITES_CARLEFT = 0;
-export let SPRITES_CARRIGHT = 0;
 function createCar() {
   eraseScratch();
   cntx.cntx = scratchCanvas.x;
 
   // car tyre
   let points = [8, 194, 11, 206, 14, 214, 18, 216, 41, 215, 46, 213, 47, 205];
-  fillPoints(points, constants.DARKGREY);
+  fillPoints(points, DARKGREY);
 
   // car tyre
   points = [227, 193, 230, 200, 241, 204, 258, 203, 265, 197, 268, 191];
-  fillPoints(points, constants.DARKGREY);
+  fillPoints(points, DARKGREY);
 
   // car body
   points = [
     5, 192, 25, 206, 296, 190, 302, 164, 298, 149, 296, 145, 292, 111, 289, 103,
     294, 101, 294, 91, 297, 84, 263, 72, 208, 14, 167, 2, 66, 3, 45, 7, 8, 55,
-    //9, 87,
     5, 65, 7, 88, 2, 97, 1, 151,
   ];
   fillPoints(points, "#ffffff");
 
   // car body
   points = [
-    //  5, 192,
     25, 206, 296, 190, 302, 164, 298, 149, 296, 145, 292, 111, 289, 103,
-
     294, 101, 294, 91, 297, 84,
-
     17, 93, 22, 122,
-
     20, 162,
-
     20, 170, 2, 145, 3, 160, 6, 187,
-    //    6, 192
   ];
   fillPoints(points, "#ffffff");
 
@@ -972,12 +921,11 @@ function createCar() {
 
   // windscreen
   points = [42, 86, 260, 79, 208, 21, 60, 24];
-  //fillPoints(points,'#4773dd');
   const gradient = cntx.cntxCreateLinearGradient(0, 19, 0, 90);
   gradient.addColorStop(0, "#4fa8f7");
   gradient.addColorStop(1, "#2d3c7c");
 
-  fillPoints(points, gradient); //'#4773dd');
+  fillPoints(points, gradient);
 
   points = [
     51, 62, 238, 57, 253, 76, 196, 67, 159, 64, 125, 66, 81, 72, 45, 82,
@@ -1020,8 +968,6 @@ function createCar() {
   SPRITES_CARRIGHT = newSprite(1);
 }
 
-// NOT OK : cntx (canvasFunctions.js)
-export let SPRITES_CARSTRAIGHT = 0;
 function createCar2() {
   eraseScratch();
   cntx.cntx = scratchCanvas.x;
@@ -1058,46 +1004,19 @@ function createCar2() {
   const gradient = cntx.cntxCreateLinearGradient(0, 19, 0, 90);
   gradient.addColorStop(0, "#4fa8f7");
   gradient.addColorStop(1, "#2d3c7c");
-  fillPoints(points, gradient); //'#4773dd');
+  fillPoints(points, gradient);
 
   points = [47, 59, 143, 59, 143, 64, 78, 68, 38, 77];
   fillPoints(points, "#95eef7");
 
   // wheel
   points = [13, 197, 16, 205, 23, 208, 49, 207, 56, 202, 58, 197];
-  fillPoints(points, constants.DARKGREY);
+  fillPoints(points, DARKGREY);
 
   // strip under lights
   points = [1, 155, 1, 167, 143, 167, 143, 155];
   fillPoints(points, "#a9fb78");
-  //  fillPoints(points,'#5d2959');
 
-  /*
-    cntxStrokeStyle('#63a96e');
-    drawLine(1, 161, 143, 161);
-  
-    cntxStrokeStyle('#111111');
-    cntx.lineWidth = 2;
-    drawLine(4, 137, 86, 137);
-  
-    cntx.lineWidth = 1;
-  
-    for(var i = 0; i < 68; i += 4) {
-      drawLine(6 + i, 138, 6 + i, 149);
-    }
-    cntxStrokeStyle('#204e69');
-    cntx.lineWidth = 2;
-    drawLine(5, 114, 106, 114);
-    cntx.lineWidth = 1;
-    drawLine(105, 116, 105, 155);
-  
-  
-    cntxStrokeStyle('#204e69');
-    cntx.lineWidth = 1;
-    drawLine(143, 21, 65, 21);
-    drawLine(65, 21, 32, 82);
-    drawLine(32, 82, 143, 82);
-  */
   cntx.cntxSave();
   cntx.cntx.scale(-1, 1);
 
@@ -1112,64 +1031,3 @@ export function createCars() {
   createCar();
   createCar2();
 }
-
-/*
-function createBush() {
-  eraseScratch();
-  cntx = scratchCanvas.x;
-  var canvas = scratchCanvas.c;
-
-  var colours = [
-    '#002205',
-    '#336622',
-    '#448833'
-  ];
-  for(var j = 0; j < 3; j++) {
-    createLeaf(colours[j]);
-
-      for(var i = 0; i < 100; i++) {
-        var radius = 30 * mathFunc.mathRand();
-        var angle = PI * 2 * mathFunc.mathRand();
-        var cX = 140;
-        var cY = 160;
-        var dstX = cX + radius * mathFunc.cos(angle);
-        var dstY = cY + radius * mathFunc.sin(angle);
-        cntxSave();
-        cntxTranslate(dstX, dstY);
-        cntxRotate(mathFunc.mathRand() * PI * 2);
-        cntxDrawImage(canvas, 0, 0, 6, 11, 0, 0, 6, 11);
-        cntxRestore();
-      }
-
-      for(var i = 0; i < 120; i++) {
-        var radius = 40 * mathFunc.mathRand();
-        var angle = Math.PI * 2 * Math.random();
-        var cX = 160;
-        var cY = 150;
-        var dstX = cX + radius * mathFunc.cos(angle);
-        var dstY = cY + radius * mathFunc.sin(angle);
-        cntxSave();
-        cntxTranslate(dstX, dstY);
-        cntxRotate(mathFunc.mathRand() * PI * 2);
-        cntxDrawImage(canvas, 0, 0, 6, 11, 0, 0, 6, 11);
-        cntxRestore();
-      }
-
-
-      for(var i = 0; i < 100; i++) {
-        var radius = 30 * mathFunc.mathRand();
-        var angle = PI * 2 * mathFunc.mathRand();
-        var cX = 190;
-        var cY = 160;
-        var dstX = cX + radius * mathFunc.cos(angle);
-        var dstY = cY + radius * mathFunc.sin(angle);
-        cntxSave();
-        cntxTranslate(dstX, dstY);
-        cntxRotate(mathFunc.mathRand() * PI * 2);
-        cntxDrawImage(canvas, 0, 0, 6, 11, 0, 0, 6, 11);
-        cntxRestore();
-
-      }
-    }
-}
-*/

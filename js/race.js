@@ -8,6 +8,7 @@ import { mathRand } from "./mathFunctions.js";
 import { utilIncrease } from "./util.js";
 import { cntx } from "./canvasFunctions.js";
 import { constants } from "./constants.js";
+import { DARKGREY, LIGHTGREY } from "./graphics.js";
 import * as render from "./render.js";
 
 // TODO: let it become module type to solve camera undefined.
@@ -302,9 +303,9 @@ export class Race {
       racer.context.font = "italic bold 350px " + constants.helvetica;
 
       if (this.countdownNumber < 4) {
-        cntx.cntxFillStyle(constants.DARKGREY);
+        cntx.cntxFillStyle(DARKGREY);
         cntx.cntxFillText("RACE", 14, 304);
-        cntx.cntxFillStyle(constants.LIGHTGREY);
+        cntx.cntxFillStyle(LIGHTGREY);
         cntx.cntxFillText("RACE", 10, 300);
       }
 
@@ -319,9 +320,9 @@ export class Race {
           racer.context.font = "italic bold 358px " + constants.helvetica;
         }
 
-        cntx.cntxFillStyle(constants.DARKGREY);
+        cntx.cntxFillStyle(DARKGREY);
         cntx.cntxFillText(numbers[this.raceNumber], 14, 674);
-        cntx.cntxFillStyle(constants.LIGHTGREY);
+        cntx.cntxFillStyle(LIGHTGREY);
         cntx.cntxFillText(numbers[this.raceNumber], 10, 670);
       }
     }
@@ -330,13 +331,13 @@ export class Race {
       racer.context.font = " 300px " + constants.helvetica;
       racer.context.fillStyle = "#111111";
       racer.context.fillText(this.countdownNumber, 449, 254);
-      racer.context.fillStyle = constants.LIGHTGREY;
+      racer.context.fillStyle = LIGHTGREY;
       racer.context.fillText(this.countdownNumber, 445, 250);
     }
 
     if (this.state == STATE_RACING) {
-      cntx.cntxFillStyle(constants.LIGHTGREY);
-      cntx.cntxStrokeStyle(constants.LIGHTGREY);
+      cntx.cntxFillStyle(LIGHTGREY);
+      cntx.cntxStrokeStyle(LIGHTGREY);
       racer.context.font = " 80px " + constants.helvetica;
       racer.context.fillText(racer.player.getPosition(), 10, 80);
 
@@ -364,14 +365,14 @@ export class Race {
 
       if (racer.cars[PlayerIndex].newPositionTime > 0) {
         racer.context.font = " 160px " + constants.helvetica;
-        cntx.cntxFillStyle(constants.LIGHTGREY);
+        cntx.cntxFillStyle(LIGHTGREY);
         racer.context.fillText(racer.cars[PlayerIndex].getPosition(), 334, 184);
       }
     }
 
     if (this.state == STATE_RACEOVER) {
       racer.context.font = " 300px " + constants.helvetica;
-      cntx.cntxFillStyle(constants.LIGHTGREY);
+      cntx.cntxFillStyle(LIGHTGREY);
       racer.context.fillText(racer.cars[PlayerIndex].finishPosition, 300, 290); //cars[PlayerIndex].finishPosition, 494, 254);
       racer.context.font = " 40px " + constants.helvetica;
       let y = 380;

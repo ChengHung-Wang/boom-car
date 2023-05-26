@@ -2,8 +2,8 @@ import { utilPercentRemaining, utilInterpolate, utilIncrease } from "./util.js";
 import { racer } from "./racer.js";
 import { Track, laneWidth } from './track.js';
 import { outlineOnly, width, height, renderSegment } from './render.js';
-import { constants } from './constants.js';
 import { cntx } from "./canvasFunctions.js";
+import { DARKGREY } from "./graphics.js";
 
 // the title screen
 
@@ -62,34 +62,14 @@ export class TitleScreen {
       renderSegment(segment);
       maxy = segment.p1.screen.y;
     }
-
   }
 
   render(dt) {
     cntx.cntx = this.context;
-    // const t = getTimestamp();
 
-    cntx.cntxFillStyle(constants.DARKGREY);
+    cntx.cntxFillStyle(DARKGREY);
     cntx.cntxFillRect(0, 0, this.canvas.width, this.canvas.height);
-    // for(var i = 0; i < 30; i++) {
-    //   var fontSize = 100 + i * 10;
-    //   context.font = 'italic ' + fontSize + 'px ' + helvetica;
-    //   context.fontStyle = 'italic';
-    //   var col = 80 + (i * 4);
-    //   col = (col + t / 6) % 200;
-    //
-    //   if(i == 29) {
-    //     col = 255;
-    //   }
-    //
-    //   cntxFillStyle('rgb(' + col + ',' + col + ',' + col + ')');
-    //   cntxFillText("racer", (document.documentElement.clientWidth / 2) - i * 11, 300- i);
-    // }
 
-    // context.font = '44px ' + helvetica;
-    // cntxFillText("Arrow keys to drive, x for Turbo, z for Handbrake", 38, 570);
-    // cntxFillText("x To Start", 423, 460);
-    // console.log(racer.camera.z, dt*120, racer.track.getLength());
     racer.camera.z = utilIncrease(racer.camera.z, dt * 120, racer.track.getLength());
     this.renderRoad();
   }
