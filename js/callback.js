@@ -26,11 +26,31 @@ function callback_PlayerCrashwithCar(crashed_car){
     console.log("Player Crash with Car index: ", crashed_car.index);
 }
 
-function callback_TurnChange(turnLeft, turnRight){
-    if(!turnLeft && !turnRight || turnLeft && turnRight)
-        console.log("Direction Changed: Straight");
-    else if(turnLeft)
-        console.log("Direction Changed: Left");
-    else if(turnRight)
-        console.log("Direction Changed: Right");
+let last_direction = "Straight";
+// function callback_TurnChange(turnLeft, turnRight){
+//     if(!turnLeft && !turnRight || turnLeft && turnRight) {
+//         if(last_direction != "Straight") {
+//             console.log("Direction Changed: Straight");
+//             last_direction = "Straight";
+//         }
+//     }
+//     else if(turnLeft) {
+//         if (last_direction != "Left") {
+//             console.log("Direction Changed: Left");
+//             last_direction = "Left";
+//         }
+//     }
+//     else if(turnRight){
+//         if(last_direction != "Right") {
+//             console.log("Direction Changed: Right");
+//             last_direction = "Right";
+//         }
+//     }
+// }
+
+function callback_TurnChange(dir){
+    if(dir != last_direction) {
+        console.log("Direction Changed: " +  dir);
+        last_direction = dir;
+    }
 }

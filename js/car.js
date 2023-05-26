@@ -211,14 +211,14 @@ class Car {
   setTurnLeft(turn) {
     if(turn != this.turnLeft) {
       this.turnLeft = turn;
-      callback_TurnChange(this.turnLeft, this.turnRight);
+      //callback_TurnChange(this.turnLeft, this.turnRight);
     }
   }
 
   setTurnRight(turn) {
     if(turn != this.turnRight) {
       this.turnRight = turn;
-      callback_TurnChange(this.turnLeft, this.turnRight);
+      //callback_TurnChange(this.turnLeft, this.turnRight);
     }
   }
 
@@ -401,8 +401,17 @@ class Car {
       if (this.driftDirection != 0) {
         dx = dx * 0.5;
       }
-      if (this.turnLeft) this.x = this.x - dx;
-      else if (this.turnRight) this.x = this.x + dx;
+      if(this.turnRight == this.turnLeft){
+        callback_TurnChange("Straight")
+      }
+      else if (this.turnLeft){
+        this.x = this.x - dx;
+        callback_TurnChange("Left");
+      }
+      else if (this.turnRight){
+        this.x = this.x + dx;
+        callback_TurnChange("Right");
+      }
 
       var ddrift = this.driftDirection * this.speed * 0.00055;
       this.x += ddrift;
