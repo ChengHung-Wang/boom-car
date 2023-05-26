@@ -16,6 +16,7 @@
     "js/element-plus*",
     "js/vue*",
     "js/jquery*",
-    "js/joy*"
+    "js/joy*",
+    "index.html"
   ]
 }
