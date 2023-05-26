@@ -174,7 +174,7 @@ class Race {
       car.percent = utilPercentRemaining(car.z, Track.segmentLength);
 
       // player speeds are set in car.js
-      if (car.index !== 0) {
+      if (car.index !== PlayerIndex) {
         let maxSpeed = 23000; //23000;
         if (car.index < 8 && car.index > 3) {
           car.maxSpeed =
@@ -245,12 +245,15 @@ class Race {
     let startPosition = camera.z;
 
     for (let i = 0; i < cars.length; i++) {
+      if(cars[i].index!==PlayerIndex){
         cars[i].update(dt); //, playerSegment, player.width);
+      }
+        
       
     }
     //  updateCars(dt, playerSegment, player.width);
 
-    //    player.update(dt);
+    player.update(dt);
     camera.update(dt);
 
     bgLayer3Offset = utilIncrease(
@@ -389,5 +392,5 @@ function ChangeMaxSpeed(carIndex,Speed){
   cars[carIndex].maxSpeed = Speed;
 }
 function getCarSpeed(carIndex){
-  return cars[carIndex].speed;
+  return cars[carIndex].maxSpeed;
 }

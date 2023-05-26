@@ -85,7 +85,12 @@ function resetGraphics() {
   );
 }
 
-// OK
+function drawToCanvas(cntx,Base,centreX,centreY){
+  let img = new Image();
+  img.src = Base;
+  cntx.drawImage(img, centreX-50, centreY-100,100,100);
+}
+
 function drawFuzzyCircle(x, y, r, c) {
   cntxFillStyle(c);
   let angle = 0;

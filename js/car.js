@@ -306,6 +306,7 @@ class Car {
     }
 
     // max speed multiplier
+    // 根据一些条件来调整最大速度的乘数和加速度的乘数 飄移+尾流
     let mult = 0.8;
     let accMult = 1;
     if (this.slipstreamTime > 0) {
@@ -361,6 +362,7 @@ class Car {
 
     this.bounce = 3.4;
     // is the car offroad with a bit of leeway??
+    //車輛是否偏移車道 成立減速
     if (
       distanceToLeft < -this.width * 0.1 ||
       distanceToRight < -this.width * 0.1
@@ -515,7 +517,7 @@ class Car {
 
     // check collisions with other cars
     // check other cars
-
+    //碰撞發生將玩家車輛速度改為前方車輛 直到離開
     if (this.index === PlayerIndex) {
       for (let n = 0; n < newSegment.cars.length; n++) {
         let car = newSegment.cars[n];
@@ -626,7 +628,7 @@ class Car {
       race.raceOver();
     }
   }
-
+  // 一个循环来查找前方的道路段落，以确定汽车应该向左还是向右转
   updateCarPosition(carSegment, playerSegment, playerWidth) {
     let lookAhead = 60;
 
