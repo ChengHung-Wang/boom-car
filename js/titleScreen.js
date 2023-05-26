@@ -11,7 +11,6 @@ export class TitleScreen {
   constructor(canvas, context) {
     this.canvas = canvas;
     this.context = context;
-    this.init();
   }
 
   init() {
@@ -40,9 +39,9 @@ export class TitleScreen {
       baseSegment.p3.world.y,
       cameraPercent);
 
-    // const dx = 0;
-    for (let n = 0; n < racer.camera.drawDistance; n++) {
-      const segment = racer.track.getSegment((baseSegment.index + n) % racer.track.getSegmentCount());
+    let segment;
+    for (let n = 0; n < racer.camera.drawDistance; ++n) {
+      segment = racer.track.getSegment((baseSegment.index + n) % racer.track.getSegmentCount());
       segment.looped = segment.index < baseSegment.index;
       segment.clip = maxy;
       segment.clip = 0;
@@ -51,8 +50,6 @@ export class TitleScreen {
       racer.camera.project(segment.p2, 0, segment.looped, width, height, laneWidth);
       racer.camera.project(segment.p3, 0, segment.looped, width, height, laneWidth);
       racer.camera.project(segment.p4, 0, segment.looped, width, height, laneWidth);
-
-
 
       if ((segment.p1.camera.z <= racer.camera.depth) || // behind us
         (segment.p3.screen.y >= segment.p1.screen.y) || // back face cull
