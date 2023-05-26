@@ -35,7 +35,7 @@ export let SPRITES_CARSTRAIGHT = 0;
 export let SPRITES_TURNLEFT = 0;
 export let SPRITES_TURNRIGHT = 0;
 export let SPRITES_FLOWERS = 0;
-let SPRITES_BUILDINGS = [];
+export let SPRITES_BUILDINGS = [];
 
 export const COLORS_FOG = {};
 COLORS_FOG.COLORS_FOG = 0;
