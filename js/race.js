@@ -263,21 +263,21 @@ export class Race {
     //    racer.player.update(dt);
     racer.camera.update(dt);
 
-    render.bgLayerSpeed.bgLayer3Offset = utilIncrease(
+    render.bgLayer3Offset = utilIncrease(
       render.bgLayer3Offset,
-      (render.bgLayer3Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
+      (render.bgLayerSpeed.bgLayer3Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
       Track.segmentLength,
       1
     );
-    render.bgLayerSpeed.bgLayer2Offset = utilIncrease(
+    render.bgLayer2Offset = utilIncrease(
       render.bgLayer2Offset,
-      (render.bgLayer2Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
+      (render.bgLayerSpeed.bgLayer2Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
       Track.segmentLength,
       1
     );
-    render.bgLayerSpeed.bgLayer1Offset = utilIncrease(
+    render.bgLayer1Offset = utilIncrease(
       render.bgLayer1Offset,
-      (render.bgLayer1Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
+      (render.bgLayerSpeed.bgLayer1Speed * playerSegment.curve * (racer.camera.z - startPosition)) /
       Track.segmentLength,
       1
     );
