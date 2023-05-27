@@ -41,8 +41,8 @@ export const COLORS_FOG = {};
 COLORS_FOG.COLORS_FOG = 0;
 
 export const DARKGREY = "#333333";
-export const MEDIUMGREY = "cccccc";
-export const LIGHTGREY = "e5e5e5";
+export const MEDIUMGREY = "#cccccc";
+export const LIGHTGREY = "#e5e5e5";
 
 function eraseScratch() {
   scratchCanvas.x.clearRect(0, 0, SCRATCHWIDTH, SCRATCHHEIGHT);

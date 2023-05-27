@@ -1,9 +1,6 @@
 import { racer } from "./racer.js";
 // import { constants } from "./constants.js";
 
-$("#gameCanvas").attr("width", document.documentElement.clientWidth);
-$("#gameCanvas").attr("height", document.documentElement.clientHeight);
-
 const { createApp } = Vue;
 const appOption = {
     data() {

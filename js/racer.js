@@ -6,6 +6,9 @@ import { raceAudioInit } from "./audio.js";
 import { speak } from "./speech.js";
 import { outlineOnly } from "./render.js";
 
+document.getElementById("gameCanvas").width = document.documentElement.clientWidth;
+document.getElementById("gameCanvas").height = document.documentElement.clientHeight;
+
 export const racer = {};
 
 racer.canvas = document.getElementById("gameCanvas");
