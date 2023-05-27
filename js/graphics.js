@@ -339,7 +339,7 @@ function terrain(startX) {
   let multiplier = 1;
 
   multiplier = 0.1 + 3 * mathFunc.mathRand();
-  let across = 5 + 8 * mathFunc.mathRand();
+  let across = 20 * 100 * mathFunc.mathRand();
   for (let i = 0; i < 100; ++i) {
     y = y + mathFunc.mathRand() * multiplier;
     points[index] = y;
@@ -348,7 +348,8 @@ function terrain(startX) {
     multiplier += 0.01;
   }
 
-  for (let i = 0; i < across; i++) {
+  across = 5 + 8 * mathFunc.mathRand();
+  for (let i = 0; i < across; ++i) {
     y = y + (0.4 - mathFunc.mathRand()) * 2;
     highlightpoints[index] = y;
     points[index++] = y;
@@ -403,7 +404,7 @@ function terrain(startX) {
   cntx.cntxFillStyle("#224a33");
   cntx.cntxBeginPath();
   cntx.cntxMoveTo(x, heightOffset - highlightpoints[0]);
-  for (let t = 1; t < highlightpoints.length; t++) {
+  for (let t = 1; t < highlightpoints.length; ++t) {
     cntx.cntxLineTo(x, heightOffset - highlightpoints[t]);
     x++;
   }
@@ -427,7 +428,7 @@ function terrain(startX) {
     x++;
   }
 
-  for (let t = 1; t < highlightBackpoints2.length; t++) {
+  for (let t = 1; t < highlightBackpoints2.length; ++t) {
     cntx.cntxLineTo(x, heightOffset - highlightBackpoints2[t]);
     if (mathFunc.mathRand() > 0.8) {
       x++;
