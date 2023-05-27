@@ -24,8 +24,6 @@ export const STATE_RACEOVER = 5;
 
 export class Race {
   constructor() {
-    this.track = null;
-
     this.state = 0;
     this.countdownNumber = 3;
     this.lastTime = 0;
@@ -50,6 +48,7 @@ export class Race {
     }
 
     this.raceNumber = trackNumber;
+    racer.track = new Track();
 
     switch (trackNumber) {
       case 0:
