@@ -6,7 +6,11 @@
     "composite": true,
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@assets/*": ["./src/shared/assets/*"],
+      "@cmp/*": ["./src/shared/cmp/*"],
+      "@stores/*": ["./src/shared/stores/*"],
+      "@use/*": ["./src/shared/use/*"]
     },
     "allowJs": true,
     "skipLibCheck": true
