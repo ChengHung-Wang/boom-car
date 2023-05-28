@@ -283,7 +283,10 @@ function renderPlayer(scale, destX, destY, steer, updown, playerShadowY) {
         let centreX = destX + 82;
         let centreY = destY - 10;
         if (faceUrl !== ""){
-            drawToCanvas(cntx, faceUrl, centreX, centreY);
+            // drawToCanvas(cntx, faceUrl, centreX, centreY);
+            let img = new Image();
+            img.src = faceUrl;
+            cntxDrawImage(img, 0, 0, img.width, img.height, centreX-50, centreY-100, 100, 100);
         }
         drawFuzzyCircle(centreX, centreY, 10, '#dd9925');
         drawFuzzyCircle(centreX, centreY, 5, '#cccc55');
