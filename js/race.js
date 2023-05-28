@@ -1,7 +1,8 @@
 // controls the race
 let PlayerIndex = 0;
 let track = null;
-
+let AIcarMaxspeed = 23000;
+let PlayerCarMaxspeed = 36000;
 let numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
 
 let STATE_PRERACE = 0;
@@ -175,7 +176,7 @@ class Race {
 
       // player speeds are set in car.js
       if (car.index !== PlayerIndex) {
-        let maxSpeed = 23000; //23000;
+        let maxSpeed = AIcarMaxspeed; //23000;
         if (car.index < 8 && car.index > 3) {
           car.maxSpeed =
             maxSpeed * 0.905 -
@@ -384,8 +385,11 @@ class Race {
 //改變車輛
 function ChangeCar(carIndex){
   camera.WatchPlayer(carIndex);
+  cars[PlayerIndex].maxSpeed = AIcarMaxspeed;
   PlayerIndex = carIndex;
   player = cars[carIndex];
+  cars[carIndex].maxSpeed = PlayerCarMaxspeed;
+  console.log("11");
 }
 //改變車輛最大速度
 function ChangeMaxSpeed(carIndex,Speed){
