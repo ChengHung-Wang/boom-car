@@ -20,8 +20,12 @@ export default class SocketService {
         app.use(cors());
         const server = createServer(app);
 
-        this.io = new Server(server);
+        this.io = new Server(server, {
+            // @ts-ignore
+            allowEIO3: true
+        });
         this.io.on('connection', (socket: Socket) => {
+            console.log(socket);
             this.registerMember(socket);
             socket.on("commend", (data) => {
                 new CommendRouter(socket, <SocketStruct.DataStruct>data)
