@@ -337,34 +337,42 @@ export class Race {
     }
 
     if (this.state == STATE_RACING) {
-      cntx.cntxFillStyle(LIGHTGREY);
-      cntx.cntxStrokeStyle(LIGHTGREY);
-      racer.context.value.font = " 80px " + constants.helvetica;
-      racer.context.value.fillText(racer.player.getPosition(), 10, 80);
-
-      racer.context.value.font = " 40px " + constants.helvetica;
-      racer.context.value.fillText("Lap " + racer.player.getLap() + " of 2", 10, 130);
-      racer.context.value.fillText(
-        "Lap Time: " + racer.player.getCurrentLapTime().toFixed(2),
-        10,
-        180
-      );
-      // console.log('update');
-      this.gameStore.lapTime = racer.player.getCurrentLapTime().toFixed(2);
-
-      racer.context.value.font = " 80px " + constants.helvetica;
 
       const speed = (
-        "000" + Math.round(racer.player.getSpeed() / 100).toString(10)
+          "000" + Math.round(racer.player.getSpeed() / 100).toString(10)
       ).substr(-3);
-      racer.context.value.fillText(speed + "km/h", 695, 80);
-      racer.context.value.font = " 40px " + constants.helvetica;
 
-      racer.context.value.fillText("Turbo ", 670, 136);
-      cntx.cntxBeginPath();
-      racer.context.value.rect(796, 110, 208, 28);
-      cntx.cntxStroke();
-      cntx.cntxFillRect(800, 114, racer.player.turboAmount * 2, 20);
+      this.gameStore.rank = racer.player.getPosition();
+      this.gameStore.speed = speed;
+      this.gameStore.lapCount = racer.player.getLap()
+      this.gameStore.lapTime = racer.player.getCurrentLapTime().toFixed(2);
+      this.gameStore.turboAmount = racer.player.turboAmount * 2
+
+
+      cntx.cntxFillStyle(LIGHTGREY);
+      cntx.cntxStrokeStyle(LIGHTGREY);
+      // racer.context.value.font = " 80px " + constants.helvetica;
+      // racer.context.value.fillText(racer.player.getPosition(), 10, 80);
+      //
+      //
+      // racer.context.value.font = " 40px " + constants.helvetica;
+      // racer.context.value.fillText("Lap " + racer.player.getLap() + " of 2", 10, 130);
+      // racer.context.value.fillText(
+      //   "Lap Time: " + racer.player.getCurrentLapTime().toFixed(2),
+      //   10,
+      //   180
+      // );
+
+      //
+      // racer.context.value.font = " 80px " + constants.helvetica;
+      // racer.context.value.fillText(speed + "km/h", 695, 80);
+      // racer.context.value.font = " 40px " + constants.helvetica;
+      //
+      // racer.context.value.fillText("Turbo ", 670, 136);
+      // cntx.cntxBeginPath();
+      // racer.context.value.rect(796, 110, 208, 28);
+      // cntx.cntxStroke();
+      // cntx.cntxFillRect(800, 114, racer.player.turboAmount * 2, 20);
 
       if (racer.cars[PlayerIndex].newPositionTime > 0) {
         racer.context.value.font = " 160px " + constants.helvetica;

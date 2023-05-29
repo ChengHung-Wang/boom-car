@@ -42,10 +42,6 @@ watch(
 <template>
   <div id="game">
       <canvas ref="gameCanvas"></canvas>
-      <div class="focus-display">
-        圈數 [總圈數/現在圈數]
-        LapTime {{ gameStore.lapTime }}
-      </div>
       <div class="container" v-if="!gameStarted">
           <div class="row">
               <div class="col-12 fsc text-light h-100vh">
@@ -64,6 +60,15 @@ watch(
       </div>
 
       <div class="container text-light title-card" v-if="gameStarted">
+          <div class="focus-display">
+            <p>名次 {{ gameStore.rank }}</p>
+            <p>速度 {{ gameStore.speed }}</p>
+
+            <p>圈數 [{{ gameStore.lapCount }}/現在圈數]</p>
+            <p>經過時間 {{ gameStore.lapTime }}</p>
+
+            <p>turbo {{ gameStore.turboAmount }}</p>
+          </div>
           <div class="row">
               <div class="col-4">
                   <h5>Camera X</h5>
