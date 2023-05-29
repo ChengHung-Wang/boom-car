@@ -10,6 +10,7 @@
   ],
   "compilerOptions": {
     "allowJs": true,
+    "esModuleInterop": true,
     "skipLibCheck": true,
     "paths": {
       "@/*": ["./src/*"],
@@ -17,6 +18,7 @@
       "@cmp/*": ["./src/shared/cmp/*"],
       "@stores/*": ["./src/shared/stores/*"],
       "@use/*": ["./src/shared/use/*"]
-    }
+    },
   },
+  "baseUrl": "."
 }
