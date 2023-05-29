@@ -10,6 +10,7 @@ import { cntx } from "./canvasFunctions.js";
 import { constants } from "./constants.js";
 import { DARKGREY, LIGHTGREY } from "./graphics.js";
 import * as render from "./render.js";
+import { useGameStore } from "@/stores/game";
 
 // TODO: let it become module type to solve camera undefined.
 // controls the race
@@ -36,6 +37,7 @@ export class Race {
     this.xIsDown = false;
 
     this.raceNumber = 3;
+    this.gameStore = useGameStore();
   }
 
   static COUNTDOWN_INTERVAL = 800;
@@ -347,6 +349,8 @@ export class Race {
         10,
         180
       );
+      // console.log('update');
+      this.gameStore.lapTime = racer.player.getCurrentLapTime().toFixed(2);
 
       racer.context.value.font = " 80px " + constants.helvetica;
 
