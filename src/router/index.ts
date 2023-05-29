@@ -19,9 +19,9 @@ const router = createRouter({
         ...setupRouterConfig
       ]
     },
-    // {
-    //   path: "/teach",
-    // }
+    {
+      path: "/teach",
+    }
   ]
 })
 
