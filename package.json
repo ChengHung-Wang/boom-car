@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "vite",
+    "dev": "vite dev",
     "build": "run-p type-check build-only",
     "preview": "vite preview",
     "build-only": "vite build",
@@ -23,6 +23,7 @@
     "socket.io": "^4.6.1",
     "tsconfig-paths": "^4.2.0",
     "vue": "^3.3.2",
+    "vue-3-socket.io": "^1.0.5",
     "vue-router": "^4.2.0"
   },
   "devDependencies": {
