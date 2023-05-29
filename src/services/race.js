@@ -73,6 +73,7 @@ export class Race {
     this.state = STATE_PRERACE;
     this.countdownNumber = 4;
     this.lastTime = racer.getTimestamp();
+
   }
 
   raceOver() {
@@ -394,20 +395,20 @@ export class Race {
       racer.context.value.fillText("z: Retry", 445, y);
     }
   }
-}
 
-//改變車輛
-function ChangeCar(carIndex) {
-  racer.camera.WatchPlayer(carIndex);
-  PlayerIndex = carIndex;
-  racer.player = racer.cars[carIndex];
-}
+  //改變車輛
+  static ChangeCar(carIndex) {
+    racer.camera.WatchPlayer(carIndex);
+    PlayerIndex = carIndex;
+    racer.player = racer.cars[carIndex];
+  }
 
 //改變車輛最大速度
-function ChangeMaxSpeed(carIndex, Speed) {
-  racer.cars[carIndex].maxSpeed = Speed;
-}
+  static ChangeMaxSpeed(carIndex, speed) {
+    racer.cars[carIndex].maxSpeed = speed;
+  }
 
-function getCarSpeed(carIndex) {
-  return racer.cars[carIndex].speed;
+  static getCarSpeed(carIndex) {
+    return racer.cars[carIndex].speed;
+  }
 }

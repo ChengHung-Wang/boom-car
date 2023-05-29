@@ -19,6 +19,7 @@ export function init()
     racer.track = new Track();
     racer.titleScreen = new TitleScreen(racer.canvas.value, racer.context.value);
     racer.titleScreen.init();
+
     frame();
 }
 
