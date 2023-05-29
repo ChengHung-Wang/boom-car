@@ -6,6 +6,8 @@ import { Track } from "./track.js";
 import { speak } from "./speech.js";
 import { width, height } from "./render.js";
 import { racer } from "./racer.js";
+import * as Callback from "@/services/callback";
+
 
 export class Car {
   constructor() {
@@ -22,6 +24,7 @@ export class Car {
     this.lap = 0;
     this.lapStarted = false;
     this.position = 0;
+    this.offroading = false;
 
     this.centrifugal = 0.3;
     this.slipstreamLines = [];
@@ -31,6 +34,7 @@ export class Car {
 
     this.percent = 0; // percent remaining in segment
     this.speed = 0;
+    this.previous_speed = 0;
     this.ySpeed = 0;
 
     this.turboStartTime = 0;
@@ -206,11 +210,17 @@ export class Car {
 
   // --- player controls ----
   setTurnLeft(turn) {
-    this.turnLeft = turn;
+    if(turn !== this.turnLeft) {
+      this.turnLeft = turn;
+      Callback.callback_TurnChange(this.turnLeft, this.turnRight);
+    }
   }
 
   setTurnRight(turn) {
-    this.turnRight = turn;
+    if(turn !== this.turnRight) {
+      this.turnRight = turn;
+      Callback.callback_TurnChange(this.turnLeft, this.turnRight);
+    }
   }
 
   setAccelerate(accelerate) {
@@ -440,11 +450,30 @@ export class Car {
             raceAudioCrash();
             this.slipstream = 0;
             this.slipstreamTime = 0;
+            Callback.callback_PlayerCrashwithBuilding();
           }
           this.speed = maxSpeed / 5;
           this.z = utilIncrease(playerSegment.p1.world.z, 0, racer.track.getLength()); // stop in front of sprite (at front of segment)
           break;
         }
+      }
+
+      // limit how far offroad a car can go
+      if(!this.offroading) {
+        if (this.x + this.width / 2 < trackLeft - 0.5 * this.width || this.x + this.width / 2 > trackRight + 0.5 * this.width) {
+          this.offroading = true;
+          Callback.callback_RunOffTrack();
+        }
+      }
+      else{
+        if (this.x + this.width / 2 > trackLeft + 0.5 * this.width && this.x + this.width / 2 < trackRight - 0.5 * this.width) {
+          this.offroading = false;
+          Callback.callback_BackOnTrack();
+        }
+      }
+
+      if (this.x + this.width / 2 < trackLeft - 1.2 * this.width) {
+        this.x = trackLeft - 1.2 * this.width - this.width / 2;
       }
 
       let isBehind = false;
@@ -527,6 +556,7 @@ export class Car {
                   raceAudioCrash();
                   this.slipstream = 0;
                   this.slipstreamTime = 0;
+                  Callback.callback_PlayerCrashwithCar(car);
                 }
                 this.speed = car.speed;
                 this.z = car.z - 100;
@@ -567,9 +597,11 @@ export class Car {
       this.lastLapTime = this.currentLapTime;
       //報時 一圈所花時間
       if (this.lap == 2 && this.index == PlayerIndex) {
+        Callback.callback_LapOver();
         speak("lap time " + this.getCurrentLapTime().toFixed(2));
       }
       this.currentLapTime = 0;
+      Callback.callback_LapOver();
     } else {
       if (this.z > Track.segmentLength * 1.2) {
         this.lapStarted = false;
@@ -615,6 +647,10 @@ export class Car {
       this.slipstreamTime = 0;
 
       racer.race.raceOver();
+    }
+    if(this.speed != this.previous_speed){
+      this.previous_speed = this.speed;
+      // Callback.callback_SpeedChange(this.speed);
     }
   }
 
