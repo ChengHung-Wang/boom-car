@@ -2,8 +2,10 @@
 import * as GameService from "@/services/racer.js"
 import { onMounted, Ref, ref, watch } from "vue";
 import { racer } from "@/services/racer.js";
+import { useGameStore } from "@/stores/game";
 
 const gameCanvas: Ref<HTMLCanvasElement | undefined> = ref();
+const gameStore = useGameStore();
 
 const gameStarted = ref(false);
 const camera = ref({
@@ -40,6 +42,10 @@ watch(
 <template>
   <div id="game">
       <canvas ref="gameCanvas"></canvas>
+      <div class="focus-display">
+        圈數 [總圈數/現在圈數]
+        LapTime {{ gameStore.lapTime }}
+      </div>
       <div class="container" v-if="!gameStarted">
           <div class="row">
               <div class="col-12 fsc text-light h-100vh">
@@ -100,5 +106,11 @@ watch(
   }
   .h-100vh {
       height: 100vh;
+  }
+  .focus-display {
+    position: fixed;
+    inset: 0;
+    color: rgb(128, 128, 128);
+    font-size: 24px;
   }
 </style>
