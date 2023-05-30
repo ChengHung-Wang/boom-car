@@ -1,14 +1,15 @@
 import type { Socket } from "socket.io";
-import CommendHandler from "@/services/socket-server/commendHandler";
+import CommendHandler from "@/services/socket-server/commandHandler";
 import type { DataStruct } from "@/services/socket-server/struct";
+import CommandHandler from "@/services/socket-server/commandHandler";
 
-export class CommendRouter {
-    private service: CommendHandler;
+export class CommandRouter {
+    private service: CommandHandler;
 
     constructor(socket: Socket, data: DataStruct) {
         console.log(data);
-        this.service = new CommendHandler();
-        const target = this.register(socket, data).get(<string>(data.data?.commend));
+        this.service = new CommandHandler();
+        const target = this.register(socket, data).get(<string>(data.data?.command));
         if (target) {
             target(socket, data);
         }
