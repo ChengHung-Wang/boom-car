@@ -1,8 +1,6 @@
 import './assets/main.css'
-
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import VueSocketIO from 'vue-3-socket.io'
 
 // @ts-ignore
 import App from '@/App.vue'
@@ -17,17 +15,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
     app.component(key, component)
 }
 
-const socketIO = new VueSocketIO({
-    debug: import.meta.env.DEV,
-    connection: import.meta.env.VITE_SOCKET_URL + ':' + import.meta.env.VITE_SOCKET_PORT,
-    options: {
-        // @ts-ignore
-        autoConnect: false
-    } //Optional options
-});
-
 app.use(createPinia())
-app.use(socketIO)
 app.use(ElementPlus)
 app.use(router)
 

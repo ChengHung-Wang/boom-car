@@ -1,5 +1,5 @@
 // TODO: 接入控制
-export default class directionControl
+export default class DirectionControl
 {
     constructor() {
 
