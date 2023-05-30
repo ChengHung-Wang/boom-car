@@ -1,7 +1,7 @@
 import { Server, Socket } from "socket.io";
 import * as Sender from "./sender";
 import * as SocketStruct from "@/services/socket-server/struct";
-import { CommendRouter } from "@/services/socket-server/router";
+import { CommandRouter } from "@/services/socket-server/router";
 import { createServer } from "http";
 import express from 'express';
 import cors from 'cors';
@@ -31,7 +31,7 @@ export default class SocketService {
             console.log(socket);
             this.registerMember(socket);
             socket.on("commend", (data) => {
-                new CommendRouter(socket, <SocketStruct.DataStruct>data)
+                new CommandRouter(socket, <SocketStruct.DataStruct>data)
             });
 
         });
