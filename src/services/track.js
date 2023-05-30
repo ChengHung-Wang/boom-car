@@ -279,6 +279,28 @@ export class Track {
     this.createStreetLights();
   }
 
+  buildTrack5() {
+    COLORS_ROAD = "#111111";
+    constants.COLORS_LANEMARKER = "#555555";
+    graphics.COLORS_FOG.COLORS_FOG = "#000000";
+    COLORS_LANDLIGHT = "#090909";
+    COLORS_LANDDARK = "#030303";
+
+    graphics.resetGraphics();
+    graphics.createCars();
+    graphics.createBuildings(true);
+    graphics.createStreetlights(true);
+    graphics.createBackgroundBuildings(true);
+    graphics.createNightSky();
+
+    this.addStraight(500);
+    this.calculateLength();
+    this.drawMap();
+
+    this.createRoadsideObjects(graphics.SPRITES_BUILDINGS, 0.95, 20, 3300, false);
+    this.createStreetLights();
+  }
+
   lastY() {
     return this.segments.length == 0
       ? 0

@@ -2,6 +2,7 @@
 import * as GameService from "@/services/racer.js"
 import { onMounted, Ref, ref, watch } from "vue";
 import { racer } from "@/services/racer.js";
+import { Race } from "@/services/race.js";
 import { useGameStore } from "@/stores/game";
 
 const gameCanvas: Ref<HTMLCanvasElement | undefined> = ref();
@@ -13,6 +14,9 @@ const camera = ref({
     y: 0,
     z: 0
 })
+
+const onControlCarIndex = ref(0);
+const onWatchCarIndex = ref(0);
 
 function startGame(trackNumber: number): void {
     gameStarted.value = true;
@@ -52,6 +56,7 @@ watch(
                           <el-button @click="startGame(0)" type="info">簡單</el-button>
                           <el-button @click="startGame(2)" type="info">中等</el-button>
                           <el-button @click="startGame(3)" type="info">困難</el-button>
+                          <el-button @click="startGame(4)" type="info">直線</el-button>
                       </el-button-group>
                       <p>遊戲中按 X 可以啟動加速。</p>
                   </div>
@@ -59,21 +64,25 @@ watch(
           </div>
       </div>
 
-      <div class="container text-light title-card" v-if="gameStarted">
-          <div class="focus-display">
+      <div class="container text-light" v-if="gameStarted">
+          <div class="focus-display p-absolute" style="top: 0; left: 0; padding: 15px">
             <p>名次 {{ gameStore.rank }}</p>
             <p>速度 {{ gameStore.speed }}</p>
-
             <p>圈數 [{{ gameStore.lapCount }}/現在圈數]</p>
             <p>經過時間 {{ gameStore.lapTime }}</p>
-
             <p>turbo {{ gameStore.turboAmount }}</p>
           </div>
-          <div class="row">
-              <div class="col-4">
-                  <h5>Camera X</h5>
-                  <el-slider v-model="camera.x" />
-              </div>
+          <div class="p-absolute" style="top: 300px; left: 0; padding: 15px">
+            <div>
+              <input v-model="onWatchCarIndex" type="number">
+              <button @click="racer.camera.WatchPlayer(onWatchCarIndex)">Watch</button>
+            </div>
+            <div>
+              <input v-model="onControlCarIndex" type="number">
+              <button @click="Race.ControlCar(onControlCarIndex)">Control</button>
+            </div>
+          </div>
+          <div class="row title-card p-absolute" style="top:0; right:0">
               <div class="col-4">
                   <h5>Camera Y</h5>
                   <el-slider v-model="camera.y" :min="300" :max="10000" />
@@ -117,5 +126,11 @@ watch(
     inset: 0;
     color: rgb(128, 128, 128);
     font-size: 24px;
+  }
+  .p-absolute {
+    position: absolute;
+  }
+  .p-relative {
+    position: relative;
   }
 </style>

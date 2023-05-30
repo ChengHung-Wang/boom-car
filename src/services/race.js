@@ -15,6 +15,7 @@ import { useGameStore } from "@/stores/game";
 // TODO: let it become module type to solve camera undefined.
 // controls the race
 export let PlayerIndex = 0;
+export let PlayerList = [0, 1, 2]
 
 const numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
 
@@ -38,6 +39,7 @@ export class Race {
 
     this.raceNumber = 3;
     this.gameStore = useGameStore();
+    this.gameStore.carCount = this.carCount
   }
 
   static COUNTDOWN_INTERVAL = 800;
@@ -45,7 +47,7 @@ export class Race {
   start(trackNumber) {
     raceAudioEngineSpeed(0);
     // trackNumber = parseInt(prompt("Select Track 0 to 3: (>= 4 will back to 0)."));
-    if (trackNumber >= 4) {
+    if (trackNumber >= 5) {
       trackNumber = 0;
     }
 
@@ -64,6 +66,9 @@ export class Race {
         break;
       case 3:
         racer.track.buildTrack4();
+        break;
+      case 4:
+        racer.track.buildTrack5();
         break;
     }
 
@@ -220,10 +225,10 @@ export class Race {
     if (time - this.lastTime > Race.COUNTDOWN_INTERVAL) {
       this.lastTime = racer.getTimestamp();
       this.countdownNumber--;
-      if (this.countdownNumber == 3) {
+      if (this.countdownNumber === 3) {
         speak("RACE");
       }
-      if (this.countdownNumber == 2) {
+      if (this.countdownNumber === 2) {
         speak(numbers[this.raceNumber]);
       }
       if (this.countdownNumber <= 0) {
@@ -403,6 +408,11 @@ export class Race {
     racer.player = racer.cars[carIndex];
   }
 
+  static ControlCar(carIndex) {
+    PlayerIndex = carIndex;
+    racer.player = racer.cars[carIndex];
+  }
+
 //改變車輛最大速度
   static ChangeMaxSpeed(carIndex, speed) {
     racer.cars[carIndex].maxSpeed = speed;
@@ -411,4 +421,9 @@ export class Race {
   static getCarSpeed(carIndex) {
     return racer.cars[carIndex].speed;
   }
+
+  static addPlayer(carIndex) {
+    PlayerList.push();
+  }
 }
+

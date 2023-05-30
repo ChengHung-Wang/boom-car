@@ -1,7 +1,7 @@
 import { raceAudioSetTurboTime, raceAudioEngineSpeed, raceAudioCrash } from "./audio.js";
 import { PI, mathRand, sin } from "./mathFunctions.js";
 import { utilPercentRemaining, utilIncrease, utilInterpolate } from "./util.js";
-import { STATE_RACEOVER, PlayerIndex } from "./race.js";
+import {STATE_RACEOVER, PlayerIndex, PlayerList} from "./race.js";
 import { Track } from "./track.js";
 import { speak } from "./speech.js";
 import { width, height } from "./render.js";
@@ -381,9 +381,9 @@ export class Car {
 
     this.bounce = this.bounce * mathRand() * speedPercent;
 
-    if (this.index == PlayerIndex && racer.race.state != STATE_RACEOVER) {
-      // its the player
 
+    if (PlayerList.includes(this.index) && racer.race.state !== STATE_RACEOVER) {
+      // its the player
       this.x = this.x - (dx * speedPercent * playerSegment.curve * this.centrifugal);
 
       if (this.driftDirection != 0) {
@@ -446,7 +446,7 @@ export class Car {
         // check for collision will roadside object, same segment and rects overlap
         const carX = this.x;
         if (this.overlap(carX, this.width, spriteX, spriteW, 1)) {
-          if (this.index == PlayerIndex) {
+          if (this.index === PlayerIndex) {
             raceAudioCrash();
             this.slipstream = 0;
             this.slipstreamTime = 0;
