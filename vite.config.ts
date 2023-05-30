@@ -2,6 +2,7 @@ import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { fileURLToPath } from "url";
+import * as path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -13,6 +14,6 @@ export default defineConfig({
       { find: '@cmp', replacement: fileURLToPath(new URL('./src/shared/cmp', import.meta.url)) },
       { find: '@stores', replacement: fileURLToPath(new URL('./src/shared/stores', import.meta.url)) },
       { find: '@use', replacement: fileURLToPath(new URL('./src/shared/use', import.meta.url)) },
-    ]
+    ],
   }
 })
