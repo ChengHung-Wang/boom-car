@@ -6,6 +6,7 @@ export class CommendRouter {
     private service: CommendHandler;
 
     constructor(socket: Socket, data: DataStruct) {
+        console.log(data);
         this.service = new CommendHandler();
         const target = this.register(socket, data).get(<string>(data.data?.commend));
         if (target) {

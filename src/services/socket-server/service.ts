@@ -22,7 +22,10 @@ export default class SocketService {
 
         this.io = new Server(server, {
             // @ts-ignore
-            allowEIO3: true
+            allowEIO3: true,
+            cors: {
+                origin: '*',
+            }
         });
         this.io.on('connection', (socket: Socket) => {
             console.log(socket);
