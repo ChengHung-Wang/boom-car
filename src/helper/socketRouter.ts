@@ -7,7 +7,7 @@ export function sync(data: DataStruct): void {
     list.set("car-straight", (new socketSync()).carStraight);
     list.set("car-straight-cancel", (new socketSync()).carStraight);
 
-    const target = list.get(<string>data.data?.commend);
+    const target = list.get(<string>data.data?.command);
     if (target) {
         target(data)
     }

@@ -40,9 +40,6 @@ racer.dt = 0;
 racer.gdt = 0;
 
 racer.cars = [];
-// racer.letCarStraight = () => {
-//
-// }
 racer.player = null;
 
 racer.startGame = function (trackNumber) {
@@ -94,4 +91,3 @@ function frame() {
     }
     requestAnimationFrame(frame);
 }
-

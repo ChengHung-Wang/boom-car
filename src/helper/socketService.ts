@@ -34,7 +34,7 @@ export default class SocketService {
         setInterval(() => {
             this.send(<DataStruct>{
                 data: {
-                    commend: "car-straight",
+                    command: "car-straight",
                     position: {
                         x: 0,
                         y: 0
@@ -52,9 +52,9 @@ export default class SocketService {
 
     send(data: DataStruct, needRes: boolean = false): void {
         if (this.socket === null || !this.socket.connected) return;
-        data.type = "commend";
+        data.type = "command";
         data.hash = this.getHash();
-        this.socket.emit("commend", data)
+        this.socket.emit("command", data)
         this.taskList.set(data.hash, <eventLog>{
             req: data,
             needResult: needRes
@@ -62,7 +62,7 @@ export default class SocketService {
     }
 
     onSync(data: DataStruct) {
-        router.sync(data)
+        router.sync(data);
     }
 
     onResult(data: DataStruct): void {

@@ -5,10 +5,9 @@ export default class socketSync
 {
     carStraight(data: DataStruct): void
     {
-
         // select which car
         // do action
-        // racer.player.setAccelerate(true);
+        racer.player.setAccelerate(true);
     }
 
     carStraightCancel(data: DataStruct): void
