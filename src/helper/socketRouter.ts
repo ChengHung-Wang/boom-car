@@ -13,7 +13,7 @@ export function sync(data: DataStruct): void {
     list.set("car-turbo", (new socketSync()).carTurbo);
     list.set("car-turbo-cancel", (new socketSync()).carTurboCancel);
     list.set("car-underspeed", (new socketSync()).carUnderSpeed);
-    list.set("car-underspeedcancel", (new socketSync()).carUnderSpeedCancel);
+    list.set("car-underspeed-cancel", (new socketSync()).carUnderSpeedCancel);
 
     const target = list.get(<string>data.data?.command);
     if (target) {
