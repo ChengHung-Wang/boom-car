@@ -2,6 +2,8 @@ import { io } from "socket.io-client"
 import { useSocketStore } from "@/stores/socket";
 import type { Socket } from "socket.io-client";
 import type { DataStruct } from "@/services/socket-server/struct";
+import * as router from "./socketRouter"
+import socketSender from "@/helper/socketSender";
 
 interface eventLog {
     req: DataStruct,
@@ -60,7 +62,7 @@ export default class SocketService {
     }
 
     onSync(data: DataStruct) {
-        console.log('sync', data);
+        router.sync(data)
     }
 
     onResult(data: DataStruct): void {

@@ -10,9 +10,9 @@ function start()
 
 <template>
 <!--  <SocketHelper />-->
-    <input type="button" value="start" @click="start()">
-    <input type="button" value="test" @click="helper.socket.test()">
-<!--    <RouterView />-->
+    <input style="z-index: 999;" type="button" value="start" @click="start()">
+    <input style="z-index: 999;" type="button" value="test" @click="helper.socket.test()">
+    <RouterView />
 </template>
 
 <style scoped>
