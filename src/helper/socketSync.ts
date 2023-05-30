@@ -14,4 +14,44 @@ export default class socketSync
     {
         // racer.player.setAccelerate(false);
     }
+
+    carLeft(data: DataStruct): void
+    {
+
+    }
+
+    carLeftCancel(data: DataStruct): void
+    {
+
+    }
+
+    carRight(data: DataStruct): void
+    {
+
+    }
+
+    carRightCancel(data: DataStruct): void
+    {
+
+    }
+
+    carTurbo(data: DataStruct): void
+    {
+
+    }
+
+    carTurboCancel(data: DataStruct): void
+    {
+
+    }
+
+    carUnderSpeed(data: DataStruct): void
+    {
+
+    }
+
+    carUnderSpeedCancel(data: DataStruct): void
+    {
+
+    }
 }

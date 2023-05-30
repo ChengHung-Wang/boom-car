@@ -255,13 +255,13 @@ export class Car {
     const i = this.position;
     const j = i % 10;
     const k = i % 100;
-    if (j == 1 && k != 11) {
+    if (j === 1 && k !== 11) {
       return i + "st";
     }
-    if (j == 2 && k != 12) {
+    if (j === 2 && k !== 12) {
       return i + "nd";
     }
-    if (j == 3 && k != 13) {
+    if (j === 3 && k !== 13) {
       return i + "rd";
     }
     return i + "th";
@@ -325,7 +325,6 @@ export class Car {
           this.driftAmount = 1.2;
           this.drift = true;
         }
-        //mult -= 0.1;
         // can turn faster
       } else {
         mult -= 0.5;
@@ -338,7 +337,7 @@ export class Car {
     if (this.driftAmount > 0 && this.speed > 8000) {
       this.driftAmount -= dt;
       mult -= 0.04;
-      if (this.driftDirection == 0) {
+      if (this.driftDirection === 0) {
         if (this.turnLeft) {
           this.driftDirection = -1;
         }
@@ -381,12 +380,12 @@ export class Car {
 
     this.bounce = this.bounce * mathRand() * speedPercent;
 
-    if (this.index == PlayerIndex && racer.race.state != STATE_RACEOVER) {
+    if (this.index === PlayerIndex && racer.race.state !== STATE_RACEOVER) {
       // its the player
 
       this.x = this.x - (dx * speedPercent * playerSegment.curve * this.centrifugal);
 
-      if (this.driftDirection != 0) {
+      if (this.driftDirection !== 0) {
         dx = dx * 0.5;
       }
       if (this.turnLeft)
@@ -446,7 +445,7 @@ export class Car {
         // check for collision will roadside object, same segment and rects overlap
         const carX = this.x;
         if (this.overlap(carX, this.width, spriteX, spriteW, 1)) {
-          if (this.index == PlayerIndex) {
+          if (this.index === PlayerIndex) {
             raceAudioCrash();
             this.slipstream = 0;
             this.slipstreamTime = 0;
@@ -518,9 +517,9 @@ export class Car {
       );
       const newX = this.x + turnDir * dx;
 
-      if (currentSegment.curve == 0) {
-        this.turnLeft = (turnDir == -1);
-        this.turnRight = (turnDir == 1);
+      if (currentSegment.curve === 0) {
+        this.turnLeft = (turnDir === -1);
+        this.turnRight = (turnDir === 1);
       } else {
         this.turnLeft = (currentSegment.curve < -0.5);
         this.turnRight = (currentSegment.curve > 0.5);
@@ -542,7 +541,7 @@ export class Car {
       for (let n = 0; n < newSegment.cars.length; ++n) {
         const car = newSegment.cars[n];
 
-        if (car.index != this.index) {
+        if (car.index !== this.index) {
           if (this.speed > car.speed) {
             // check for collision with other car, same segment and rects overlap
             if (this.overlap(this.x, this.width, car.x, car.width, 1)) {
@@ -552,7 +551,7 @@ export class Car {
                   car.speed = car.speed * 1.2;
                 }
               } else {
-                if (this.index == PlayerIndex) {
+                if (this.index === PlayerIndex) {
                   raceAudioCrash();
                   this.slipstream = 0;
                   this.slipstreamTime = 0;
@@ -580,11 +579,11 @@ export class Car {
     // limit the speed to max speed
     this.speed = this.limit(this.speed, 0, maxSpeed); // or exceed maxSpeed
 
-    if (this.index == 0) {
+    if (this.index === 0) {
       raceAudioEngineSpeed(this.speedPercent);
     }
 
-    if (currentSegment != newSegment) {
+    if (currentSegment !== newSegment) {
       const index = currentSegment.cars.indexOf(this);
       currentSegment.cars.splice(index, 1);
       newSegment.cars.push(this);
@@ -596,7 +595,7 @@ export class Car {
       this.lapStarted = true;
       this.lastLapTime = this.currentLapTime;
       //報時 一圈所花時間
-      if (this.lap == 2 && this.index == PlayerIndex) {
+      if (this.lap === 2 && this.index === PlayerIndex) {
         Callback.callback_LapOver();
         speak("lap time " + this.getCurrentLapTime().toFixed(2));
       }
@@ -614,7 +613,7 @@ export class Car {
     const currentPosition = this.position;
     this.position = 1;
     for (let i = 0; i < racer.cars.length; ++i) {
-      if (i != this.index) {
+      if (i !== this.index) {
         if (racer.cars[i].lap > this.lap) {
           this.position++;
         } else if (racer.cars[i].lap === this.lap) {
@@ -625,7 +624,7 @@ export class Car {
       }
     }
 
-    if (this.index == PlayerIndex) {
+    if (this.index === PlayerIndex) {
       if (this.newPositionTime > 0) {
         this.newPositionTime -= dt;
       }
@@ -636,7 +635,7 @@ export class Car {
       }
     }
     //this.lap圈數
-    if (this.index === PlayerIndex && this.lap === 3 && racer.race.state != STATE_RACEOVER) {
+    if (this.index === PlayerIndex && this.lap === 3 && racer.race.state !== STATE_RACEOVER) {
       // race over!!!
       this.finishPosition = this.getPosition();
       speak("Race. Over.");
@@ -648,7 +647,7 @@ export class Car {
 
       racer.race.raceOver();
     }
-    if(this.speed != this.previous_speed){
+    if(this.speed !== this.previous_speed){
       this.previous_speed = this.speed;
       // Callback.callback_SpeedChange(this.speed);
     }
