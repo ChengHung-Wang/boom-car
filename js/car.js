@@ -650,7 +650,7 @@ class Car {
         && (this.speed > player.speed) 
         && (this.overlap(otherCarLeft, otherCarWidth, this.x, this.width, 1.2))) {
         */
-        for (n = 0; n < segment.cars.length; n++) {
+        for (let n = 0; n < segment.cars.length; n++) {
           var otherCar = segment.cars[n];
 
           var otherCarLeft = otherCar.x;
