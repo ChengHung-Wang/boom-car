@@ -11,6 +11,7 @@ import { constants } from "./constants.js";
 import { DARKGREY, LIGHTGREY } from "./graphics.js";
 import * as render from "./render.js";
 import { useGameStore } from "@/stores/game";
+import { socketSender } from "@/helper/socketSender.ts";
 
 // TODO: let it become module type to solve camera undefined.
 // controls the race
@@ -33,11 +34,18 @@ export class Race {
 
     this.trackNumber = 0;
 
-    this.zIsDown = false;
-    this.xIsDown = false;
+    this.KeyzIsDown = false;
+    this.KeyxIsDown = false;
+    this.KeyUpIsDown = false;
+    this.KeyDownIsDown = false;
+    this.KeyLeftIsDown = false;
+    this.KeyRightIsDown = false;
 
     this.raceNumber = 3;
     this.gameStore = useGameStore();
+
+    this.socket_sender = new socketSender();
+
   }
 
   static COUNTDOWN_INTERVAL = 800;
@@ -83,17 +91,20 @@ export class Race {
   keyDown(e) {
     if (this.state !== STATE_RACEOVER) {
       switch (e.keyCode) {
-        case 90: // z
-          this.zIsDown = true;
-          racer.player.setDrift(true);
+        case 90: //
+            racer.player.setDrift(true);
           break;
         case 88: // x
-          this.xIsDown = true;
+          this.KeyxIsDown = true;
           racer.player.setTurbo(true);
           break;
         case constants.KEYUP:
-          racer.player.setAccelerate(true);
-          // console.log(racer.player);
+          if(!this.KeyzIsDown) {
+            this.KeyzIsDown = true;
+            this.socket_sender.carStraight(racer.player);
+            racer.player.setAccelerate(true);
+            // console.log(racer.player);
+          }
           break;
         case constants.KEYDOWN:
           racer.player.setBrake(true);
@@ -112,15 +123,19 @@ export class Race {
     if (this.state != STATE_RACEOVER) {
       switch (e.keyCode) {
         case 90: // z
-          this.zIsDown = false;
+          this.KeyzIsDown = false;
           racer.player.setDrift(false);
           break;
         case 88:
-          this.xIsDown = false;
+          this.KeyxIsDown = false;
           racer.player.setTurbo(false);
           break;
         case constants.KEYUP:
-          racer.player.setAccelerate(false);
+          if(this.KeyzIsDown) {
+            this.KeyzIsDown = false;
+            this.socket_sender.carStraightCancel(racer.player);
+            racer.player.setAccelerate(false);
+          }
           break;
         case constants.KEYDOWN:
           racer.player.setBrake(false);
@@ -134,7 +149,7 @@ export class Race {
       }
     } else {
       if (e.keyCode == 90) {
-        if (!this.zIsDown) {
+        if (!this.KeyzIsDown) {
           // retry race
 
           this.start(this.raceNumber);
@@ -143,13 +158,13 @@ export class Race {
       }
 
       if (e.keyCode == 88) {
-        if (!this.xIsDown) {
+        if (!this.KeyxIsDown) {
           // next race
           if (racer.cars[PlayerIndex].finishPosition == "1st") {
             this.start(this.raceNumber + 1);
           }
         }
-        this.xIsDown = false;
+        this.KeyxIsDown = false;
       }
     }
   }
