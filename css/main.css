@@ -21,6 +21,7 @@ html, body {
     align-items: center;
     justify-content: start;
 }
+
 .h-100vh {
     height: 100vh;
 }
@@ -29,4 +30,14 @@ html, body {
     backdrop-filter: saturate(180%) blur(30px);
     background: rgba(0, 0, 0, 0.3);
     padding: 15px;
+    z-index: 5;
+}
+
+#map {
+    position: fixed;
+    background-color: transparent;
+    left: 0px;
+    top: 200px;
+    width: 400px;
+    height: 270px;
 }

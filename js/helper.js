@@ -1,6 +1,5 @@
 $("#gameCanvas").attr("width", document.documentElement.clientWidth);
 $("#gameCanvas").attr("height", document.documentElement.clientHeight);
-
 const { createApp } = Vue
 const appOption = {
     data() {
