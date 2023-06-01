@@ -7,7 +7,7 @@ export class socketSender {
     }
 
     carStraight(car: Car) : void {
-        console.log("send car-straight")
+        console.log("send carStraight")
         this.command(<DataStruct>{
             data: {
                 command: "carStraight",
@@ -22,7 +22,7 @@ export class socketSender {
     }
 
     carStraightCancel(car: Car) : void {
-        console.log("send car-straight-cancel")
+        console.log("send carStraightCancel")
         this.command(<DataStruct>{
             data: {
                 command: "carStraightCancel",
@@ -36,27 +36,93 @@ export class socketSender {
         })
     }
 
-    carLeft() : void {
-
+    carLeft(car: Car) : void {
+        console.log("send carLeft")
+        this.command(<DataStruct>{
+            data: {
+                command: "carLeft",
+                position: {
+                    x: car.x,
+                    y: car.y
+                },
+                speed: car.speed,
+                group_id: 1
+            }
+        })
     }
 
-    carLeftCancel() : void {
-
+    carLeftCancel(car: Car) : void {
+        console.log("send carLeftCancel")
+        this.command(<DataStruct>{
+            data: {
+                command: "carLeftCancel",
+                position: {
+                    x: car.x,
+                    y: car.y
+                },
+                speed: car.speed,
+                group_id: 1
+            }
+        })
     }
 
-    carRight() : void {
-
+    carRight(car: Car) : void {
+        console.log("send carRight")
+        this.command(<DataStruct>{
+            data: {
+                command: "carRight",
+                position: {
+                    x: car.x,
+                    y: car.y
+                },
+                speed: car.speed,
+                group_id: 1
+            }
+        })
     }
 
-    carRightCancel() : void {
-
+    carRightCancel(car: Car) : void {
+        console.log("send carRightCancel")
+        this.command(<DataStruct>{
+            data: {
+                command: "carRightCancel",
+                position: {
+                    x: car.x,
+                    y: car.y
+                },
+                speed: car.speed,
+                group_id: 1
+            }
+        })
     }
 
-    carTurbo() : void {
-
+    carTurbo(car: Car) : void {
+        console.log("send carTurbo")
+        this.command(<DataStruct>{
+            data: {
+                command: "carTurbo",
+                position: {
+                    x: car.x,
+                    y: car.y
+                },
+                speed: car.speed,
+                group_id: 1
+            }
+        })
     }
 
-    carTurboCancel() : void {
-
+    carTurboCancel(car: Car) : void {
+        console.log("send carTurboCancel")
+        this.command(<DataStruct>{
+            data: {
+                command: "carTurboCancel",
+                position: {
+                    x: car.x,
+                    y: car.y
+                },
+                speed: car.speed,
+                group_id: 1
+            }
+        })
     }
 }
