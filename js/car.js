@@ -651,7 +651,6 @@ class Car {
         */
         for (let n = 0; n < segment.cars.length; n++) {
           let otherCar = segment.cars[n];
-
           let otherCarLeft = otherCar.x;
           let otherCarWidth = otherCar.width;
           let otherCarRight = otherCar.x + otherCar.width;
