@@ -635,7 +635,6 @@ export class Car {
       if (i < 8) {
         for (let n = 0; n < segment.cars.length; ++n) {
           const otherCar = segment.cars[n];
-
           const otherCarLeft = otherCar.x;
           const otherCarRight = otherCar.x + otherCar.width;
 
