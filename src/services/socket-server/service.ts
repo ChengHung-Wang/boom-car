@@ -15,7 +15,6 @@ export default class SocketService {
     };
 
     constructor(port: number = 3000) {
-        const httpServer = createServer();
         const app = express();
         app.use(cors());
         const server = createServer(app);
@@ -30,7 +29,7 @@ export default class SocketService {
         this.io.on('connection', (socket: Socket) => {
             console.log(socket);
             this.registerMember(socket);
-            socket.on("commend", (data) => {
+            socket.on("command", (data) => {
                 new CommandRouter(socket, <SocketStruct.DataStruct>data)
             });
 
