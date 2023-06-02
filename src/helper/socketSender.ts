@@ -13,7 +13,8 @@ export default class socketSender {
                 command: "carStraight",
                 position: {
                     x: car.x,
-                    y: car.y
+                    y: car.y,
+                    z: car.z
                 },
                 speed: car.speed,
                 group_id: 1
@@ -28,7 +29,8 @@ export default class socketSender {
                 command: "carStraightCancel",
                 position: {
                     x: car.x,
-                    y: car.y
+                    y: car.y,
+                    z: car.z
                 },
                 speed: car.speed,
                 group_id: 1
@@ -43,7 +45,8 @@ export default class socketSender {
                 command: "carLeft",
                 position: {
                     x: car.x,
-                    y: car.y
+                    y: car.y,
+                    z: car.z
                 },
                 speed: car.speed,
                 group_id: 1
@@ -58,7 +61,8 @@ export default class socketSender {
                 command: "carLeftCancel",
                 position: {
                     x: car.x,
-                    y: car.y
+                    y: car.y,
+                    z: car.z
                 },
                 speed: car.speed,
                 group_id: 1
@@ -73,7 +77,8 @@ export default class socketSender {
                 command: "carRight",
                 position: {
                     x: car.x,
-                    y: car.y
+                    y: car.y,
+                    z: car.z
                 },
                 speed: car.speed,
                 group_id: 1
@@ -88,7 +93,8 @@ export default class socketSender {
                 command: "carRightCancel",
                 position: {
                     x: car.x,
-                    y: car.y
+                    y: car.y,
+                    z: car.z
                 },
                 speed: car.speed,
                 group_id: 1
@@ -103,7 +109,8 @@ export default class socketSender {
                 command: "carTurbo",
                 position: {
                     x: car.x,
-                    y: car.y
+                    y: car.y,
+                    z: car.z
                 },
                 speed: car.speed,
                 group_id: 1
@@ -118,7 +125,8 @@ export default class socketSender {
                 command: "carTurboCancel",
                 position: {
                     x: car.x,
-                    y: car.y
+                    y: car.y,
+                    z: car.z
                 },
                 speed: car.speed,
                 group_id: 1

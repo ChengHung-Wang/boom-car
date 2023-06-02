@@ -37,7 +37,8 @@ export default class SocketService {
                     command: "car-straight",
                     position: {
                         x: 0,
-                        y: 0
+                        y: 0,
+                        z: 0
                     },
                     speed: 220.4,
                     group_id: 1

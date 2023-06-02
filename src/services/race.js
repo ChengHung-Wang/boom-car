@@ -11,7 +11,7 @@ import { constants } from "./constants.js";
 import { DARKGREY, LIGHTGREY } from "./graphics.js";
 import * as render from "./render.js";
 import { useGameStore } from "@/stores/game";
-import { socketSender } from "@/helper/socketSender.ts";
+import socketSender from "@/helper/socketSender.ts";
 
 // TODO: let it become module type to solve camera undefined.
 // controls the race

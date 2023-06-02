@@ -7,7 +7,8 @@ export interface DataStruct {
         command?: string,
         position?: {
             x: number,
-            y: number
+            y: number,
+            z: number
         },
         speed?: number,
         player_id: string,
