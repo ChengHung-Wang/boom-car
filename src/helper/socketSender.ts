@@ -1,7 +1,7 @@
 import type { DataStruct } from "@/services/socket-server/struct";
 import * as helper from "@/helper/helper"
 import type { Car } from "@/services/car.js";
-export class socketSender {
+export default class socketSender {
     command(data: DataStruct) : void {
         helper.socket.send(data);
     }
