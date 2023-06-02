@@ -14,6 +14,12 @@ export function sync(data: DataStruct): void {
     list.set("car-turbo-cancel", socketSync.carTurboCancel);
     list.set("car-underspeed", socketSync.carUnderSpeed);
     list.set("car-underspeed-cancel", socketSync.carUnderSpeedCancel);
+    list.set("over-lap", socketSync.overLap);
+    list.set("set-nickname", socketSync.setNickname);
+    list.set("get-members", socketSync.getMembers);
+    list.set("join-group", socketSync.joinGroup);
+    list.set("get-config", socketSync.getConfig);
+    list.set("set-car-style", socketSync.setCarStyle);
 
     const target = list.get(<string>data.data?.command);
     if (target) {

@@ -49,4 +49,28 @@ export default class socketSync {
     static carUnderSpeedCancel(data: DataStruct): void {
 
     }
+
+    static overLap(data: DataStruct): void {
+
+    }
+
+    static setNickname(data: DataStruct): void {
+
+    }
+
+    static getMembers(data: DataStruct): void {
+
+    }
+
+    static joinGroup(data: DataStruct): void {
+
+    }
+
+    static getConfig(data: DataStruct): void {
+
+    }
+
+    static setCarStyle(data: DataStruct): void {
+
+    }
 }
