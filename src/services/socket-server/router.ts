@@ -1,9 +1,9 @@
 import type { Socket } from "socket.io";
-import CommendHandler from "@/services/socket-server/commendHandler";
+import CommandHandler from "@/services/socket-server/commandHandler";
 import type { DataStruct } from "@/services/socket-server/struct";
 
-export class CommendRouter {
-    private service: CommendHandler;
+export class CommandRouter {
+    private service: CommandHandler;
 
     constructor(socket: Socket, data: DataStruct) {
         console.log(data);

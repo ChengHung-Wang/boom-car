@@ -4,10 +4,10 @@ export interface userInfo {
     nickname?: string;
 }
 export interface DataStruct {
-    type: "commend" | "sync" | "media" | "result" | "error",
+    type: "command" | "sync" | "media" | "result" | "error",
     hash?: string,
     data?: {
-        commend?: string,
+        command?: string,
         position?: {
             x: number,
             y: number

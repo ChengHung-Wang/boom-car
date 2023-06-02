@@ -5,7 +5,7 @@ import * as variables from "./main"
 import {FindMemberGroup, memberList} from "./main";
 import type {userInfo} from "@/services/socket-server/struct";
 
-export default class CommendHandler {
+export default class CommandHandler {
     public joinGroup(socket: Socket, data: DataStruct): void
     {
         socket.join(<string>data.data?.jointGroup);
@@ -66,7 +66,6 @@ export default class CommendHandler {
             }
         });
     }
-
     public carStraight(socket: Socket, data: DataStruct, cancel: boolean = false): void {
         let groupNumber:string|undefined  = FindMemberGroup.get(<string>data.data?.player_id);
         delete data.hash;

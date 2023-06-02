@@ -1,7 +1,7 @@
 import { Server, Socket } from "socket.io";
 import * as Sender from "./sender";
 import * as SocketStruct from "@/services/socket-server/struct";
-import { CommendRouter } from "@/services/socket-server/router";
+import { CommandRouter } from "@/services/socket-server/router";
 import { createServer } from "http";
 import express from 'express';
 import cors from 'cors';
@@ -15,7 +15,6 @@ export default class SocketService {
     };
 
     constructor(port: number = 3000) {
-        const httpServer = createServer();
         const app = express();
         app.use(cors());
         const server = createServer(app);
@@ -30,8 +29,8 @@ export default class SocketService {
         this.io.on('connection', (socket: Socket) => {
             console.log(socket);
             this.registerMember(socket);
-            socket.on("commend", (data) => {
-                new CommendRouter(socket, <SocketStruct.DataStruct>data)
+            socket.on("command", (data) => {
+                new CommandRouter(socket, <SocketStruct.DataStruct>data)
             });
 
         });
