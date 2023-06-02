@@ -23,6 +23,7 @@
     "pinia": "^2.0.36",
     "socket.io": "^4.6.1",
     "socket.io-client": "^4.6.1",
+    "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
     "vue": "^3.3.2",
     "vue-3-socket.io": "^1.0.5",

@@ -11,4 +11,7 @@ export class Sync implements SocketStruct.Methods {
     send(socket: Socket, data: SocketStruct.DataStruct): void {
         socket.broadcast.emit("sync", data);
     }
+    sendGroup(socket: Socket, data: SocketStruct.DataStruct,groupNumber:string): void {
+        socket.to(groupNumber).emit("sync", data);
+    }
 }
