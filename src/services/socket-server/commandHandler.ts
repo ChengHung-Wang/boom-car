@@ -10,6 +10,7 @@ export default class CommandHandler {
     }
 
     public carStraightCancel(socket: Socket, data: DataStruct): void {
-        this.carStraight(socket, data, true);
+        delete data.hash;
+        (new Sender.Sync()).send(socket, data);
     }
 }
