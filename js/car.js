@@ -402,15 +402,15 @@ class Car {
         dx = dx * 0.5;
       }
       if(this.turnRight == this.turnLeft){
-        callback_TurnChange("Straight")
+        //callback_TurnChange("Straight")
       }
       else if (this.turnLeft){
         this.x = this.x - dx;
-        callback_TurnChange("Left");
+        //callback_TurnChange("Left");
       }
       else if (this.turnRight){
         this.x = this.x + dx;
-        callback_TurnChange("Right");
+        //callback_TurnChange("Right");
       }
 
       var ddrift = this.driftDirection * this.speed * 0.00055;
@@ -471,7 +471,7 @@ class Car {
             this.slipstreamTime = 0;
             //if(!this.PlayerCrashingWithBuilding){
               //this.PlayerCrashingWithBuilding = true;
-            callback_PlayerCrashwithBuilding();
+            //callback_PlayerCrashwithBuilding();
             //}
           }
           this.speed = maxSpeed / 5;
@@ -563,7 +563,7 @@ class Car {
                   raceAudioCrash();
                   this.slipstream = 0;
                   this.slipstreamTime = 0;
-                  callback_PlayerCrashwithCar(car);
+                  //callback_PlayerCrashwithCar(car);
                 }
 
                 this.speed = car.speed;
@@ -580,13 +580,13 @@ class Car {
     if(!this.offroading) {
       if (this.x + this.width / 2 < trackLeft - 0.5 * this.width || this.x + this.width / 2 > trackRight + 0.5 * this.width) {
         this.offroading = true;
-        callback_RunOffTrack();
+        //callback_RunOffTrack();
       }
     }
     else{
       if (this.x + this.width / 2 > trackLeft + 0.5 * this.width && this.x + this.width / 2 < trackRight - 0.5 * this.width) {
         this.offroading = false;
-        callback_BackOnTrack();
+        //callback_BackOnTrack();
       }
     }
 
@@ -618,7 +618,7 @@ class Car {
       this.lastLapTime = this.currentLapTime;
 
       if (this.lap > 1){//What is this.index??
-        callback_LapOver(this.lap - 1);
+        //callback_LapOver(this.lap - 1);
       }
       if (this.lap == 2 && this.index == 0) {
         //!== 1 && this.lap !== 3) {
@@ -673,7 +673,7 @@ class Car {
 
     if(this.speed != this.previous_speed){
       this.previous_speed = this.speed;
-      callback_SpeedChange(this.speed);
+      //callback_SpeedChange(this.speed);
     }
   }
 
