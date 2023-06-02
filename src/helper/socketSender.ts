@@ -10,7 +10,7 @@ export default class socketSender {
         console.log("send carStraight")
         this.command(<DataStruct>{
             data: {
-                command: "carStraight",
+                command: "car-straight",
                 position: {
                     x: car.x,
                     y: car.y,
@@ -26,7 +26,7 @@ export default class socketSender {
         console.log("send carStraightCancel")
         this.command(<DataStruct>{
             data: {
-                command: "carStraightCancel",
+                command: "car-straight-cancel",
                 position: {
                     x: car.x,
                     y: car.y,
@@ -42,7 +42,7 @@ export default class socketSender {
         console.log("send carLeft")
         this.command(<DataStruct>{
             data: {
-                command: "carLeft",
+                command: "car-left",
                 position: {
                     x: car.x,
                     y: car.y,
@@ -58,7 +58,7 @@ export default class socketSender {
         console.log("send carLeftCancel")
         this.command(<DataStruct>{
             data: {
-                command: "carLeftCancel",
+                command: "car-left-cancel",
                 position: {
                     x: car.x,
                     y: car.y,
@@ -74,7 +74,7 @@ export default class socketSender {
         console.log("send carRight")
         this.command(<DataStruct>{
             data: {
-                command: "carRight",
+                command: "car-right",
                 position: {
                     x: car.x,
                     y: car.y,
@@ -90,7 +90,7 @@ export default class socketSender {
         console.log("send carRightCancel")
         this.command(<DataStruct>{
             data: {
-                command: "carRightCancel",
+                command: "car-right-cancel",
                 position: {
                     x: car.x,
                     y: car.y,
@@ -106,7 +106,7 @@ export default class socketSender {
         console.log("send carTurbo")
         this.command(<DataStruct>{
             data: {
-                command: "carTurbo",
+                command: "car-turbo",
                 position: {
                     x: car.x,
                     y: car.y,
@@ -122,7 +122,7 @@ export default class socketSender {
         console.log("send carTurboCancel")
         this.command(<DataStruct>{
             data: {
-                command: "carTurboCancel",
+                command: "car-turbo-cancel",
                 position: {
                     x: car.x,
                     y: car.y,
