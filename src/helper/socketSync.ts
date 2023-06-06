@@ -1,5 +1,4 @@
 import type { DataStruct } from "@/services/socket-server/struct";
-import { Struct } from "@/services/socket-server/struct";
 import { racer } from "@/services/racer";
 
 export default class socketSync {
@@ -83,11 +82,10 @@ export default class socketSync {
 
     }
 
-    carStateUpdate(data: Struct, playerIndex: number){
-        racer.cars[playerIndex].x = data.data.position.x;
-        racer.cars[playerIndex].y = data.data.position.y;
-        racer.cars[playerIndex].z = data.data.position.z;
-        racer.cars[playerIndex].speed = data.data.speed;
-
+    static carStateUpdate(data: DataStruct, playerIndex: number){
+        racer.cars[playerIndex].x = data.data?.position?.x;
+        racer.cars[playerIndex].y = data.data?.position?.y;
+        racer.cars[playerIndex].z = data.data?.position?.z;
+        racer.cars[playerIndex].speed = data.data?.speed;
     }
 }
