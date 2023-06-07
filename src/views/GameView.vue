@@ -3,6 +3,7 @@ import * as GameService from "@/services/racer.js"
 import { onMounted, Ref, ref, watch } from "vue";
 import { racer } from "@/services/racer.js";
 import { useGameStore } from "@/stores/game";
+import { playerIndex } from "@/helper/socketSync";
 
 const gameCanvas: Ref<HTMLCanvasElement | undefined> = ref();
 const gameStore = useGameStore();
@@ -43,6 +44,7 @@ watch(
   <div id="game">
       <canvas ref="gameCanvas"></canvas>
       <div class="container" v-if="!gameStarted">
+
           <div class="row">
               <div class="col-12 fsc text-light h-100vh">
                   <div class="title-card">
@@ -54,6 +56,10 @@ watch(
                           <el-button @click="startGame(3)" type="info">困難</el-button>
                       </el-button-group>
                       <p>遊戲中按 X 可以啟動加速。</p>
+                      <select v-model="playerIndex">
+                        <option value="0">player index: 0</option>
+                        <option value="1">player index: 1</option>
+                      </select>
                   </div>
               </div>
           </div>
@@ -96,6 +102,7 @@ watch(
   }
   .title-card {
       backdrop-filter: saturate(180%) blur(30px);
+      -webkit-backdrop-filter: saturate(180%) blur(30px);
       background: rgba(0, 0, 0, 0.3);
       padding: 15px;
   }

@@ -1,5 +1,9 @@
 import type { DataStruct } from "@/services/socket-server/struct";
 import { racer } from "@/services/racer";
+import { ref } from "vue";
+import type { Ref } from "vue";
+
+export let playerIndex: Ref<number> = ref(1);
 
 export default class socketSync {
     static carStraight(data: DataStruct): void {
