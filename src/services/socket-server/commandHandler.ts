@@ -65,15 +65,16 @@ export default class CommandHandler {
         });
     }
 
-    public carStraight(socket: Socket, data: DataStruct, cancel: boolean = false): void {
+    public carStraight(socket: Socket, data: DataStruct): void {
         let groupNumber: string | undefined = FindMemberGroup.get(<string>data.data?.player_id);
         delete data.hash;
         (new Sender.Sync()).sendGroup(socket, data, <string>groupNumber);
     }
 
     public carStraightCancel(socket: Socket, data: DataStruct): void {
+        let groupNumber: string | undefined = FindMemberGroup.get(<string>data.data?.player_id);
         delete data.hash;
-        this.carStraight(socket, data, true);
+        (new Sender.Sync()).sendGroup(socket, data, <string>groupNumber);
     }
 
     public carRight(socket: Socket, data: DataStruct): void {
@@ -84,7 +85,7 @@ export default class CommandHandler {
 
     public carRightCancel(socket: Socket, data: DataStruct): void {
         delete data.hash;
-        this.carStraight(socket, data, true);
+        this.carStraight(socket, data);
     }
 
     public carLeft(socket: Socket, data: DataStruct): void {
@@ -95,7 +96,7 @@ export default class CommandHandler {
 
     public carLeftCancel(socket: Socket, data: DataStruct): void {
         delete data.hash;
-        this.carStraight(socket, data, true);
+        this.carStraight(socket, data);
     }
 
     public carTurbo(socket: Socket, data: DataStruct, cancel: boolean = false): void {
@@ -106,6 +107,6 @@ export default class CommandHandler {
 
     public carTurboCancel(socket: Socket, data: DataStruct): void {
         delete data.hash;
-        this.carStraight(socket, data, true);
+        this.carStraight(socket, data);
     }
 }
