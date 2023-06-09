@@ -1,5 +1,8 @@
 import { Socket } from "socket.io";
-
+export interface userInfo {
+    id: string;
+    nickname?: string;
+}
 export interface DataStruct {
     type: "command" | "sync" | "media" | "result" | "error",
     hash?: string,
@@ -12,8 +15,13 @@ export interface DataStruct {
         },
         speed?: number,
         player_id: string,
-        group_id?: number
-        auth?: string
+        group_id?: string,
+        auth?: string,
+        others?: any,
+        memberList?:any,
+        nickname?:string,
+        jointGroup?:string,
+        Information?:userInfo,
     }
 }
 

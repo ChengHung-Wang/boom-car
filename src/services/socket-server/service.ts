@@ -27,12 +27,12 @@ export default class SocketService {
             }
         });
         this.io.on('connection', (socket: Socket) => {
-            console.log(socket);
             this.registerMember(socket);
-            socket.on("command", (data) => {
-                new CommandRouter(socket, <SocketStruct.DataStruct>data)
+            socket.on("command", async (data) => {
+                const ids = await this.io.allSockets();
+                console.log(ids);
+                new CommandRouter(socket, <SocketStruct.DataStruct>data);
             });
-
         });
 
         server.listen(port, () => {
