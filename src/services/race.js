@@ -34,12 +34,12 @@ export class Race {
 
     this.trackNumber = 0;
 
-    this.KeyzIsDown = false;
-    this.KeyxIsDown = false;
-    this.KeyUpIsDown = false;
-    this.KeyDownIsDown = false;
-    this.KeyLeftIsDown = false;
-    this.KeyRightIsDown = false;
+    // this.KeyzIsDown = false;
+    // this.KeyxIsDown = false;
+    // this.KeyUpIsDown = false;
+    // this.KeyDownIsDown = false;
+    // this.KeyLeftIsDown = false;
+    // this.KeyRightIsDown = false;
 
     this.raceNumber = 3;
     this.gameStore = useGameStore();
@@ -96,16 +96,16 @@ export class Race {
             racer.player.setDrift(true);
           break;
         case 88: // x
-          if(!this.KeyxIsDown) {
-            this.KeyxIsDown = true;
+          if(!racer.player.turboRequest) {
+            // this.KeyxIsDown = true;
             this.socket_sender.carTurbo(racer.player);
             racer.player.setTurbo(true);
             // console.log(racer.player);
           }
           break;
         case constants.KEYUP:
-          if(!this.KeyUpIsDown) {
-            this.KeyUpIsDown = true;
+          if(!racer.player.accelerate) {
+            // this.KeyUpIsDown = true;
             this.socket_sender.carStraight(racer.player);
             racer.player.setAccelerate(true);
             // console.log(racer.player);
@@ -115,16 +115,16 @@ export class Race {
           racer.player.setBrake(true);
           break;
         case constants.KEYLEFT:
-          if(!this.KeyLeftIsDown) {
-            this.KeyLeftIsDown = true;
+          if(!racer.player.turnLeft) {
+            // this.KeyLeftIsDown = true;
             this.socket_sender.carLeft(racer.player);
             racer.player.setTurnLeft(true);
             // console.log(racer.player);
           }
           break;
         case constants.KEYRIGHT:
-          if(!this.KeyRightIsDown) {
-            this.KeyRightIsDown = true;
+          if(!racer.player.turnRight) {
+            // this.KeyRightIsDown = true;
             this.socket_sender.carRight(racer.player);
             racer.player.setTurnRight(true);
             // console.log(racer.player);
@@ -142,16 +142,16 @@ export class Race {
           racer.player.setDrift(false);
           break;
         case 88: // x(Turbo)
-          if(this.KeyxIsDown) {
-            this.KeyxIsDown = false;
+          if(racer.player.turboRequest) {
+            // this.KeyxIsDown = false;
             this.socket_sender.carTurboCancel(racer.player);
             racer.player.setTurbo(false);
             // console.log(racer.player);
           }
           break;
         case constants.KEYUP:
-          if(this.KeyUpIsDown) {
-            this.KeyUpIsDown = false;
+          if(racer.player.accelerate) {
+            // this.KeyUpIsDown = false;
             this.socket_sender.carStraightCancel(racer.player);
             racer.player.setAccelerate(false);
           }
@@ -160,16 +160,16 @@ export class Race {
           racer.player.setBrake(false);
           break;
         case constants.KEYLEFT:
-          if(this.KeyLeftIsDown) {
-            this.KeyLeftIsDown = false;
+          if(racer.player.turnLeft) {
+            // this.KeyLeftIsDown = false;
             this.socket_sender.carLeftCancel(racer.player);
             racer.player.setTurnLeft(false);
             // console.log(racer.player);
           }
           break;
         case constants.KEYRIGHT:
-          if(this.KeyRightIsDown) {
-            this.KeyRightIsDown = false;
+          if(racer.player.turnRight) {
+            // this.KeyRightIsDown = false;
             this.socket_sender.carRightCancel(racer.player);
             racer.player.setTurnRight(false);
             // console.log(racer.player);
