@@ -15,7 +15,7 @@ import socketSender from "@/helper/socketSender.ts";
 
 // TODO: let it become module type to solve camera undefined.
 // controls the race
-export let PlayerIndex = 0;
+export let PlayerIndex = parseInt(prompt("enter index"));
 
 const numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
 
@@ -30,7 +30,7 @@ export class Race {
     this.countdownNumber = 3;
     this.lastTime = 0;
 
-    this.carCount = 4; // 10;
+    this.carCount = 2; // 10;
 
     this.trackNumber = 0;
 
@@ -442,7 +442,7 @@ export class Race {
 
   //改變車輛
   static ChangeCar(carIndex) {
-    racer.camera.WatchPlayer(carIndex);
+    // racer.camera.WatchPlayer(carIndex);
     PlayerIndex = carIndex;
     racer.player = racer.cars[carIndex];
   }

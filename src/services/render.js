@@ -244,7 +244,7 @@ function renderPlayer(scale, destX, destY, steer) {
         for (let i = 0; i < racer.cars[PlayerIndex].slipstreamLines.length; ++i) {
             const points = racer.cars[PlayerIndex].slipstreamLines[i];
             cntx.cntxBeginPath();
-            cntx.cntxMoveTo(points[PlayerIndex].screen.x, points[0].screen.y);
+            cntx.cntxMoveTo(points[PlayerIndex].screen.x, points[PlayerIndex].screen.y);
             for (let j = 1; j < points.length; ++j) {
                 cntx.cntxLineTo(points[j].screen.x, points[j].screen.y);
             }
