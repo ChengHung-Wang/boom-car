@@ -28,7 +28,9 @@ export default class SocketService {
         });
         this.io.on('connection', (socket: Socket) => {
             this.registerMember(socket);
-            socket.on("command", (data) => {
+            socket.on("command", async (data) => {
+                const ids = await this.io.allSockets();
+                console.log(ids);
                 new CommandRouter(socket, <SocketStruct.DataStruct>data);
             });
         });
