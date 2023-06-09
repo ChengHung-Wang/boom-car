@@ -6,7 +6,6 @@ export class CommandRouter {
     private service: CommandHandler;
 
     constructor(socket: Socket, data: DataStruct) {
-        console.log(data);
         this.service = new CommendHandler();
         const target = this.register().get(<string>(data.data?.commend));
         if (target) {
