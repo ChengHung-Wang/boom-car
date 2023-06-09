@@ -68,41 +68,43 @@ export default class CommandHandler {
     public carStraight(socket: Socket, data: DataStruct): void {
         let groupNumber: string | undefined = FindMemberGroup.get(<string>data.data?.player_id);
         delete data.hash;
-        (new Sender.Sync()).sendGroup(socket, data, <string>groupNumber);
+        (new Sender.Sync()).send(socket, data);
     }
 
     public carStraightCancel(socket: Socket, data: DataStruct): void {
         let groupNumber: string | undefined = FindMemberGroup.get(<string>data.data?.player_id);
         delete data.hash;
-        (new Sender.Sync()).sendGroup(socket, data, <string>groupNumber);
+        (new Sender.Sync()).send(socket, data);
     }
 
     public carRight(socket: Socket, data: DataStruct): void {
         let groupNumber: string | undefined = FindMemberGroup.get(<string>data.data?.player_id);
         delete data.hash;
-        (new Sender.Sync()).sendGroup(socket, data, <string>groupNumber);
+        (new Sender.Sync()).send(socket, data);
     }
 
     public carRightCancel(socket: Socket, data: DataStruct): void {
+        let groupNumber: string | undefined = FindMemberGroup.get(<string>data.data?.player_id);
         delete data.hash;
-        this.carStraight(socket, data);
+        (new Sender.Sync()).send(socket, data);
     }
 
     public carLeft(socket: Socket, data: DataStruct): void {
         let groupNumber: string | undefined = FindMemberGroup.get(<string>data.data?.player_id);
         delete data.hash;
-        (new Sender.Sync()).sendGroup(socket, data, <string>groupNumber);
+        (new Sender.Sync()).send(socket, data);
     }
 
     public carLeftCancel(socket: Socket, data: DataStruct): void {
         delete data.hash;
         this.carStraight(socket, data);
+        (new Sender.Sync()).send(socket, data);
     }
 
     public carTurbo(socket: Socket, data: DataStruct, cancel: boolean = false): void {
         let groupNumber: string | undefined = FindMemberGroup.get(<string>data.data?.player_id);
         delete data.hash;
-        (new Sender.Sync()).sendGroup(socket, data, <string>groupNumber);
+        (new Sender.Sync()).send(socket, data);
     }
 
     public carTurboCancel(socket: Socket, data: DataStruct): void {

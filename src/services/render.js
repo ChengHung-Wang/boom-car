@@ -365,7 +365,7 @@ export function renderRender() {
         for (let i = 0; i < segment.cars.length; i++) {
             car = segment.cars[i];
 
-            if (car.index !== 0) {
+            if (car.index !== PlayerIndex) {
                 sprite = car.sprite;
                 const scale = utilInterpolate(segment.p1.screen.scale, segment.p3.screen.scale, car.percent);
 
