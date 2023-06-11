@@ -1,26 +1,32 @@
+import { racer } from "./racer.js";
+import { cntx } from "./canvasFunctions.js";
+import { constants } from "./constants.js";
+import { PlayerIndex } from "./race.js";
+import * as mathFunc from "./mathFunctions.js";
+import * as graphics from "./graphics.js";
+
 // define the tracks in the game
-let COLORS_KERBLIGHT = "#a02222",
-  COLORS_KERBDARK = "#BBBBBB",
-  COLORS_LANDLIGHT = "#000000",
-  COLORS_LANDDARK = "#000000",
-  COLORS_ROAD = "#000000";
+export const COLORS_KERBLIGHT = "#a02222";
+export const COLORS_KERBDARK = "#BBBBBB";
+export let COLORS_LANDLIGHT = "#000000";
+export let COLORS_LANDDARK = "#000000";
+export let COLORS_ROAD = "#000000";
 
-let laneWidth = 1200;
-let lanes = 1;
+export const laneWidth = 1200;
 
-class Track {
+export class Track {
   constructor() {
     this.trackLength = 0;
     this.currentAngle = 0;
 
     this.segments = [];
     this.map = null;
-
-    Track.segmentLength = 300;
   }
 
+  static segmentLength = 300;
+
   buildTrack0() {
-    COLORS_FOG = 0;
+    graphics.COLORS_FOG.COLORS_FOG = 0;
 
     this.segments = [];
     this.addStraight(200);
@@ -28,22 +34,22 @@ class Track {
   }
 
   createStreetLights() {
-    let segmentCount = this.getSegmentCount();
+    const segmentCount = this.getSegmentCount();
 
     for (let i = 0; i < segmentCount; i++) {
-      let segment = this.segments[i];
+      const segment = this.segments[i];
 
       if (i % 20 == 0) {
         let x = segment.p1.world.x;
         segment.sprites.push({
-          source: SPRITES_STREETLIGHTLEFT,
+          source: graphics.SPRITES_STREETLIGHTLEFT,
           s: 12,
-          x: x - 12 * SPRITES_STREETLIGHTLEFT.w + 700,
+          x: x - 12 * graphics.SPRITES_STREETLIGHTLEFT.w + 700,
         });
 
         x = segment.p2.world.x;
         segment.sprites.push({
-          source: SPRITES_STREETLIGHTRIGHT,
+          source: graphics.SPRITES_STREETLIGHTRIGHT,
           s: 12,
           x: x - 700,
         });
@@ -52,24 +58,24 @@ class Track {
   }
 
   createRoadsideObjects(objs, prob, scale, offset, turnSigns) {
-    let segmentCount = this.getSegmentCount();
+    const segmentCount = this.getSegmentCount();
     let turnSegment = 0;
     for (let i = 0; i < segmentCount; i++) {
-      let segment = this.segments[i];
-      let r = mathRand();
+      const segment = this.segments[i];
+      const r = mathFunc.mathRand();
       if (segment.curve != 0 && turnSigns) {
         if (turnSegment % 20 == 0) {
           if (segment.curve > 0) {
-            let x = segment.p1.world.x;
+            const x = segment.p1.world.x;
             segment.sprites.push({
-              source: SPRITES_TURNRIGHT,
+              source: graphics.SPRITES_TURNRIGHT,
               s: 3,
-              x: x - 3 * SPRITES_TURNRIGHT.w - 400,
+              x: x - 3 * graphics.SPRITES_TURNRIGHT.w - 400,
             });
           } else {
-            let x = segment.p2.world.x;
+            const x = segment.p2.world.x;
             segment.sprites.push({
-              source: SPRITES_TURNLEFT,
+              source: graphics.SPRITES_TURNLEFT,
               s: 3,
               x: x + 400,
             });
@@ -79,7 +85,7 @@ class Track {
       } else {
         turnSegment = 0;
         //      if(segment.curve == 0 || !turnSigns) {
-        let obj = objs[mathRandInt(objs.length)];
+        const obj = objs[mathFunc.mathRandInt(objs.length)];
         if (r > prob) {
           let x = segment.p1.world.x;
 
@@ -103,17 +109,18 @@ class Track {
   buildTrack1() {
     COLORS_ROAD = "#3a3a3a";
 
-    (COLORS_LANDLIGHT = "#047804"), (COLORS_LANDDARK = "#006A00");
-    COLORS_LANEMARKER = MEDIUMGREY;
-    COLORS_FOG = 0;
+    COLORS_LANDLIGHT = "#047804";
+    COLORS_LANDDARK = "#006A00";
 
-    resetGraphics();
+    constants.COLORS_LANEMARKER = graphics.MEDIUMGREY;
+    graphics.COLORS_FOG.COLORS_FOG = 0;
 
-    createTurnArrows();
-    createTrees();
-    createBackgroundTrees();
-    createBackgroundMountains();
-    createCars();
+    graphics.resetGraphics();
+    graphics.createTurnArrows();
+    graphics.createTrees();
+    graphics.createBackgroundTrees();
+    graphics.createBackgroundMountains();
+    graphics.createCars();
 
     this.addStraight(50); // len, height
     this.addEasyCurve90(1, 0);
@@ -141,7 +148,7 @@ class Track {
     this.calculateLength();
     this.drawMap();
 
-    this.createRoadsideObjects(SPRITES_TREES, 0.9, 10, 900, true);
+    this.createRoadsideObjects(graphics.SPRITES_TREES, 0.9, 10, 900, true);
   }
 
   buildTrack2() {
@@ -149,17 +156,16 @@ class Track {
 
     COLORS_LANDLIGHT = "#047804";
     COLORS_LANDDARK = "#006A00";
-    COLORS_LANEMARKER = MEDIUMGREY;
-    COLORS_FOG = 0;
+    constants.COLORS_LANEMARKER = graphics.MEDIUMGREY;
+    graphics.COLORS_FOG.COLORS_FOG = 0;
 
-    resetGraphics();
-    createCars();
-
-    createTurnArrows();
-    createTrees();
-    createBackgroundTrees();
-    createBackgroundMountains();
-    createFlowers();
+    graphics.resetGraphics();
+    graphics.createCars();
+    graphics.createTurnArrows();
+    graphics.createTrees();
+    graphics.createBackgroundTrees();
+    graphics.createBackgroundMountains();
+    graphics.createFlowers();
 
     this.addStraight(20);
     this.addStraight(46, 0);
@@ -189,7 +195,7 @@ class Track {
     this.calculateLength();
     this.drawMap();
 
-    this.createRoadsideObjects([SPRITES_FLOWERS], 0.3, 6, 1300, true);
+    this.createRoadsideObjects([graphics.SPRITES_FLOWERS], 0.3, 6, 1300, true);
   }
 
   buildTrack3() {
@@ -198,16 +204,15 @@ class Track {
     COLORS_LANDLIGHT = "#5a5a5a";
     COLORS_LANDDARK = "#626262";
 
-    COLORS_LANEMARKER = MEDIUMGREY;
-    COLORS_FOG = 0; //'#eeeeee';
+    constants.COLORS_LANEMARKER = graphics.MEDIUMGREY;
+    graphics.COLORS_FOG.COLORS_FOG = 0;
 
-    resetGraphics();
-    createCars();
-
-    createBuildings(false);
-    createStreetlights(false);
-    createBackgroundBuildings(false);
-    createNightSky();
+    graphics.resetGraphics();
+    graphics.createCars();
+    graphics.createBuildings(false);
+    graphics.createStreetlights(false);
+    graphics.createBackgroundBuildings(false);
+    graphics.createNightSky();
 
     this.addStraight(100);
     this.addMediumCurve90(1, 0);
@@ -231,25 +236,23 @@ class Track {
 
     this.calculateLength();
     this.drawMap();
-    this.createRoadsideObjects(SPRITES_BUILDINGS, 0.95, 20, 3300, false);
+    this.createRoadsideObjects(graphics.SPRITES_BUILDINGS, 0.95, 20, 3300, false);
     this.createStreetLights();
   }
 
   buildTrack4() {
     COLORS_ROAD = "#111111";
-    COLORS_LANEMARKER = "#555555";
-    COLORS_FOG = "#000000";
+    constants.COLORS_LANEMARKER = "#555555";
+    graphics.COLORS_FOG.COLORS_FOG = "#000000";
     COLORS_LANDLIGHT = "#090909";
     COLORS_LANDDARK = "#030303";
 
-    resetGraphics();
-    createCars();
-    createBuildings(true);
-    // createTurnArrows();
-    createStreetlights(true);
-    createBackgroundBuildings(true);
-    // createBackgroundMountains();
-    createNightSky();
+    graphics.resetGraphics();
+    graphics.createCars();
+    graphics.createBuildings(true);
+    graphics.createStreetlights(true);
+    graphics.createBackgroundBuildings(true);
+    graphics.createNightSky();
 
     this.addStraight(100);
     this.addHardCurve180(1, 0);
@@ -272,7 +275,7 @@ class Track {
     this.calculateLength();
     this.drawMap();
 
-    this.createRoadsideObjects(SPRITES_BUILDINGS, 0.95, 20, 3300, false);
+    this.createRoadsideObjects(graphics.SPRITES_BUILDINGS, 0.95, 20, 3300, false);
     this.createStreetLights();
   }
 
@@ -299,14 +302,14 @@ class Track {
   }
 
   addSegment(curve, y) {
-    let n = this.segments.length;
+    const n = this.segments.length;
 
-    let yFront = this.lastY();
-    let yBack = y;
-    let zFront = n * Track.segmentLength;
-    let zBack = (n + 1) * Track.segmentLength;
-    let xLeft = -laneWidth;
-    let xRight = laneWidth;
+    const yFront = this.lastY();
+    const yBack = y;
+    const zFront = n * Track.segmentLength;
+    const zBack = (n + 1) * Track.segmentLength;
+    const xLeft = -laneWidth;
+    const xRight = laneWidth;
 
     let kerbWidth = 0;
     if (curve != 0) {
@@ -347,14 +350,14 @@ class Track {
 
   addRoad(enter, hold, leave, curve, y, curveAngle) {
     curveAngle = curveAngle || 0;
-    let exitAngle = this.currentAngle + curveAngle;
+    const exitAngle = this.currentAngle + curveAngle;
 
-    let startY = this.lastY();
-    let endY = startY + Math.floor(y) * Track.segmentLength;
-    let total = enter + hold + leave;
+    const startY = this.lastY();
+    const endY = startY + Math.floor(y) * Track.segmentLength;
+    const total = enter + hold + leave;
     let segmentCurve = 0;
     let totalCurve = 0;
-    let firstSegment = this.segments.length;
+    const firstSegment = this.segments.length;
     for (let n = 0; n < enter; n++) {
       segmentCurve = this.easeIn(0, curve, n / enter);
       totalCurve += segmentCurve;
@@ -438,7 +441,7 @@ class Track {
   }
 
   addRoadsideObject(n, sprite, offset) {
-    let segment = this.segments[n];
+    const segment = this.segments[n];
     let x = 0;
     if (offset < 0) {
       x = segment.p1.world.x - 600;
@@ -460,90 +463,91 @@ class Track {
     }
     this.map.width = 600;
     this.map.height = 600;
-    cntx = this.map.getContext("2d");
+    cntx.cntx = this.map.getContext("2d");
 
-    let width = canvas.width;
-    let height = canvas.height;
-    //    context.fillStyle = '#222222';
-    //    context.fillRect(0, 0, width, height);
-    cntxClearRect(600, 600);
-    cntxStrokeStyle("#666666");
-    cntx.lineWidth = 5;
+    // const width = canvas.width;
+    // const height = canvas.height;
+    // racer.context.fillStyle = '#222222';
+    // racer.context.fillRect(0, 0, width, height);
+
+    cntx.cntxClearRect(600, 600);
+    cntx.cntxStrokeStyle("#666666");
+    cntx.cntx.lineWidth = 5;
 
     let angle = 0;
     let x = 300;
     let y = 30;
 
-    cntxBeginPath();
+    cntx.cntxBeginPath();
     let segmentDrawLength = 0.5;
-    cntxMoveTo(x, y);
+    cntx.cntxMoveTo(x, y);
     for (let i = 0; i < this.segments.length; i++) {
-      angle = (this.segments[i].angle / 180) * PI;
-      x += segmentDrawLength * cos(angle);
-      y += segmentDrawLength * sin(angle);
-      cntxLineTo(x, y);
-
+      angle = (this.segments[i].angle / 180) * mathFunc.PI;
+      x += segmentDrawLength * mathFunc.cos(angle);
+      y += segmentDrawLength * mathFunc.sin(angle);
+      cntx.cntxLineTo(x, y);
       // in 2d overhead view
       this.segments[i].x = x;
       this.segments[i].y = y;
     }
 
-    cntxStroke();
+    cntx.cntxStroke();
 
-    cntxStrokeStyle(LIGHTGREY);
-    cntx.lineWidth = 4;
-    cntxStroke();
+    cntx.cntxStrokeStyle(graphics.LIGHTGREY);
+    cntx.cntx.lineWidth = 4;
+    cntx.cntxStroke();
 
     // draw the start line
     segmentDrawLength = 4;
-    context.lineWidth = 3;
-    cntxStrokeStyle(LIGHTGREY);
-    cntxBeginPath();
-    angle = ((this.segments[0].angle + 90) / 180) * PI;
-    x -= segmentDrawLength * cos(angle);
-    y -= segmentDrawLength * sin(angle);
-    cntxMoveTo(x, y);
-    x += 2 * segmentDrawLength * cos(angle);
-    y += 2 * segmentDrawLength * sin(angle);
-    cntxLineTo(x, y);
+    racer.context.lineWidth = 3;
+    cntx.cntxStrokeStyle(graphics.LIGHTGREY);
+    cntx.cntxBeginPath();
+    angle = ((this.segments[0].angle + 90) / 180) * mathFunc.PI;
+    x -= segmentDrawLength * mathFunc.cos(angle);
+    y -= segmentDrawLength * mathFunc.sin(angle);
+    cntx.cntxMoveTo(x, y);
+    x += 2 * segmentDrawLength * mathFunc.cos(angle);
+    y += 2 * segmentDrawLength * mathFunc.sin(angle);
+    cntx.cntxLineTo(x, y);
 
-    cntxStroke();
+    cntx.cntxStroke();
   }
 
   drawOverheadTrack() {
     //let canvas = document.getElementById('trackCanvas');
-    cntx = overheadTrack.x; //canvas.getContext('2d');
-    this.overheadMap = overheadTrack.c;
+    cntx.cntx = graphics.overheadTrack.x; //canvas.getContext('2d');
+    this.overheadMap = graphics.overheadTrack.c;
 
-    cntxClearRect(600, 600);
-    cntxDrawImage(this.map, 0, 0, 600, 600, 0, 0, 600, 600);
+    cntx.cntxClearRect(600, 600);
+    cntx.cntxDrawImage(this.map, 0, 0, 600, 600, 0, 0, 600, 600);
 
     // opponents
-    for (let i = 0; i < cars.length; i++) {
-      let carPosition = cars[i].z;
-      let segment = this.findSegment(carPosition);
+    for (let i = 0; i < racer.cars.length; i++) {
+      const carPosition = racer.cars[i].z;
+      const segment = this.findSegment(carPosition);
 
-      cntxBeginPath();
+      cntx.cntxBeginPath();
 
-      cntxArc(segment.x, segment.y, 5, 0, 2 * PI, false);
-      cntxFillStyle(DARKGREY);
-      cntxFill();
-      cntx.lineWidth = 2;
-      cntxStrokeStyle("#999999");
-      cntxStroke();
+      cntx.cntxArc(segment.x, segment.y, 5, 0, 2 * mathFunc.PI, false);
+      cntx.cntxFillStyle(graphics.DARKGREY);
+      cntx.cntxFill();
+      cntx.cntx.lineWidth = 2;
+      cntx.cntxStrokeStyle("#999999");
+      cntx.cntxStroke();
     }
 
     // camera z position plus player z position from camera
-    let playerPosition = cars[0].z;
-    let playerSegment = this.findSegment(playerPosition);
+    //小地圖紅點
+    const playerPosition = racer.cars[PlayerIndex].z;
+    const playerSegment = this.findSegment(playerPosition);
 
-    cntxBeginPath();
-    cntxArc(playerSegment.x, playerSegment.y, 5, 0, 2 * PI, false);
-    cntxFillStyle("#ff0000");
-    cntxFill();
+    cntx.cntxBeginPath();
+    cntx.cntxArc(playerSegment.x, playerSegment.y, 5, 0, 2 * mathFunc.PI, false);
+    cntx.cntxFillStyle("#ff0000");
+    cntx.cntxFill();
 
-    context.lineWidth = 2;
-    cntxStrokeStyle(MEDIUMGREY);
-    cntxStroke();
+    racer.context.lineWidth = 2;
+    cntx.cntxStrokeStyle(graphics.MEDIUMGREY);
+    cntx.cntxStroke();
   }
 }

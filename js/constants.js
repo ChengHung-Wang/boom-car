@@ -1,7 +1,8 @@
-var KEYUP = 38;
-var KEYDOWN = 40;
-var KEYLEFT = 37;
-var KEYRIGHT = 39;
-var helvetica = ' "Helvetica Neue", Helvetica, Arial, sans-serif';
+export const constants = {};
+constants.KEYUP = 38;
+constants.KEYDOWN = 40;
+constants.KEYLEFT = 37;
+constants.KEYRIGHT = 39;
+constants.helvetica = ' "Helvetica Neue", Helvetica, Arial, sans-serif';
 
-var COLORS_LANEMARKER=0;
+constants.COLORS_LANEMARKER = 0;

@@ -1,10 +1,17 @@
-class Car {
+import { raceAudioSetTurboTime, raceAudioEngineSpeed, raceAudioCrash } from "./audio.js";
+import { PI, mathRand, sin } from "./mathFunctions.js";
+import { utilPercentRemaining, utilIncrease, utilInterpolate } from "./util.js";
+import { STATE_RACEOVER, PlayerIndex } from "./race.js";
+import { Track } from "./track.js";
+import { speak } from "./speech.js";
+import { width, height } from "./render.js";
+import { racer } from "./racer.js";
+
+export class Car {
   constructor() {
     this.sprite = 0;
-
     this.index = 0;
-
-    this.width = 500; //530; // width
+    this.width = 500;
     this.height = 0;
 
     this.x = 0;
@@ -42,7 +49,8 @@ class Car {
 
     // these are settings for the player
     // the car init routine will set them for ai players
-    this.centrifugal = 0.3; // centrifugal force multiplier when going around curves
+    // centrifugal force multiplier when going around curves
+    this.centrifugal = 0.3;
 
     this.maxSpeed = 36000;
     this.maxTurboSpeed = 41000;
@@ -69,77 +77,69 @@ class Car {
   }
 
   doaccelerate(v, accel, dt) {
-    return v + accel * dt;
+    return v + (accel * dt);
   }
 
   initSlipstreamLines() {
     this.slipstreamLines = [];
-    //    var carWidth = this.width;
-    var carHeight = 400;
-    //    var centreX = this.x + this.width / 2;
-    var centreZ = this.z + 500;
-    //    var centreY = this.y + carHeight;// + carHeight;
-    var smallRadius = carHeight - 40; // - 200;// - 570;
-    var lineLength = 700;
 
-    var i, j;
-    var segments = 20;
+    const carHeight = 400;
+    const centreZ = this.z + 500;
+    const smallRadius = carHeight - 40;
+    const lineLength = 700;
 
-    var angle = 0.0;
+    const segments = 20;
+
+    let angle = 0.0;
     if (this.slipstreamLengths === false) {
       this.slipstreamLengths = [];
-      for (i = 0; i < segments; i++) {
+      for (let i = 0; i < segments; ++i) {
         this.slipstreamLengths.push(mathRand());
       }
     }
 
-    for (i = 0; i < segments; i++) {
+    //尾流
+    for (let i = 0; i < segments; ++i) {
       this.slipstreamLengths[i] += 0.03;
       if (this.slipstreamLengths[i] >= 0.8) {
         this.slipstreamLengths[i] = 0;
       }
 
-      var largeRadius = carHeight + 60;
+      let largeRadius = carHeight + 60;
 
       if (angle > PI / 6 && angle < PI / 2) {
-        largeRadius = carHeight + 60 + (angle - PI / 6) * 128; // - 200;// - 570;
+        largeRadius = carHeight + 60 + (angle - PI / 6) * 128;
       }
-      if (angle >= PI / 2 && angle < (5 * PI) / 6) {
-        largeRadius = carHeight + 60 + ((5 * PI) / 6 - angle) * 128; // - 200;// - 570;
+      if (angle >= PI / 2 && angle < (5 * PI / 6)) {
+        largeRadius = carHeight + 60 + (5 * PI / 6 - angle) * 128;
       }
-      var x1 = this.x + this.width / 2 + smallRadius * Math.cos(angle - 0.05);
-      var y1 = this.y + smallRadius * sin(angle - 0.02);
-      var x2 = this.x + this.width / 2 + smallRadius * Math.cos(angle + 0.05);
-      var y2 = this.y + smallRadius * sin(angle + 0.02);
 
-      var x3 = this.x + this.width / 2 + largeRadius * Math.cos(angle - 0.05);
-      var y3 = this.y + largeRadius * sin(angle - 0.05);
-      var x4 = this.x + this.width / 2 + largeRadius * Math.cos(angle + 0.05);
-      var y4 = this.y + largeRadius * sin(angle + 0.05);
+      const x1 = this.x + this.width / 2 + smallRadius * Math.cos(angle - 0.05);
+      const y1 = this.y + smallRadius * sin(angle - 0.02);
+      const x2 = this.x + this.width / 2 + smallRadius * Math.cos(angle + 0.05);
+      const y2 = this.y + smallRadius * sin(angle + 0.02);
 
-      //      x3 = x1;
-      //      y3 = y1;
-      //      x4 = x2;
-      //      y4 = y2;
+      const x3 = this.x + this.width / 2 + largeRadius * Math.cos(angle - 0.05);
+      const y3 = this.y + largeRadius * sin(angle - 0.05);
+      const x4 = this.x + this.width / 2 + largeRadius * Math.cos(angle + 0.05);
+      const y4 = this.y + largeRadius * sin(angle + 0.05);
 
-      var x1a = x1 + (x3 - x1) * this.slipstreamLengths[i];
-      var x2a = x2 + (x4 - x2) * this.slipstreamLengths[i];
+      const x1a = x1 + (x3 - x1) * this.slipstreamLengths[i];
+      const x2a = x2 + (x4 - x2) * this.slipstreamLengths[i];
 
-      var y1a = y1 + (y3 - y1) * this.slipstreamLengths[i];
-      var y2a = y2 + (y4 - y2) * this.slipstreamLengths[i];
+      const y1a = y1 + (y3 - y1) * this.slipstreamLengths[i];
+      const y2a = y2 + (y4 - y2) * this.slipstreamLengths[i];
 
-      var x3a = x1 + (x3 - x1) * (this.slipstreamLengths[i] + 0.4);
-      var x4a = x2 + (x4 - x2) * (this.slipstreamLengths[i] + 0.4);
+      const x3a = x1 + (x3 - x1) * (this.slipstreamLengths[i] + 0.4);
+      const x4a = x2 + (x4 - x2) * (this.slipstreamLengths[i] + 0.4);
 
-      var y3a = y1 + (y3 - y1) * (this.slipstreamLengths[i] + 0.4);
-      var y4a = y2 + (y4 - y2) * (this.slipstreamLengths[i] + 0.4);
+      const y3a = y1 + (y3 - y1) * (this.slipstreamLengths[i] + 0.4);
+      const y4a = y2 + (y4 - y2) * (this.slipstreamLengths[i] + 0.4);
 
-      var za = centreZ - lineLength * this.slipstreamLengths[i];
-      var z2a = centreZ - lineLength * (this.slipstreamLengths[i] + 0.4);
-      //      var 1a = x1 + (x3 - x1) * this.slipstreamLengths[i];
-      //    var x2a = x2 + (x4 - x2) * this.slipstreamLengths[i];
+      const za = centreZ - lineLength * this.slipstreamLengths[i];
+      const z2a = centreZ - lineLength * (this.slipstreamLengths[i] + 0.4);
 
-      var line = [];
+      const line = [];
       line.push({
         world: {
           x: x1a,
@@ -164,7 +164,7 @@ class Car {
         world: {
           x: x4a,
           y: y4a,
-          z: z2a, //centreZ - lineLength
+          z: z2a,
         },
         camera: {},
         screen: {},
@@ -184,10 +184,10 @@ class Car {
       angle += PI / segments;
     }
 
-    for (i = 0; i < this.slipstreamLines.length; i++) {
-      var points = this.slipstreamLines[i];
-      for (j = 0; j < points.length; j++) {
-        camera.project(points[j], 0, 0, width, height);
+    for (let i = 0; i < this.slipstreamLines.length; ++i) {
+      const points = this.slipstreamLines[i];
+      for (let j = 0; j < points.length; ++j) {
+        racer.camera.project(points[j], 0, 0, width, height);
       }
     }
   }
@@ -197,10 +197,10 @@ class Car {
   }
 
   overlap(x1, w1, x2, w2, percent) {
-    var min1 = x1 - ((percent - 1) * w1) / 2;
-    var max1 = x1 + w1 * percent;
-    var min2 = x2 - ((percent - 1) * w2) / 2;
-    var max2 = x2 + w2 * percent;
+    const min1 = x1 - (percent - 1) * w1 / 2;
+    const max1 = x1 + w1 * percent;
+    const min2 = x2 - (percent - 1) * w2 / 2;
+    const max2 = x2 + w2 * percent;
     return !(max1 < min2 || min1 > max2);
   }
 
@@ -242,9 +242,9 @@ class Car {
   }
 
   getPosition() {
-    var i = this.position,
-      j = i % 10,
-      k = i % 100;
+    const i = this.position;
+    const j = i % 10;
+    const k = i % 100;
     if (j == 1 && k != 11) {
       return i + "st";
     }
@@ -262,44 +262,38 @@ class Car {
   }
 
   update(dt) {
-    //}, playerSegment, playerW) {
-    var maxSpeed = this.maxSpeed;
+    let maxSpeed = this.maxSpeed;
     this.speedPercent = this.speed / this.maxSpeed;
-    var currentSegment = track.findSegment(this.z);
-    var playerSegment = track.findSegment(cars[0].z);
-    var speedPercent = this.speedPercent;
+    const currentSegment = racer.track.findSegment(this.z);
+    const playerSegment = racer.track.findSegment(racer.cars[PlayerIndex].z);
+    const speedPercent = this.speedPercent;
     this.percent = utilPercentRemaining(this.z, Track.segmentLength);
 
-    var dx = dt * this.turnSpeed * speedPercent; // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
-    var trackLeft = currentSegment.p1.world.x;
-    var trackRight = currentSegment.p2.world.x;
+    let dx = dt * this.turnSpeed * speedPercent; // at top speed, should be able to cross from left to right (-1 to 1) in 1 second
+    const trackLeft = currentSegment.p1.world.x;
+    const trackRight = currentSegment.p2.world.x;
 
-    var carLeftSide = this.x;
-    var carRightSide = this.x + this.width;
+    const carLeftSide = this.x;
+    const carRightSide = this.x + this.width;
 
     // middle distance is about 900
     // furthest is about 1800
-    var distanceToLeft = carLeftSide - trackLeft;
-    var distanceToRight = trackRight - carRightSide;
-    var trackWidth = trackRight - trackLeft;
+    const distanceToLeft = carLeftSide - trackLeft;
+    const distanceToRight = trackRight - carRightSide;
+    const trackWidth = trackRight - trackLeft;
 
-    var extraSpeed = 1;
+    let extraSpeed = 1;
 
     // is the car on a curve? easy curve max is about 4
     if (currentSegment.curve < 0 && distanceToLeft > 0) {
       // turn left
-      if (this.index == 0) {
-        extraSpeed =
-          1 +
-          ((trackWidth - this.width - distanceToLeft) * -currentSegment.curve) /
-            (trackWidth * 80);
+      if (this.index !== PlayerIndex) {
+        extraSpeed = 1 + (trackWidth - this.width - distanceToLeft) * (-currentSegment.curve) / (trackWidth * 80);
       }
     } else if (currentSegment.curve > 0 && distanceToRight > 0) {
-      if (this.index == 0) {
+      if (this.index !== PlayerIndex) {
         extraSpeed =
-          1 +
-          ((trackWidth - this.width - distanceToRight) * currentSegment.curve) /
-            (trackWidth * 80);
+          1 + (trackWidth - this.width - distanceToRight) * (currentSegment.curve) / (trackWidth * 80);
       }
     }
 
@@ -308,8 +302,8 @@ class Car {
     }
 
     // max speed multiplier
-    var mult = 0.8;
-    var accMult = 1;
+    let mult = 0.8;
+    let accMult = 1;
     if (this.slipstreamTime > 0) {
       mult += 0.4;
     }
@@ -321,7 +315,6 @@ class Car {
           this.driftAmount = 1.2;
           this.drift = true;
         }
-
         //mult -= 0.1;
         // can turn faster
       } else {
@@ -349,7 +342,8 @@ class Car {
       this.driftDirection = 0;
     }
 
-    var turboOn = this.turbo;
+    const turboOn = this.turbo;
+
     // is turbo on?
     if (this.turboRequest) {
       this.turbo = this.turboAmount > 0 && this.speed > 8000 && this.accelerate;
@@ -364,14 +358,8 @@ class Car {
 
     this.bounce = 3.4;
     // is the car offroad with a bit of leeway??
-    if (
-      distanceToLeft < -this.width * 0.1 ||
-      distanceToRight < -this.width * 0.1
-    ) {
-      if (
-        distanceToLeft + this.width * 0.1 < -playerSegment.kerbWidth ||
-        distanceToRight + this.width * 0.1 < -playerSegment.kerbWidth
-      ) {
+    if (distanceToLeft < -this.width * 0.1 || distanceToRight < -this.width * 0.1) {
+      if (distanceToLeft + this.width * 0.1 < -playerSegment.kerbWidth || distanceToRight + this.width * 0.1 < -playerSegment.kerbWidth) {
         this.bounce = 9.5;
         mult -= 0.6;
         accMult -= 0.2;
@@ -383,26 +371,27 @@ class Car {
 
     this.bounce = this.bounce * mathRand() * speedPercent;
 
-    if (this.index == 0 && race.state != STATE_RACEOVER) {
+    if (this.index == PlayerIndex && racer.race.state != STATE_RACEOVER) {
       // its the player
 
-      this.x =
-        this.x - dx * speedPercent * playerSegment.curve * this.centrifugal;
+      this.x = this.x - (dx * speedPercent * playerSegment.curve * this.centrifugal);
 
       if (this.driftDirection != 0) {
         dx = dx * 0.5;
       }
-      if (this.turnLeft) this.x = this.x - dx;
-      else if (this.turnRight) this.x = this.x + dx;
+      if (this.turnLeft)
+        this.x = this.x - dx;
+      else if (this.turnRight)
+        this.x = this.x + dx;
 
-      var ddrift = this.driftDirection * this.speed * 0.00055;
+      const ddrift = this.driftDirection * this.speed * 0.00055;
       this.x += ddrift;
 
-      // need to check for collision with other cars..
+      //need to check for collision with other cars..
       this.z = utilIncrease(
         this.z,
         dt * this.speed * extraSpeed,
-        track.getLength()
+        racer.track.getLength()
       );
 
       this.y = utilInterpolate(
@@ -415,7 +404,7 @@ class Car {
 
       if (this.accelerate) {
         if (this.turbo) {
-          var time = getTimestamp();
+          const time = racer.getTimestamp();
           if (!turboOn) {
             this.turboStartTime = time;
           }
@@ -440,33 +429,33 @@ class Car {
       }
 
       // check for collisions with roadside objects
-      for (var n = 0; n < playerSegment.sprites.length; n++) {
-        var sprite = playerSegment.sprites[n];
-        var spriteW = sprite.s * sprite.source.cw;
-        var spriteX = sprite.x + sprite.source.cx * sprite.s;
+      for (let n = 0; n < playerSegment.sprites.length; ++n) {
+        const sprite = playerSegment.sprites[n];
+        const spriteW = sprite.s * sprite.source.cw;
+        const spriteX = sprite.x + sprite.source.cx * sprite.s;
         // check for collision will roadside object, same segment and rects overlap
-        var carX = this.x;
+        const carX = this.x;
         if (this.overlap(carX, this.width, spriteX, spriteW, 1)) {
-          if (this.index == 0) {
+          if (this.index == PlayerIndex) {
             raceAudioCrash();
             this.slipstream = 0;
             this.slipstreamTime = 0;
           }
           this.speed = maxSpeed / 5;
-          this.z = utilIncrease(playerSegment.p1.world.z, 0, track.getLength()); // stop in front of sprite (at front of segment)
+          this.z = utilIncrease(playerSegment.p1.world.z, 0, racer.track.getLength()); // stop in front of sprite (at front of segment)
           break;
         }
       }
 
-      var isBehind = false;
-      for (var i = 0; i < cars.length; i++) {
-        var distance = cars[i].z - player.z;
-        if (player.z > track.getLength() - 1200) {
-          distance -= track.getLength();
+      let isBehind = false;
+      for (let i = 0; i < racer.cars.length; ++i) {
+        let distance = racer.cars[i].z - racer.player.z;
+        if (racer.player.z > racer.track.getLength() - 1200) {
+          distance -= racer.track.getLength();
         }
 
         if (distance > 0 && distance < 1800) {
-          var offCentre = (player.x - cars[i].x) / cars[i].width;
+          let offCentre = (racer.player.x - racer.cars[i].x) / racer.cars[i].width;
           if (offCentre < 0) {
             offCentre = -offCentre;
           }
@@ -493,53 +482,52 @@ class Car {
         this.speed = this.doaccelerate(this.speed, this.accel, dt);
       }
 
-      var turnDir = this.updateCarPosition(
+      const turnDir = this.updateCarPosition(
         currentSegment,
         playerSegment,
-        player.width
+        racer.player.width
       );
-      var newX = this.x + turnDir * dx;
+      const newX = this.x + turnDir * dx;
 
       if (currentSegment.curve == 0) {
-        this.turnLeft = turnDir == -1;
-        this.turnRight = turnDir == 1;
+        this.turnLeft = (turnDir == -1);
+        this.turnRight = (turnDir == 1);
       } else {
-        this.turnLeft = currentSegment.curve < -0.5;
-        this.turnRight = currentSegment.curve > 0.5;
+        this.turnLeft = (currentSegment.curve < -0.5);
+        this.turnRight = (currentSegment.curve > 0.5);
       }
 
       if (newX + this.width < trackRight * 0.6 && newX > trackLeft * 0.8) {
         this.x = newX;
       }
-      this.z = utilIncrease(this.z, dt * this.speed, track.getLength());
+      this.z = utilIncrease(this.z, dt * this.speed, racer.track.getLength());
     }
 
     this.percent = utilPercentRemaining(this.z, Track.segmentLength); // useful for interpolation during rendering phase
-    var newSegment = track.findSegment(this.z);
+    const newSegment = racer.track.findSegment(this.z);
 
     // check collisions with other cars
     // check other cars
 
-    if (this.index === 0) {
-      for (n = 0; n < newSegment.cars.length; n++) {
-        var car = newSegment.cars[n];
+    if (this.index === PlayerIndex) {
+      for (let n = 0; n < newSegment.cars.length; ++n) {
+        const car = newSegment.cars[n];
 
         if (car.index != this.index) {
           if (this.speed > car.speed) {
             // check for collision with other car, same segment and rects overlap
             if (this.overlap(this.x, this.width, car.x, car.width, 1)) {
-              if (this.index !== 0) {
+              if (this.index !== PlayerIndex) {
                 this.speed = car.speed / 2;
-                if (car.index !== 0) {
+                if (car.index !== PlayerIndex) {
                   car.speed = car.speed * 1.2;
                 }
               } else {
-                if (this.index == 0) {
+                if (this.index == PlayerIndex) {
                   raceAudioCrash();
                   this.slipstream = 0;
                   this.slipstreamTime = 0;
                 }
-
                 this.speed = car.speed;
                 this.z = car.z - 100;
               }
@@ -567,7 +555,7 @@ class Car {
     }
 
     if (currentSegment != newSegment) {
-      var index = currentSegment.cars.indexOf(this);
+      const index = currentSegment.cars.indexOf(this);
       currentSegment.cars.splice(index, 1);
       newSegment.cars.push(this);
     }
@@ -577,9 +565,8 @@ class Car {
       this.lap++;
       this.lapStarted = true;
       this.lastLapTime = this.currentLapTime;
-
-      if (this.lap == 2 && this.index == 0) {
-        //!== 1 && this.lap !== 3) {
+      //報時 一圈所花時間
+      if (this.lap == 2 && this.index == PlayerIndex) {
         speak("lap time " + this.getCurrentLapTime().toFixed(2));
       }
       this.currentLapTime = 0;
@@ -591,21 +578,22 @@ class Car {
     }
 
     // work out position, position relies on current lap
-    var currentPosition = this.position;
+    //計算當前排名
+    const currentPosition = this.position;
     this.position = 1;
-    for (var i = 0; i < cars.length; i++) {
+    for (let i = 0; i < racer.cars.length; ++i) {
       if (i != this.index) {
-        if (cars[i].lap > this.lap) {
+        if (racer.cars[i].lap > this.lap) {
           this.position++;
-        } else if (cars[i].lap === this.lap) {
-          if (cars[i].z > this.z) {
+        } else if (racer.cars[i].lap === this.lap) {
+          if (racer.cars[i].z > this.z) {
             this.position++;
           }
         }
       }
     }
 
-    if (this.index == 0) {
+    if (this.index == PlayerIndex) {
       if (this.newPositionTime > 0) {
         this.newPositionTime -= dt;
       }
@@ -615,8 +603,8 @@ class Car {
         this.newPositionTime = 1;
       }
     }
-
-    if (this.index === 0 && this.lap === 3 && race.state != STATE_RACEOVER) {
+    //this.lap圈數
+    if (this.index === PlayerIndex && this.lap === 3 && racer.race.state != STATE_RACEOVER) {
       // race over!!!
       this.finishPosition = this.getPosition();
       speak("Race. Over.");
@@ -626,36 +614,29 @@ class Car {
       this.slipstream = 0;
       this.slipstreamTime = 0;
 
-      race.raceOver();
+      racer.race.raceOver();
     }
   }
 
-  updateCarPosition(carSegment, playerSegment, playerWidth) {
-    var lookAhead = 60;
+  updateCarPosition(carSegment) {
+    const lookAhead = 60;
 
-    var segment = null;
+    let segment = null;
 
-    var trackSegments = track.getSegmentCount();
+    const trackSegments = racer.track.getSegmentCount();
 
-    for (var i = 1; i < lookAhead; i++) {
-      segment = track.getSegment((carSegment.index + i) % trackSegments);
-      var trackLeft = segment.p1.world.x;
-      var trackRight = segment.p2.world.x;
-      var dir = 0;
+    for (let i = 1; i < lookAhead; ++i) {
+      segment = racer.track.getSegment((carSegment.index + i) % trackSegments);
+      const trackLeft = segment.p1.world.x;
+      const trackRight = segment.p2.world.x;
+      let dir = 0;
 
       // avoid other cars less than 8 segments ahead
       if (i < 8) {
-        /*
-        if ((segment === playerSegment) 
-        && (this.speed > player.speed) 
-        && (this.overlap(otherCarLeft, otherCarWidth, this.x, this.width, 1.2))) {
-        */
-        for (let n = 0; n < segment.cars.length; n++) {
-          var otherCar = segment.cars[n];
-
-          var otherCarLeft = otherCar.x;
-          var otherCarWidth = otherCar.width;
-          var otherCarRight = otherCar.x + otherCar.width;
+        for (let n = 0; n < segment.cars.length; ++n) {
+          const otherCar = segment.cars[n];
+          const otherCarLeft = otherCar.x;
+          const otherCarRight = otherCar.x + otherCar.width;
 
           if (trackRight - otherCarRight < this.width * 1.4) {
             // can't fit on the right
@@ -668,19 +649,16 @@ class Car {
             } else {
               dir = 1;
             }
-            //            dir = (this.x > otherCarLeft) ? 1 : -1;
           }
 
-          return (dir * 3) / i; //* (this.speed-player.speed)/maxSpeed;
+          return dir * 3 / i;
         }
       }
     }
 
     if (this.takeCornerOnInside) {
-      for (var i = 1; i < lookAhead; i++) {
-        segment = track.getSegment((carSegment.index + i) % trackSegments);
-        var trackLeft = segment.p1.world.x;
-        var trackRight = segment.p2.world.x;
+      for (let i = 1; i < lookAhead; ++i) {
+        segment = racer.track.getSegment((carSegment.index + i) % trackSegments);
 
         if (segment.curve > 0) {
           // move to the right

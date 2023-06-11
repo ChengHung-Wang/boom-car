@@ -403,3 +403,5 @@ FodyWeavers.xsd
 .DS_Store
 !node_modules/binary-api/binary-api
 !node_modules/.bin/binary-api
+
+node_modules

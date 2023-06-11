@@ -1,84 +1,87 @@
-// entry point, set up main loop
+import { Track } from "./track.js";
+import { Race } from "./race.js";
+import { Camera } from "./camera.js";
+import { TitleScreen } from "./titleScreen.js";
+import { raceAudioInit } from "./audio.js";
+import { speak } from "./speech.js";
+import { outlineOnly } from "./render.js";
 
-var canvas = document.getElementById("gameCanvas");
-var context = canvas.getContext("2d");
-var racing = false;
+document.getElementById("gameCanvas").width = document.documentElement.clientWidth;
+document.getElementById("gameCanvas").height = document.documentElement.clientHeight;
 
-var getTimestamp = function () {
+export const racer = {};
+
+racer.canvas = document.getElementById("gameCanvas");
+racer.context = racer.canvas.getContext("2d");
+racer.racing = false;
+
+racer.getTimestamp = function () {
   return performance.now();
-};
+}
+
+racer.now = racer.getTimestamp();
+racer.last = racer.getTimestamp();
+
+racer.dt = 0;
+racer.gdt = 0;
+
+racer.cars = [];
+racer.player = null;
+racer.camera = new Camera();
+racer.race = new Race();
+racer.track = new Track();
+racer.titleScreen = new TitleScreen(racer.canvas, racer.context);
+
+racer.startGame = function (trackNumber) {
+  raceAudioInit();
+  speak("Start");
+  racer.racing = true;
+  racer.camera.reset();
+  racer.race.start(trackNumber);
+}
+
+racer.titleScreen.init();
 
 document.addEventListener("keydown", function (e) {
-  if (racing) {
-    race.keyDown(e);
+  if (racer.racing) {
+    racer.race.keyDown(e);
   } else {
-    titleScreen.keyDown(e);
+    racer.titleScreen.keyDown(e);
   }
 });
 
 document.addEventListener("keyup", function (e) {
-  if (racing) {
-    race.keyUp(e);
+  if (racer.racing) {
+    racer.race.keyUp(e);
   } else {
-    titleScreen.keyUp(e);
+    racer.titleScreen.keyUp(e);
   }
 });
 
-var now = getTimestamp();
-var last = getTimestamp();
-
-var dt = 0;
-var gdt = 0;
-
-var cars = []; // array of cars on the road
-var player = null;
-var camera = new Camera();
-var race = new Race();
-track = new Track();
-var titleScreen = new TitleScreen(canvas, context);
-
-function startGame(trackNumber) {
-  raceAudioInit();
-  speak("Start");
-  racing = true;
-  camera.reset();
-  race.start(trackNumber);
-}
-titleScreen.init();
-
-/*
-var stats = new Stats();
-stats.showPanel( 0 ); // 0: fps, 1: ms, 2: mb, 3+: custom
-document.body.appendChild( stats.dom );
-stats.dom.style.right = 0;
-stats.dom.style.left = 'auto';
-*/
-
 function frame() {
-  //  stats.begin();
+  racer.now = racer.getTimestamp();
+  racer.dt = Math.min(1, (racer.now - racer.last) / 1000);
+  racer.gdt = racer.gdt + racer.dt;
 
-  now = getTimestamp();
-  dt = Math.min(1, (now - last) / 1000);
-  gdt = gdt + dt;
+  if (!racer.racing) {
+    racer.titleScreen.render(racer.dt);
+    racer.gdt = 0;
+  }
+  else {
+    outlineOnly.outlineOnly = false;
 
-  if (!racing) {
-    titleScreen.render(dt);
-    gdt = 0;
-  } else {
-    outlineOnly = false;
-
-    var step = 1 / 180;
-    while (gdt > step) {
-      gdt = gdt - step;
-      race.update(step);
+    const step = 1 / 180;
+    while (racer.gdt > step) {
+      racer.gdt = racer.gdt - step;
+      racer.race.update(step);
     }
 
-    track.drawOverheadTrack();
-    race.render();
+    racer.track.drawOverheadTrack();
+    racer.race.render();
 
-    last = now;
+    racer.last = racer.now;
   }
   requestAnimationFrame(frame);
-  //  stats.end();
 }
+
 frame();

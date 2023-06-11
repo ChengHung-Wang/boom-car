@@ -1,77 +1,79 @@
-var cntx = null;
+export const cntx = {};
 
+cntx.cntx = null;
 
-function cntxClearRect(width, height) {
-  cntx.clearRect(0, 0, width, height);
+cntx.cntxClearRect = function (width, height) {
+  cntx.cntx.clearRect(0, 0, width, height);
 }
 
-function cntxGlobalAlpha(alpha) {
-  cntx.globalAlpha = alpha;
-}
-function cntxFillRect(x, y, width, height) {
-  cntx.fillRect(x, y, width, height);
-}
-  
-function cntxCreateLinearGradient(x0, y0, x1, y1) {
-  return cntx.createLinearGradient(x0, y0, x1, y1);
+cntx.cntxGlobalAlpha = function (alpha) {
+  cntx.cntx.globalAlpha = alpha;
 }
 
-function cntxStrokeStyle(s) {
-  cntx.strokeStyle = s;
+cntx.cntxFillRect = function (x, y, width, height) {
+  cntx.cntx.fillRect(x, y, width, height);
 }
 
-function cntxStroke() {
-  cntx.stroke();
+cntx.cntxCreateLinearGradient = function (x0, y0, x1, y1) {
+  return cntx.cntx.createLinearGradient(x0, y0, x1, y1);
 }
 
-function cntxFillStyle(s) {
-  cntx.fillStyle = s;
+cntx.cntxStrokeStyle = function (s) {
+  cntx.cntx.strokeStyle = s;
 }
 
-function cntxBeginPath() {
-  cntx.beginPath();
+cntx.cntxStroke = function () {
+  cntx.cntx.stroke();
 }
 
-function cntxMoveTo(x, y) {
-  cntx.moveTo(x, y);
+cntx.cntxFillStyle = function (s) {
+  cntx.cntx.fillStyle = s;
 }
 
-function cntxArc(x,y,r,sAngle,eAngle,counterclockwise) {
-  cntx.arc(x,y,r,sAngle,eAngle,counterclockwise);
+cntx.cntxBeginPath = function () {
+  cntx.cntx.beginPath();
 }
 
-function cntxLineTo(x, y) {
-  cntx.lineTo(x, y);
-}
-function cntxClosePath() {
-  cntx.closePath();
+cntx.cntxMoveTo = function (x, y) {
+  cntx.cntx.moveTo(x, y);
 }
 
-function cntxFill() {
-  cntx.fill();
+cntx.cntxArc = function (x, y, r, sAngle, eAngle, counterclockwise) {
+  cntx.cntx.arc(x, y, r, sAngle, eAngle, counterclockwise);
 }
 
-function cntxFillText(t,x,y) {
-  cntx.fillText(t,x,y);
-
+cntx.cntxLineTo = function (x, y) {
+  cntx.cntx.lineTo(x, y);
 }
 
-function cntxSave() {
-  cntx.save();
+cntx.cntxClosePath = function () {
+  cntx.cntx.closePath();
 }
 
-function cntxRestore() {
-  cntx.restore();
+cntx.cntxFill = function () {
+  cntx.cntx.fill();
 }
 
-function cntxTranslate(x, y) {
-  cntx.translate(x, y);
+cntx.cntxFillText = function (t, x, y) {
+  cntx.cntx.fillText(t, x, y);
 }
 
-function cntxRotate(a) {
-  cntx.rotate(a);
+cntx.cntxSave = function () {
+  cntx.cntx.save();
 }
 
-function cntxDrawImage(img, srcX, srcY, srcW, srcH, dstX, dstY, dstW, dstH) {
-  cntx.drawImage(img, srcX, srcY, srcW, srcH, dstX, dstY, dstW, dstH);
+cntx.cntxRestore = function () {
+  cntx.cntx.restore();
+}
+
+cntx.cntxTranslate = function (x, y) {
+  cntx.cntx.translate(x, y);
+}
+
+cntx.cntxRotate = function (a) {
+  cntx.cntx.rotate(a);
+}
+
+cntx.cntxDrawImage = function (img, srcX, srcY, srcW, srcH, dstX, dstY, dstW, dstH) {
+  cntx.cntx.drawImage(img, srcX, srcY, srcW, srcH, dstX, dstY, dstW, dstH);
 }

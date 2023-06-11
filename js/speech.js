@@ -1,28 +1,28 @@
 // say things
-var english_voice = '';
+let english_voice = '';
 
-function speak(text) {
-  var available_voices = window.speechSynthesis.getVoices();
+export function speak(text) {
+  const available_voices = window.speechSynthesis.getVoices();
 
-  if(english_voice == '') {
+  if (english_voice == '') {
 
-    for(var i=0; i<available_voices.length; i++) {
-      if(available_voices[i].lang === 'en-GB') {
+    for (let i = 0; i < available_voices.length; i++) {
+      if (available_voices[i].lang === 'en-GB') {
         english_voice = available_voices[i];
         break;
       }
     }
 
-    if(english_voice === '' && available_voices.length > 0) {
+    if (english_voice === '' && available_voices.length > 0) {
       english_voice = available_voices[0];
     }
   }
-  var utter = new SpeechSynthesisUtterance();
+
+  const utter = new SpeechSynthesisUtterance();
   utter.text = text;
-  if(english_voice != '') {
+  if (english_voice != '') {
     utter.voice = english_voice;
   }
-
 
   // speak
   window.speechSynthesis.speak(utter);
