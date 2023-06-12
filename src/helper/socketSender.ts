@@ -1,14 +1,65 @@
 import type { DataStruct } from "@/services/socket-server/struct";
 import * as helper from "@/helper/helper"
 import type { Car } from "@/services/car.js";
+
 export default class socketSender {
     command(data: DataStruct) : void {
         helper.socket.send(data);
     }
 
+    setNickname(car: Car) : void {
+        console.log("send setNickname")
+        this.command(<DataStruct>{
+            type: "command",
+            data: {
+                command: "set-nickname",
+                nickname: "string"
+            }
+        })
+    }
+
+    joinEvent(car: Car) : void {
+        console.log("send joinEvent")
+        this.command(<DataStruct>{
+            type: "command",
+            data: {
+                command: "join-event",
+                code: "pipeline-of-richer-pay"
+            }
+        })
+    }
+
+    gameEnd(car: Car) : void {
+        console.log("send gameEnd")
+        this.command(<DataStruct>{
+            type: "command",
+            data: {
+                command: "game-end",
+                position: {
+                    x: 0,
+                    y: 0,
+                    z: 0
+                },
+                rank: 1
+            }
+        })
+    }
+
+    carRanking(car: Car) : void {
+        console.log("send carRanking")
+        this.command(<DataStruct>{
+            type: "command",
+            data: {
+                command: "car-ranking",
+                rank: 1
+            }
+        })
+    }
+
     carStraight(car: Car) : void {
         console.log("send carStraight")
         this.command(<DataStruct>{
+            type: "command",
             data: {
                 command: "car-straight",
                 position: {
@@ -16,8 +67,7 @@ export default class socketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed,
-                group_id: 1
+                speed: car.speed
             }
         })
     }
@@ -25,6 +75,7 @@ export default class socketSender {
     carStraightCancel(car: Car) : void {
         console.log("send carStraightCancel")
         this.command(<DataStruct>{
+            type: "command",
             data: {
                 command: "car-straight-cancel",
                 position: {
@@ -32,8 +83,7 @@ export default class socketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed,
-                group_id: 1
+                speed: car.speed
             }
         })
     }
@@ -41,6 +91,7 @@ export default class socketSender {
     carLeft(car: Car) : void {
         console.log("send carLeft")
         this.command(<DataStruct>{
+            type: "command",
             data: {
                 command: "car-left",
                 position: {
@@ -48,8 +99,7 @@ export default class socketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed,
-                group_id: 1
+                speed: car.speed
             }
         })
     }
@@ -57,6 +107,7 @@ export default class socketSender {
     carLeftCancel(car: Car) : void {
         console.log("send carLeftCancel")
         this.command(<DataStruct>{
+            type: "command",
             data: {
                 command: "car-left-cancel",
                 position: {
@@ -64,8 +115,7 @@ export default class socketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed,
-                group_id: 1
+                speed: car.speed
             }
         })
     }
@@ -73,6 +123,7 @@ export default class socketSender {
     carRight(car: Car) : void {
         console.log("send carRight")
         this.command(<DataStruct>{
+            type: "command",
             data: {
                 command: "car-right",
                 position: {
@@ -80,8 +131,7 @@ export default class socketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed,
-                group_id: 1
+                speed: car.speed
             }
         })
     }
@@ -89,6 +139,7 @@ export default class socketSender {
     carRightCancel(car: Car) : void {
         console.log("send carRightCancel")
         this.command(<DataStruct>{
+            type: "command",
             data: {
                 command: "car-right-cancel",
                 position: {
@@ -96,8 +147,7 @@ export default class socketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed,
-                group_id: 1
+                speed: car.speed
             }
         })
     }
@@ -105,6 +155,7 @@ export default class socketSender {
     carTurbo(car: Car) : void {
         console.log("send carTurbo")
         this.command(<DataStruct>{
+            type: "command",
             data: {
                 command: "car-turbo",
                 position: {
@@ -112,8 +163,7 @@ export default class socketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed,
-                group_id: 1
+                speed: car.speed
             }
         })
     }
@@ -121,6 +171,7 @@ export default class socketSender {
     carTurboCancel(car: Car) : void {
         console.log("send carTurboCancel")
         this.command(<DataStruct>{
+            type: "command",
             data: {
                 command: "car-turbo-cancel",
                 position: {
@@ -128,8 +179,39 @@ export default class socketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed,
-                group_id: 1
+                speed: car.speed
+            }
+        })
+    }
+
+    carCollision(car: Car) : void {
+        console.log("send carCollision")
+        this.command(<DataStruct>{
+            type: "command",
+            data: {
+                command: "car-collision",
+                position: {
+                    x: car.x,
+                    y: car.y,
+                    z: car.z
+                },
+                speed: car.speed
+            }
+        })
+    }
+
+    carCollisionCancel(car: Car) : void {
+        console.log("send carCollisionCancel")
+        this.command(<DataStruct>{
+            type: "command",
+            data: {
+                command: "car-collision-cancel",
+                position: {
+                    x: car.x,
+                    y: car.y,
+                    z: car.z
+                },
+                speed: car.speed
             }
         })
     }

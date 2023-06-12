@@ -18,10 +18,13 @@ export interface DataStruct {
         group_id?: string,
         auth?: string,
         others?: any,
-        memberList?:any,
-        nickname?:string,
-        jointGroup?:string,
-        Information?:userInfo,
+        memberList?: any,
+        nickname?: string,
+        jointGroup?: string,
+        Information?: userInfo,
+        code?: string,
+        reason_key?: string,
+        rank?: number,
     }
 }
 

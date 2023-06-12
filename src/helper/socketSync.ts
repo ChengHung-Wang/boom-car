@@ -6,91 +6,82 @@ import type { Ref } from "vue";
 export let playerIndex: Ref<number> = ref(1);
 
 export default class socketSync {
+    static setNickname(data: DataStruct): void {
+    }
+
+    static joinEvent(data: DataStruct): void {
+    }
+
+    static gameStart(data: DataStruct): void {
+    }
+
+    static gameRanking(data: DataStruct): void {
+    }
+
+    static gameRise(data: DataStruct): void {
+    }
+
     static carStraight(data: DataStruct): void {
-        // let playerIndex: number = 1;
-        console.log(playerIndex.value);
         racer.cars[playerIndex.value].setAccelerate(true);
-       //  this.carStateUpdate(data, playerIndex.value);
+        racer.cars[playerIndex.value].x = data.data?.position?.x;
+        racer.cars[playerIndex.value].y = data.data?.position?.y;
+        racer.cars[playerIndex.value].z = data.data?.position?.z;
     }
 
     static carStraightCancel(data: DataStruct): void {
-        // let playerIndex: number = 1;
         racer.cars[playerIndex.value].setAccelerate(false);
-        // this.carStateUpdate(data, playerIndex.value);
+        racer.cars[playerIndex.value].x = data.data?.position?.x;
+        racer.cars[playerIndex.value].y = data.data?.position?.y;
+        racer.cars[playerIndex.value].z = data.data?.position?.z;
     }
 
     static carLeft(data: DataStruct): void {
-        // let playerIndex: number = 1;
         racer.cars[playerIndex.value].setTurnLeft(true);
-        this.carStateUpdate(data, playerIndex.value);
+        racer.cars[playerIndex.value].x = data.data?.position?.x;
+        racer.cars[playerIndex.value].y = data.data?.position?.y;
+        racer.cars[playerIndex.value].z = data.data?.position?.z;
     }
 
     static carLeftCancel(data: DataStruct): void {
-        // let playerIndex: number = 1;
         racer.cars[playerIndex.value].setTurnLeft(false);
-        this.carStateUpdate(data, playerIndex.value);
+        racer.cars[playerIndex.value].x = data.data?.position?.x;
+        racer.cars[playerIndex.value].y = data.data?.position?.y;
+        racer.cars[playerIndex.value].z = data.data?.position?.z;
     }
 
     static carRight(data: DataStruct): void {
-        // let playerIndex: number = 1;
         racer.cars[playerIndex.value].setTurnRight(true);
-        this.carStateUpdate(data, playerIndex.value);
+        racer.cars[playerIndex.value].x = data.data?.position?.x;
+        racer.cars[playerIndex.value].y = data.data?.position?.y;
+        racer.cars[playerIndex.value].z = data.data?.position?.z;
     }
 
     static carRightCancel(data: DataStruct): void {
-        // let playerIndex: number = 1;
         racer.cars[playerIndex.value].setTurnRight(false);
-        this.carStateUpdate(data, playerIndex.value);
+        racer.cars[playerIndex.value].x = data.data?.position?.x;
+        racer.cars[playerIndex.value].y = data.data?.position?.y;
+        racer.cars[playerIndex.value].z = data.data?.position?.z;
     }
 
     static carTurbo(data: DataStruct): void {
-        // let playerIndex: number = 1;
         racer.cars[playerIndex.value].setTurbo(true);
-        this.carStateUpdate(data, playerIndex.value);
+        racer.cars[playerIndex.value].x = data.data?.position?.x;
+        racer.cars[playerIndex.value].y = data.data?.position?.y;
+        racer.cars[playerIndex.value].z = data.data?.position?.z;
     }
 
     static carTurboCancel(data: DataStruct): void {
-        // let playerIndex: number = 1;
         racer.cars[playerIndex.value].setTurbo(false);
-        this.carStateUpdate(data, playerIndex.value);
+        racer.cars[playerIndex.value].x = data.data?.position?.x;
+        racer.cars[playerIndex.value].y = data.data?.position?.y;
+        racer.cars[playerIndex.value].z = data.data?.position?.z;
     }
 
-    static carUnderSpeed(data: DataStruct): void {
-
-    }
-
-    static carUnderSpeedCancel(data: DataStruct): void {
-
-    }
-
-    static overLap(data: DataStruct): void {
+    static carCollision(data: DataStruct): void {
 
     }
 
-    static setNickname(data: DataStruct): void {
+    static carCollisionCancel(data: DataStruct): void {
 
-    }
-
-    static getMembers(data: DataStruct): void {
-
-    }
-
-    static joinGroup(data: DataStruct): void {
-
-    }
-
-    static getConfig(data: DataStruct): void {
-
-    }
-
-    static setCarStyle(data: DataStruct): void {
-
-    }
-
-    static carStateUpdate(data: DataStruct, playerIndex: number): void {
-        racer.cars[playerIndex].x = data.data?.position?.x;
-        racer.cars[playerIndex].y = data.data?.position?.y;
-        racer.cars[playerIndex].z = data.data?.position?.z;
-        racer.cars[playerIndex].speed = data.data?.speed;
     }
 }
