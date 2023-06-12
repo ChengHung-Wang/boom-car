@@ -1,5 +1,5 @@
 # boom car
-花錢的凱子一條龍 台科大 多媒體導論期末專案
+台科大 多媒體導論期末專案
 ## 新鮮的肝
 1. 王正宏 B11015020
 2. 楊芷安 B11015033
@@ -234,6 +234,8 @@ event type: command | sync | result | error
 
 <details>
   <summary>join-event 加入活動</summary>
+預設活動名稱：花錢的凱子一條龍
+代碼：pipeline-of-richer-pay
 
 ```json
 {
