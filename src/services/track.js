@@ -39,7 +39,7 @@ export class Track {
     for (let i = 0; i < segmentCount; i++) {
       const segment = this.segments[i];
 
-      if (i % 20 == 0) {
+      if (i % 20 === 0) {
         let x = segment.p1.world.x;
         segment.sprites.push({
           source: graphics.SPRITES_STREETLIGHTLEFT,
@@ -280,7 +280,7 @@ export class Track {
   }
 
   lastY() {
-    return this.segments.length == 0
+    return this.segments.length === 0
       ? 0
       : this.segments[this.segments.length - 1].p3.world.y;
   }
@@ -312,7 +312,7 @@ export class Track {
     const xRight = laneWidth;
 
     let kerbWidth = 0;
-    if (curve != 0) {
+    if (curve !== 0) {
       kerbWidth = curve * 40;
       if (kerbWidth < 0) {
         kerbWidth = -kerbWidth;
@@ -378,7 +378,7 @@ export class Track {
     }
 
     let anglePerCurve = 0;
-    if (totalCurve != 0) {
+    if (totalCurve !== 0) {
       anglePerCurve = (exitAngle - this.currentAngle) / totalCurve;
     }
 
@@ -522,8 +522,8 @@ export class Track {
     cntx.cntxDrawImage(this.map, 0, 0, 600, 600, 0, 0, 600, 600);
 
     // opponents
-    for (let i = 0; i < racer.cars.length; i++) {
-      const carPosition = racer.cars[i].z;
+    for (let i = 0; i < (racer.cars.value).length; i++) {
+      const carPosition = (racer.cars.value)[i].z;
       const segment = this.findSegment(carPosition);
 
       cntx.cntxBeginPath();
@@ -537,8 +537,8 @@ export class Track {
     }
 
     // camera z position plus player z position from camera
-    //小地圖紅點
-    const playerPosition = racer.cars[PlayerIndex].z;
+    // 小地圖紅點
+    const playerPosition = (racer.cars.value)[PlayerIndex].z;
     const playerSegment = this.findSegment(playerPosition);
 
     cntx.cntxBeginPath();

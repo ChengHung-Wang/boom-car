@@ -275,7 +275,7 @@ export class Car {
     let maxSpeed = this.maxSpeed;
     this.speedPercent = this.speed / this.maxSpeed;
     const currentSegment = racer.track.findSegment(this.z);
-    const playerSegment = racer.track.findSegment(racer.cars[PlayerIndex].z);
+    const playerSegment = racer.track.findSegment((racer.cars.value)[PlayerIndex].z);
     const speedPercent = this.speedPercent;
     this.percent = utilPercentRemaining(this.z, Track.segmentLength);
 
@@ -476,14 +476,14 @@ export class Car {
       }
 
       let isBehind = false;
-      for (let i = 0; i < racer.cars.length; ++i) {
-        let distance = racer.cars[i].z - racer.player.z;
+      for (let i = 0; i < (racer.cars.value).length; ++i) {
+        let distance = (racer.cars.value)[i].z - racer.player.z;
         if (racer.player.z > racer.track.getLength() - 1200) {
           distance -= racer.track.getLength();
         }
 
         if (distance > 0 && distance < 1800) {
-          let offCentre = (racer.player.x - racer.cars[i].x) / racer.cars[i].width;
+          let offCentre = (racer.player.x - (racer.cars.value)[i].x) / (racer.cars.value)[i].width;
           if (offCentre < 0) {
             offCentre = -offCentre;
           }
@@ -612,12 +612,12 @@ export class Car {
     //計算當前排名
     const currentPosition = this.position;
     this.position = 1;
-    for (let i = 0; i < racer.cars.length; ++i) {
+    for (let i = 0; i < (racer.cars.value).length; ++i) {
       if (i !== this.index) {
-        if (racer.cars[i].lap > this.lap) {
+        if ((racer.cars.value)[i].lap > this.lap) {
           this.position++;
-        } else if (racer.cars[i].lap === this.lap) {
-          if (racer.cars[i].z > this.z) {
+        } else if ((racer.cars.value)[i].lap === this.lap) {
+          if ((racer.cars.value)[i].z > this.z) {
             this.position++;
           }
         }

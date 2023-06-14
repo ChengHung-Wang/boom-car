@@ -4,7 +4,7 @@ let english_voice = '';
 export function speak(text) {
   const available_voices = window.speechSynthesis.getVoices();
 
-  if (english_voice == '') {
+  if (english_voice === '') {
 
     for (let i = 0; i < available_voices.length; i++) {
       if (available_voices[i].lang === 'en-GB') {
@@ -20,7 +20,7 @@ export function speak(text) {
 
   const utter = new SpeechSynthesisUtterance();
   utter.text = text;
-  if (english_voice != '') {
+  if (english_voice !== '') {
     utter.voice = english_voice;
   }
 
