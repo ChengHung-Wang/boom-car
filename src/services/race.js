@@ -135,7 +135,7 @@ export class Race {
   }
 
   keyUp(e) {
-    if (this.state != STATE_RACEOVER) {
+    if (this.state !== STATE_RACEOVER) {
       switch (e.keyCode) {
         case 90: // z
           this.KeyzIsDown = false;
@@ -177,7 +177,7 @@ export class Race {
           break;
       }
     } else {
-      if (e.keyCode == 90) {
+      if (e.keyCode === 90) {
         if (!this.KeyzIsDown) {
           // retry race
 
@@ -186,10 +186,10 @@ export class Race {
         this.zIsDown = false;
       }
 
-      if (e.keyCode == 88) {
+      if (e.keyCode === 88) {
         if (!this.KeyxIsDown) {
           // next race
-          if (racer.cars[PlayerIndex].finishPosition == "1st") {
+          if (racer.cars[PlayerIndex].finishPosition === "1st") {
             this.start(this.raceNumber + 1);
           }
         }
@@ -264,10 +264,10 @@ export class Race {
     if (time - this.lastTime > Race.COUNTDOWN_INTERVAL) {
       this.lastTime = racer.getTimestamp();
       this.countdownNumber--;
-      if (this.countdownNumber == 3) {
+      if (this.countdownNumber === 3) {
         speak("RACE");
       }
-      if (this.countdownNumber == 2) {
+      if (this.countdownNumber === 2) {
         speak(numbers[this.raceNumber]);
       }
       if (this.countdownNumber <= 0) {
@@ -345,7 +345,7 @@ export class Race {
 
   render() {
     render.renderRender();
-    if (this.state == STATE_PRERACE) {
+    if (this.state === STATE_PRERACE) {
       racer.context.value.font = "italic bold 350px " + constants.helvetica;
 
       if (this.countdownNumber < 4) {
@@ -356,13 +356,13 @@ export class Race {
       }
 
       if (this.countdownNumber < 3) {
-        if (this.raceNumber == 0) {
+        if (this.raceNumber === 0) {
           racer.context.value.font = "italic bold 440px " + constants.helvetica;
-        } else if (this.raceNumber == 1) {
+        } else if (this.raceNumber === 1) {
           racer.context.value.font = "italic bold 430px " + constants.helvetica;
-        } else if (this.raceNumber == 2) {
+        } else if (this.raceNumber === 2) {
           racer.context.value.font = "italic bold 290px " + constants.helvetica;
-        } else if (this.raceNumber == 3) {
+        } else if (this.raceNumber === 3) {
           racer.context.value.font = "italic bold 358px " + constants.helvetica;
         }
 
@@ -373,7 +373,7 @@ export class Race {
       }
     }
 
-    if (this.state == STATE_COUNTDOWN) {
+    if (this.state === STATE_COUNTDOWN) {
       racer.context.value.font = " 300px " + constants.helvetica;
       racer.context.value.fillStyle = "#111111";
       racer.context.value.fillText(this.countdownNumber, 449, 254);
@@ -381,7 +381,7 @@ export class Race {
       racer.context.value.fillText(this.countdownNumber, 445, 250);
     }
 
-    if (this.state == STATE_RACING) {
+    if (this.state === STATE_RACING) {
 
       const speed = (
           "000" + Math.round(racer.player.getSpeed() / 100).toString(10)
@@ -426,13 +426,13 @@ export class Race {
       }
     }
 
-    if (this.state == STATE_RACEOVER) {
+    if (this.state === STATE_RACEOVER) {
       racer.context.value.font = " 300px " + constants.helvetica;
       cntx.cntxFillStyle(LIGHTGREY);
       racer.context.value.fillText(racer.cars[PlayerIndex].finishPosition, 300, 290); //cars[PlayerIndex].finishPosition, 494, 254);
       racer.context.value.font = " 40px " + constants.helvetica;
       let y = 380;
-      if (racer.cars[PlayerIndex].finishPosition == "1st") {
+      if (racer.cars[PlayerIndex].finishPosition === "1st") {
         racer.context.value.fillText("x: Next Race", 397, y);
         y += 80;
       }

@@ -89,7 +89,7 @@ export function renderSegment(segment) {
 
     // road
     if (!outlineOnly.outlineOnly) {
-        const colour = (segment.index == 0) ? graphics.MEDIUMGREY : trackjs.COLORS_ROAD;
+        const colour = (segment.index === 0) ? graphics.MEDIUMGREY : trackjs.COLORS_ROAD;
         renderPolygon(
             segment.p1.screen.x,
             segment.p1.screen.y,
@@ -155,7 +155,7 @@ export function renderSegment(segment) {
         }
     }
 
-    if (graphics.COLORS_FOG.COLORS_FOG != 0) {
+    if (graphics.COLORS_FOG.COLORS_FOG !== 0) {
         renderFog(0, segment.p1.screen.y, width, segment.p3.screen.y - segment.p1.screen.y, segment.fog);
     }
 }
@@ -203,7 +203,7 @@ function renderSprite(sprite, scale, destX, destY, clipY, fog) {
             destW,
             destH - clipH);
 
-        if (fog !== false && graphics.COLORS_FOG.COLORS_FOG != 0) {
+        if (fog !== false && graphics.COLORS_FOG.COLORS_FOG !== 0) {
             renderFog(destX, destY, destW, destH, fog);
         }
     }
@@ -425,7 +425,7 @@ export function renderRender() {
             spriteX = destX + collisionx;
         }
 
-        if (segment != playerSegment) {
+        if (segment !== playerSegment) {
             continue;
         }
 
@@ -463,7 +463,7 @@ export function renderRender() {
         carX = p.screen.x;
         let playerDirection = 0;
         if (racer.player.speed > 0) {
-            if (racer.player.driftDirection != 0) {
+            if (racer.player.driftDirection !== 0) {
                 playerDirection = racer.player.driftDirection;
             } else {
                 playerDirection = (racer.player.turnLeft ? -1 : racer.player.turnRight ? 1 : 0);
@@ -478,7 +478,7 @@ export function renderRender() {
             playerSegment.p3.world.y - playerSegment.p1.world.y,
             playerShadowY);
 
-        if (racer.race.state == STATE_RACING) {
+        if (racer.race.state === STATE_RACING) {
             racer.context.value.drawImage(racer.track.overheadMap, -40, 200, 400, 400);
         }
     }
