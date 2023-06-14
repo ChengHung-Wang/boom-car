@@ -109,6 +109,6 @@ export default class CommandHandler {
 
     public carTurboCancel(socket: Socket, data: DataStruct): void {
         delete data.hash;
-        this.carStraight(socket, data);
+        (new Sender.Sync()).send(socket, data);
     }
 }
