@@ -208,6 +208,7 @@ event type: command | sync | result | error
 | game-start           | command | administer -> server | all user   |
 | game-ranking         | sync    | server->client       | same group |
 | game-rise            | sync    | server->client       | all user   |
+| alert-client-amount  | sync    | server->client       | all user   |
 | game-end             | command | client->server       | -          |
 | car-ranking          | command | client->server       | same group |
 | car-straight         | command | client->server       | same group |
@@ -220,6 +221,7 @@ event type: command | sync | result | error
 | car-turbo-cancel     | command | client->server       | same group |
 | car-collision        | command | client->server       | same group |
 | car-collision-cancel | command | client->server       | same group |
+| car-collision-cancel | command | client->server       | same group |
 | -                    | error   | server->client       | one user   |
 
 ### error response template （目前都是由 Server 端產生的）
@@ -227,7 +229,7 @@ event type: command | sync | result | error
 {
     "type": "error",
     "data": {
-        "reason_key": "..."
+        "reasonKey": "..."
     }
 }
 ```
@@ -255,7 +257,27 @@ event type: command | sync | result | error
 {
     "type": "error",
     "data": {
-        "reason_key": "ERR_EVENT_NOT_FOUND"
+        "reasonKey": "ERR_EVENT_NOT_FOUND"
+    }
+}
+```
+
+`error` 活動尚未開始
+```json
+{
+    "type": "error",
+    "data": {
+        "reasonKey": "ERR_EVENT_HAVE_NOT_START_YET"
+    }
+}
+```
+
+`error` 超過本次活動選手上線
+```json
+{
+    "type": "error",
+    "data": {
+      "reasonKey": "ERR_OVER_CLIENT_AMOUNT"
     }
 }
 ```
@@ -284,8 +306,35 @@ client send:
 {
     "type": "error",
     "data": {
-        "reason_key": "ERR_DUPLICATED_NICKNAME"
+        "reasonKey": "ERR_DUPLICATED_NICKNAME"
     }
+}
+```
+
+`error`
+不合法的暱稱
+```json
+{
+    "type": "error",
+    "data": {
+        "reasonKey": "ERR_NICKNAME_NOT_VALID"
+    }
+}
+```
+</details>
+
+<details>
+<summary>alert-client-amount 同步當前用戶數</summary>
+
+```json
+{
+  "type": "sync",
+  "data": {
+    "command": "alert-client-amount",
+    "data": {
+      "clientAmount": 38
+    }
+  }
 }
 ```
 </details>
@@ -310,7 +359,7 @@ The game has start
 {
   "type": "error",
   "data": {
-    "reason_key": "ERR_GAME_HAS_START"
+    "reasonKey": "ERR_GAME_HAS_START"
   }
 }
 ```
@@ -397,7 +446,7 @@ Previous haven't finish
 {
   "type": "error",
   "data": {
-    "reason_key": "ERR_PREVIOUS_GAME_HAVE_NOT_END"
+    "reasonKey": "ERR_PREVIOUS_GAME_HAVE_NOT_END"
   }
 }
 ```
