@@ -1,3 +1,4 @@
+// @ts-ignore
 import type { Socket } from "socket.io";
 import CommandHandler from "@/services/socket-server/commandHandler";
 import type { DataStruct } from "@/services/socket-server/struct";
@@ -15,12 +16,13 @@ export class CommandRouter {
 
     register(): (Map<string, (socket: Socket, data: DataStruct) => void>) {
         const functionMap = new Map<string, (socket: Socket, data: DataStruct) => void>();
-        functionMap.set("set-nickname", this.service.SetNickname);//設置暱稱
-        functionMap.set("join-event", this.service.SetNickname);//設置暱稱
-        functionMap.set("game-start", this.service.SetNickname);//設置暱稱
-        functionMap.set("game-ranking", this.service.SetNickname);//設置暱稱
-        functionMap.set("game-rise", this.service.GetMember);//獲取該組成員
-        functionMap.set("game-end", this.service.GetMember);//獲取該組成員
+        functionMap.set("join-event", this.service.joinEvent); //設置暱稱
+        functionMap.set("set-nickname", this.service.setNickname); //設置暱稱
+        functionMap.set("game-start", this.service.setNickname); //設置暱稱
+        functionMap.set("game-ranking", this.service.setNickname); //設置暱稱
+        functionMap.set("game-rise", this.service.GetMember); //獲取該組成員
+        functionMap.set("game-end", this.service.GetMember); //獲取該組成員
+
         // car-*
         functionMap.set("car-straight", this.service.carStraight); // 前進
         functionMap.set("car-straight-cancel", this.service.carStraightCancel); // 取消前進

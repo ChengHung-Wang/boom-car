@@ -1,18 +1,30 @@
+// @ts-ignore
 import { Server, Socket } from "socket.io";
+// @ts-ignore
+import cors from 'cors';
 import * as Sender from "./sender";
 import * as SocketStruct from "@/services/socket-server/struct";
 import { CommandRouter } from "@/services/socket-server/router";
 import { createServer } from "http";
 import express from 'express';
-import cors from 'cors';
+
+import type { event, member } from "@/services/socket-server/struct";
 
 export default class SocketService {
-    protected io: Server;
-    protected groups = [];
-    protected service = {
+    // socket.io object
+    public io: Server;
+
+    // sender service
+    protected sender = {
         result: new Sender.Result(),
         sync: new Sender.Sync()
     };
+
+    // 活動列表
+    public events: Map<string, event> = new Map();
+
+    // player_id -> member
+    public membersMap: Map<string, member> = new Map();
 
     constructor(port: number = 3000) {
         const app = express();
@@ -26,13 +38,17 @@ export default class SocketService {
                 origin: '*',
             }
         });
-        this.io.on('connection', (socket: Socket) => {
-            this.registerMember(socket);
-            socket.on("command", async (data) => {
-                const ids = await this.io.allSockets();
-                console.log(ids);
-                new CommandRouter(socket, <SocketStruct.DataStruct>data);
+
+        this.io.on('connection', async (socket: Socket) => {
+            await this.registerMember(socket);
+
+            socket.on("command", async (data: SocketStruct.DataStruct) => {
+                new CommandRouter(socket, data);
             });
+
+            socket.on("disconnect", () => {
+                this.membersMap.delete(socket.id);
+            })
         });
 
         server.listen(port, () => {
@@ -40,15 +56,25 @@ export default class SocketService {
         });
     }
 
-    public registerMember(socket: Socket, send: boolean = true): SocketStruct.DataStruct {
-        const result: SocketStruct.DataStruct = {
-            type: "result",
+    public async registerMember(socket: Socket): Promise<void> {
+        const allClients = await this.getClients();
+        this.membersMap.set(socket.id, {
+            playerId: socket.id,
+            permission: "user",
+            nickname: ""
+        });
+        this.sender.sync.send(this.io, <SocketStruct.DataStruct>{
+            type: "sync",
             data: {
-                player_id: socket.id,
-                auth: socket.handshake.auth['sec-websocket-key']
+                clientAmount: allClients.length
             }
-        };
-        if (send) this.service.result.send(socket, result);
-        return result;
+        });
+    }
+
+    public async getClients(roomName: Array<string> = []): Promise<(member | undefined)[]> {
+        const data = await (roomName.length == 0 ? this.io.fetchSockets() : this.io.in(roomName).fetchSockets());
+        return Array<string>(data).map(socketID => {
+            return this.membersMap.get(socketID);
+        })
     }
 }

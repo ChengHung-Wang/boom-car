@@ -20,6 +20,8 @@
     "express": "^4.18.2",
     "http": "^0.0.1-security",
     "http-server": "^14.1.1",
+    "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "pinia": "^2.0.36",
     "socket.io": "^4.6.1",
     "socket.io-client": "^4.6.1",
