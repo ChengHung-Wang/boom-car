@@ -188,7 +188,7 @@ Desktop Drive, ~~iPadOS~~, iOS Safari（螢幕方向為直）
 ### Networking & Deploy
 - [x] Domain & SSL 證書
 - [ ] Socket Server 部署
-- [ ] Socket Load Blancer
+- [ ] Socket Load Balancer
 
 ### Misc
 - [x] 起跑位置不同的公平性問題解決方案 (6)
@@ -199,7 +199,7 @@ Desktop Drive, ~~iPadOS~~, iOS Safari（螢幕方向為直）
 
 ## boom-car Socket API Doc
 event type: command | sync | result | error
-注意：為了縮減資料傳輸量，請 client 端將
+注意：為了縮減資料傳輸量，請 client 端將非必要不要將自己的 player_id 加上去
 
 | function name        | type    | sender               | broadcast  |
 |----------------------|---------|----------------------|------------|
@@ -234,7 +234,8 @@ event type: command | sync | result | error
 
 <details>
   <summary>join-event 加入活動</summary>
-預設活動名稱：花錢的凱子一條龍
+
+預設活動名稱：花錢的凱子一條龍<br>
 代碼：pipeline-of-richer-pay
 
 ```json
@@ -262,6 +263,7 @@ event type: command | sync | result | error
 
 <details>
     <summary>set-nickname 設置暱稱</summary>
+
 `command`
 client send:
 ```json
@@ -469,20 +471,28 @@ server 廣播給同組的 client
 ```
 </details>
 
+<details>
+  <summary>
+    car-* (car-ranking, car-straight, car-left, car-left-cancel...)  
+  </summary>
 
+#### 此指令包含：
+- car-ranking: 車輛變換名次時發出
+  - car-straight: 車輛直走
+  - car-straight-cancel：車輛取消直走
+  - car-left: 車輛左轉
+  - car-left-cancel: 車輛左轉取消
+  - car-right: 車輛右轉
+  - car-right-cancel: 車輛右轉取消
+  - car-turbo: 車輛加速
+  - car-turbo-cancel: 車輛加速取消
+  - car-collision: 車輛碰撞
+  - car-collision-cancel: 車輛碰撞取消
 
-game-end
-car-ranking
-car-straight
-car-straight-cancel
-car-left
-car-left-cancel
-car-right
-car-right-cancel
-car-turbo
-car-turbo-cancel
-car-collision
-car-collision-cancel
+`command`
+client send to server
+</details>
+
 
 ----
 
@@ -520,3 +530,4 @@ io.except("groupX").emit("foo", "bar");
 io.except(["groupX", "groupY"]).emit("foo", "bar");
 
 ```
+
