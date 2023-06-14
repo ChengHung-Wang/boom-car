@@ -101,10 +101,11 @@ watch(
       inset: 0;
   }
   .title-card {
-      backdrop-filter: saturate(180%) blur(30px);
-      -webkit-backdrop-filter: saturate(180%) blur(30px);
+      //backdrop-filter: saturate(180%) blur(30px);
+      //-webkit-backdrop-filter: saturate(180%) blur(30px);
       background: rgba(0, 0, 0, 0.3);
       padding: 15px;
+      position: relative;
   }
   .fcc {
       display: flex;
