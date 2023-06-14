@@ -65,7 +65,7 @@ watch(
           </div>
       </div>
 
-      <div class="container text-light title-card" v-if="gameStarted">
+      <div style="width: 500px;" class="container text-light title-card" v-if="gameStarted">
           <div class="focus-display">
             <p>名次 {{ gameStore.rank }}</p>
             <p>速度 {{ gameStore.speed }}</p>
@@ -76,17 +76,21 @@ watch(
             <p>turbo {{ gameStore.turboAmount }}</p>
           </div>
           <div class="row">
-              <div class="col-4">
-                  <h5>Camera X</h5>
-                  <el-slider v-model="camera.x" />
-              </div>
-              <div class="col-4">
+              <div class="col-3">
                   <h5>Camera Y</h5>
                   <el-slider v-model="camera.y" :min="300" :max="10000" />
               </div>
-              <div class="col-4">
+              <div class="col-3">
                   <h5>Camera Z</h5>
                   <el-slider v-model="camera.z" :min="300" :max="10000" />
+              </div>
+              <div class="col-6" v-if="racer.cars.value.length >= 0">
+                <p v-for="(data, index) in racer.cars.value" :key="index">
+                  index: {{ index }}<br>
+                  x: {{ data.x }}<br>
+                  y: {{ data.y }}<br>
+                  z: {{ data.z }}
+                </p>
               </div>
           </div>
       </div>
