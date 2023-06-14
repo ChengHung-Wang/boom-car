@@ -4,10 +4,12 @@ export interface userInfo {
     nickname?: string;
 }
 export interface DataStruct {
-    type: "command" | "sync" | "media" | "result" | "error",
+    type: "command" | "sync" | "result" | "error",
     hash?: string,
     data?: {
         command?: string,
+        code?: string, // 活動代碼
+        reason_key?: string,
         position?: {
             x: number,
             y: number,
@@ -16,12 +18,14 @@ export interface DataStruct {
         speed?: number,
         player_id: string,
         group_id?: string,
-        auth?: string,
-        others?: any,
-        memberList?:any,
-        nickname?:string,
-        jointGroup?:string,
-        Information?:userInfo,
+        members?: Array<{
+            nickname: string,
+            player_id: string,
+            rank: number,
+            rise?: boolean
+        }>,
+        nickname?: string, // 暱稱
+        rank?: number, // for: game-end
     }
 }
 
