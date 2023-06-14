@@ -97,7 +97,6 @@ export default class CommandHandler {
 
     public carLeftCancel(socket: Socket, data: DataStruct): void {
         delete data.hash;
-        this.carStraight(socket, data);
         (new Sender.Sync()).send(socket, data);
     }
 
