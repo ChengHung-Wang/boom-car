@@ -16,8 +16,8 @@
       "nickname_limit": "請輸入 10 個字以內",
       "enter_event": "進入遊戲"
     },
-    "ChooseMode": {
-      "choose_mode": "模式選擇",
+    "SelectMode": {
+      "select_mode": "模式選擇",
       "single_player": "單機模式",
       "single_player_annotation": "與電腦訓練來提升實力",
       "multi_player": "多人競賽",
