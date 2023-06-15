@@ -462,18 +462,13 @@ export class Track {
   drawMap() {
     if (this.map == null) {
       // this.map = document.createElement("canvas");
-      this.map = (useGameStore()).mapCanvas;
+      this.map = useGameStore().mapCanvas;
     }
     this.map.width = 600;
-    this.map.height = 600;
+    this.map.height = 405;
     cntx.cntx = this.map.getContext("2d");
 
-    // const width = canvas.width;
-    // const height = canvas.height;
-    // racer.context.value.fillStyle = '#222222';
-    // racer.context.value.fillRect(0, 0, width, height);
-
-    cntx.cntxClearRect(600, 600);
+    cntx.cntxClearRect(this.map.width, this.width);
     cntx.cntxStrokeStyle("#666666");
     cntx.cntx.lineWidth = 5;
 
@@ -484,7 +479,7 @@ export class Track {
     cntx.cntxBeginPath();
     let segmentDrawLength = 0.5;
     cntx.cntxMoveTo(x, y);
-    for (let i = 0; i < this.segments.length; i++) {
+    for (let i = 0; i < this.segments.length; ++i) {
       angle = (this.segments[i].angle / 180) * mathFunc.PI;
       x += segmentDrawLength * mathFunc.cos(angle);
       y += segmentDrawLength * mathFunc.sin(angle);
@@ -517,15 +512,14 @@ export class Track {
   }
 
   drawOverheadTrack() {
-    //let canvas = document.getElementById('trackCanvas');
-    cntx.cntx = graphics.overheadTrack.x; //canvas.getContext('2d');
+    cntx.cntx = graphics.overheadTrack.x;
     this.overheadMap = graphics.overheadTrack.c;
 
-    cntx.cntxClearRect(600, 600);
+    cntx.cntxClearRect(600, 405);
     cntx.cntxDrawImage(this.map, 0, 0, 600, 600, 0, 0, 600, 600);
 
     // opponents
-    for (let i = 0; i < (racer.cars.value).length; i++) {
+    for (let i = 0; i < (racer.cars.value).length; ++i) {
       const carPosition = (racer.cars.value)[i].z;
       const segment = this.findSegment(carPosition);
 
