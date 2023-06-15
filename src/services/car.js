@@ -584,10 +584,13 @@ export class Car {
     }
 
     if (currentSegment !== newSegment) {
+      racer.track.clearOldCarSegment(this);
       const index = currentSegment.cars.indexOf(this);
-      currentSegment.cars.splice(index, 1);
+      // currentSegment.cars.splice(index, 10);
       newSegment.cars.push(this);
+      racer.track.carSegIndex[this.index] = newSegment.index;
     }
+
 
     // next lap?
     if (this.z < Track.segmentLength * 1.2 && !this.lapStarted) {

@@ -20,6 +20,7 @@ export class Track {
     this.currentAngle = 0;
 
     this.segments = [];
+    this.carSegIndex = [];
     this.map = null;
   }
 
@@ -549,5 +550,15 @@ export class Track {
     racer.context.value.lineWidth = 2;
     cntx.cntxStrokeStyle(graphics.MEDIUMGREY);
     cntx.cntxStroke();
+  }
+
+  clearOldCarSegment(car) {
+      for (let i=0; i < this.segments.length; i++) {
+        for (let j = 0; j < this.segments[i].cars.length; j++) {
+          if (this.segments[i].cars[j] === car) {
+            this.segments[i].cars.splice(0, 1);
+          }
+        }
+      }
   }
 }
