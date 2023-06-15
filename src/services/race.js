@@ -232,7 +232,7 @@ export class Race {
 
       // player speeds are set in car.js
       if (car.index !== PlayerIndex) {
-        const maxSpeed = 36000;
+        const maxSpeed = 23000; //23000;
         if (car.index < 8 && car.index > 3) {
           car.maxSpeed =
             maxSpeed * 0.905 -
