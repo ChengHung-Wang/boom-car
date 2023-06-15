@@ -8,20 +8,21 @@ export default class CommandHandler {
     private readonly socket: Socket;
     private readonly data: DataStruct;
 
-    public constructor(socket: Socket, data: DataStruct) {
+    constructor(socket: Socket, data: DataStruct) {
         this.socket = socket;
         this.data = data;
     }
 
-    public async joinEvent(): Promise<void> {
-        const event = service.getEvent(this.socket, <string>this.data.data?.code);
+    public joinEvent = async (): Promise<void> => {
+        console.log(this.socket);
+        const event = service.getEvent(<Socket>this.socket, <string>this.data.data?.code);
         // check event exist
-        if (! event) {
+        if (!event) {
             return;
         }
 
         // check event started
-        if (! moment().tz("Asia/Taipei").isAfter(event.startAt)) {
+        if (!moment().tz("Asia/Taipei").isAfter(event.startAt)) {
             (new Sender.Error()).send(this.socket, {
                 type: "error",
                 data: {
@@ -50,7 +51,7 @@ export default class CommandHandler {
         // TODO: 由於 Demo 只會同時有一場活動，有需要分活動的需求請自行撰寫後面的程序。
     }
 
-    public async setNickname(): Promise<void> {
+    public setNickname = async (): Promise<void> => {
         const nickname: string = <string>this.data.data?.nickname;
         // check nickname is valid
         if (nickname.trim() == "") {
@@ -83,16 +84,20 @@ export default class CommandHandler {
         (new Sender.Sync()).sendToAllClients(<DataStruct>{
             type: "sync",
             data: {
-                members:  (await service.getClients()).filter(item => {
+                members: (await service.getClients()).filter(item => {
                     return item && item?.nickname != "" && item?.permission != "admin";
                 })
             }
         })
     }
 
-    public setGameStart(): void {
+    public setAdmin = async(): Promise<void> => {
+        service.setAsAdmin(this.socket, <string>this.data.data?.password);
+    }
+
+    public setGameStart = async (): Promise<void> => {
         // check permission
-        if (! service.isAdmin(<string>this.socket.id))
+        if (!service.isAdmin(<string>this.socket.id))
             return (new Sender.Error()).permissionDeny(this.socket);
 
         const thisEvent: event | undefined = service.getEvent(this.socket, <string>this.data.data?.code);
@@ -107,10 +112,9 @@ export default class CommandHandler {
         service.setGameStart(thisEvent.name);
     }
 
-    public setGameRise(): void
-    {
+    public setGameRise = async (): Promise<void> => {
         // check permission
-        if (! service.isAdmin(<string>this.socket.id))
+        if (!service.isAdmin(<string>this.socket.id))
             return (new Sender.Error()).permissionDeny(this.socket);
 
         const thisEvent: event | undefined = service.getEvent(this.socket, <string>this.data.data?.code);
@@ -119,8 +123,7 @@ export default class CommandHandler {
             return;
     }
 
-    public async userEndGame(): Promise<void>
-    {
+    public userEndGame = async (): Promise<void> => {
         const rank = this.data.data?.rank;
         if (rank === undefined) return;
         service.membersMap.set(<string>this.socket.id, <member>{
@@ -134,7 +137,7 @@ export default class CommandHandler {
         });
         if (endUsers.length == (await service.io.in(<string>thisUser.groupId).fetchSockets()).length) {
             // all finish of same group member
-            (new Sender.Sync()).sendGroup(this.socket,{
+            (new Sender.Sync()).sendGroup(this.socket, {
                 type: "sync",
                 data: {
                     command: "game-ranking",
@@ -152,13 +155,11 @@ export default class CommandHandler {
         }
     }
 
-    public getUsers(): void
-    {
+    public getUsers = async (): Promise<void> => {
         // TODO: 取得整個用戶清單
     }
 
-    public carEvent(): void
-    {
+    public carEvent = async (): Promise<void> => {
         delete this.data.hash;
         (new Sender.Sync()).send(this.socket, this.data);
     }

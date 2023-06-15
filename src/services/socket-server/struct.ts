@@ -35,6 +35,7 @@ export interface DataStruct {
     data?: {
         command?: string,
         code?: string, // 活動代碼
+        password?: string, // 管理者密碼
         reasonKey?: string,
         clientAmount?: number, // 當前人數
         position?: {

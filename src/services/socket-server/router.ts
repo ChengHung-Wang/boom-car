@@ -10,14 +10,17 @@ export class CommandRouter {
         this.service = new CommandHandler(socket, data);
         const target = this.register().get(<string>(data.data?.command));
         if (target) {
-            target();
+            (async () => {
+                await target();
+            })();
         }
     }
 
-    register(): (Map<string, () => void>) {
-        const functionMap = new Map<string, () => void>();
-        functionMap.set("join-event", this.service.joinEvent); // 設置暱稱
+    register(): (Map<string, () => Promise<void>>) {
+        const functionMap = new Map<string, () => Promise<void>>();
+        functionMap.set("join-event", this.service.joinEvent); // 加入活動
         functionMap.set("set-nickname", this.service.setNickname); // 設置暱稱
+        functionMap.set("set-admin", this.service.setAdmin); // 設置管理員權限
         functionMap.set("game-start", this.service.setGameStart); // 遊戲開始 (admin)
         functionMap.set("game-rise", this.service.setGameRise); // 遊戲晉級 (admin)
         functionMap.set("game-end", this.service.userEndGame); // 遊戲結束
