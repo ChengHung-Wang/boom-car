@@ -1,14 +1,15 @@
 <script setup lang="ts">
 
 import {ref} from "vue";
-
+import i18n from '@/lang/index'
+const { t } = i18n.global
 type Track = {
   trackName : string,
   level : string
 }
 
 let trackNumber = ref(0)
-let trackName : string[] = ['山下風景', '白晝廢墟', '星夜城市']
+let trackName : string[] = [TrackName.track1, TrackName.track1, TrackName.track1]
 
 let computerAmount : number = 0
 </script>

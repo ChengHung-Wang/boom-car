@@ -1,0 +1,12 @@
+{
+  "TrackName": {
+    "track1": "Mountain",
+    "track2": "Ruins",
+    "track3": "City"
+  },
+  "Level": {
+    "easy": "Easy",
+    "normal": "Normal",
+    "hard": "Hard"
+  }
+}

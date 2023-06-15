@@ -3,6 +3,7 @@ import * as GameService from "@/services/racer.js"
 import { onMounted, Ref, ref, watch } from "vue";
 import { racer } from "@/services/racer.js";
 import { useGameStore } from "@/stores/game";
+import { useI18n } from "vue-i18n";
 
 const gameCanvas: Ref<HTMLCanvasElement | undefined> = ref();
 const gameStore = useGameStore();
@@ -12,7 +13,10 @@ const camera = ref({
     x: 0,
     y: 0,
     z: 0
-})
+});
+
+
+const { t, locale } = useI18n();
 
 function startGame(trackNumber: number): void {
     gameStarted.value = true;
@@ -38,24 +42,31 @@ watch(
             racer.camera.adjust(camera.value.y, camera.value.z);
         }
     }, { deep: true })
+
+// const { t, locale } = useI18n(i18n.messages)
+// const handleChangeLanguage = (e) => {
+//   locale.value = e.target.value;
+// };
 </script>
 <template>
   <div id="game">
       <canvas ref="gameCanvas"></canvas>
-      <div class="focus-display">
-        圈數 [總圈數/現在圈數]
-        LapTime {{ gameStore.lapTime }}
-      </div>
       <div class="container" v-if="!gameStarted">
+          <nav class="focus-display">
+            <select v-model="locale">
+              <option>tw</option>
+              <option>en</option>
+            </select>
+          </nav>
           <div class="row">
               <div class="col-12 fsc text-light h-100vh">
                   <div class="title-card">
                       <h1>boom car</h1>
                       <p class="mb-2"><strong>難度</strong></p>
                       <el-button-group class="mb-3">
-                          <el-button @click="startGame(0)" type="info">簡單</el-button>
-                          <el-button @click="startGame(2)" type="info">中等</el-button>
-                          <el-button @click="startGame(3)" type="info">困難</el-button>
+                          <el-button @click="startGame(0)" type="info"> {{ t("Level.easy") }} </el-button>
+                          <el-button @click="startGame(2)" type="info"> {{ t("Level.normal") }} </el-button>
+                          <el-button @click="startGame(3)" type="info"> {{ t("Level.hard") }} </el-button>
                       </el-button-group>
                       <p>遊戲中按 X 可以啟動加速。</p>
                   </div>
@@ -64,6 +75,10 @@ watch(
       </div>
 
       <div class="container text-light title-card" v-if="gameStarted">
+        <div class="focus-display">
+          圈數 [總圈數/現在圈數]
+          LapTime {{ gameStore.lapTime }}
+        </div>
           <div class="row">
               <div class="col-4">
                   <h5>Camera X</h5>
