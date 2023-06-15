@@ -4,6 +4,7 @@ import { constants } from "./constants.js";
 import { PlayerIndex } from "./race.js";
 import * as mathFunc from "./mathFunctions.js";
 import * as graphics from "./graphics.js";
+import { useGameStore } from "@/stores/game";
 
 // define the tracks in the game
 export const COLORS_KERBLIGHT = "#a02222";
@@ -460,7 +461,8 @@ export class Track {
 
   drawMap() {
     if (this.map == null) {
-      this.map = document.createElement("canvas");
+      // this.map = document.createElement("canvas");
+      this.map = (useGameStore()).mapCanvas;
     }
     this.map.width = 600;
     this.map.height = 600;

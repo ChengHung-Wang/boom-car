@@ -6,6 +6,7 @@ import { useGameStore } from "@/stores/game";
 import { playerIndex } from "@/helper/socketSync";
 
 const gameCanvas: Ref<HTMLCanvasElement | undefined> = ref();
+const mapCanvas: Ref<HTMLCanvasElement | undefined> = ref();
 const gameStore = useGameStore();
 
 const gameStarted = ref(false);
@@ -21,11 +22,12 @@ function startGame(trackNumber: number): void {
 }
 
 onMounted(() => {
-    if (gameCanvas.value != undefined) {
+    if (gameCanvas.value != undefined && mapCanvas.value != undefined) {
         gameCanvas.value.width = document.documentElement.clientWidth;
         gameCanvas.value.height = document.documentElement.clientHeight;
         GameService.racer.canvas.value = gameCanvas.value;
         GameService.racer.context.value = (GameService.racer.canvas.value).getContext('2d');
+        gameStore.mapCanvas = <HTMLCanvasElement>mapCanvas.value;
         GameService.init();
 
         camera.value.y = racer.camera.yOffset;
@@ -43,6 +45,7 @@ watch(
 <template>
   <div id="game">
       <canvas ref="gameCanvas"></canvas>
+      <canvas ref="mapCanvas" id="map"></canvas>
       <div class="container" v-if="!gameStarted">
 
           <div class="row">
@@ -129,5 +132,15 @@ watch(
     inset: 0;
     color: rgb(128, 128, 128);
     font-size: 24px;
+  }
+
+  #map {
+    position: fixed;
+    background-color: black;
+    left: 30px;
+    top: 50px;
+    width: 300px;
+    height: 180px;
+    z-index: 9;
   }
 </style>
