@@ -136,11 +136,10 @@ watch(
 
   #map {
     position: fixed;
-    background-color: black;
-    left: 30px;
-    top: 50px;
-    width: 300px;
-    height: 180px;
-    z-index: 9;
+    background-color: transparent;
+    left: 0px;
+    //top: 200px;
+    width: 400px;
+    height: 270px;
   }
 </style>
