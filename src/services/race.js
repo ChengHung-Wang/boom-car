@@ -231,7 +231,7 @@ export class Race {
       car.percent = utilPercentRemaining(car.z, Track.segmentLength);
 
       // player speeds are set in car.js
-      if (car.index !== PlayerIndex) {
+      if (false) { //car.index !== PlayerIndex
         const maxSpeed = 23000; //23000;
         if (car.index < 8 && car.index > 3) {
           car.maxSpeed =

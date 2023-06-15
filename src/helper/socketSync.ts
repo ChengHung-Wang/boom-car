@@ -23,42 +23,65 @@ export default class socketSync {
 
     static carStraight(data: DataStruct): void {
         (racer.cars.value)[playerIndex.value].setAccelerate(true);
-        this.statusUpdate(data, playerIndex);
+        (racer.cars.value)[playerIndex.value].x = data.data?.position?.x;
+        (racer.cars.value)[playerIndex.value].y = data.data?.position?.y;
+        (racer.cars.value)[playerIndex.value].z = data.data?.position?.z;
+        (racer.cars.value)[playerIndex.value].speed = data.data?.speed;
     }
 
     static carStraightCancel(data: DataStruct): void {
         (racer.cars.value)[playerIndex.value].setAccelerate(false);
-        this.statusUpdate(data, playerIndex);
+        (racer.cars.value)[playerIndex.value].x = data.data?.position?.x;
+        (racer.cars.value)[playerIndex.value].y = data.data?.position?.y;
+        (racer.cars.value)[playerIndex.value].z = data.data?.position?.z;
+        (racer.cars.value)[playerIndex.value].speed = data.data?.speed;
     }
 
     static carLeft(data: DataStruct): void {
         (racer.cars.value)[playerIndex.value].setTurnLeft(true);
-        this.statusUpdate(data, playerIndex);
-    }
+        (racer.cars.value)[playerIndex.value].x = data.data?.position?.x;
+        (racer.cars.value)[playerIndex.value].y = data.data?.position?.y;
+        (racer.cars.value)[playerIndex.value].z = data.data?.position?.z;
+        (racer.cars.value)[playerIndex.value].speed = data.data?.speed;    }
 
     static carLeftCancel(data: DataStruct): void {
         (racer.cars.value)[playerIndex.value].setTurnLeft(false);
-        this.statusUpdate(data, playerIndex);
+        (racer.cars.value)[playerIndex.value].x = data.data?.position?.x;
+        (racer.cars.value)[playerIndex.value].y = data.data?.position?.y;
+        (racer.cars.value)[playerIndex.value].z = data.data?.position?.z;
+        (racer.cars.value)[playerIndex.value].speed = data.data?.speed;
     }
 
     static carRight(data: DataStruct): void {
         (racer.cars.value)[playerIndex.value].setTurnRight(true);
-        this.statusUpdate(data, playerIndex);
+        (racer.cars.value)[playerIndex.value].x = data.data?.position?.x;
+        (racer.cars.value)[playerIndex.value].y = data.data?.position?.y;
+        (racer.cars.value)[playerIndex.value].z = data.data?.position?.z;
+        (racer.cars.value)[playerIndex.value].speed = data.data?.speed;
     }
 
     static carRightCancel(data: DataStruct): void {
         (racer.cars.value)[playerIndex.value].setTurnRight(false);
-        this.statusUpdate(data, playerIndex);
+        (racer.cars.value)[playerIndex.value].x = data.data?.position?.x;
+        (racer.cars.value)[playerIndex.value].y = data.data?.position?.y;
+        (racer.cars.value)[playerIndex.value].z = data.data?.position?.z;
+        (racer.cars.value)[playerIndex.value].speed = data.data?.speed;
     }
 
     static carTurbo(data: DataStruct): void {
         (racer.cars.value)[playerIndex.value].setTurbo(true);
-        this.statusUpdate(data, playerIndex);
+        (racer.cars.value)[playerIndex.value].x = data.data?.position?.x;
+        (racer.cars.value)[playerIndex.value].y = data.data?.position?.y;
+        (racer.cars.value)[playerIndex.value].z = data.data?.position?.z;
+        (racer.cars.value)[playerIndex.value].speed = data.data?.speed;
     }
 
     static carTurboCancel(data: DataStruct): void {
         (racer.cars.value)[playerIndex.value].setTurbo(false);
-        this.statusUpdate(data, playerIndex);
+        (racer.cars.value)[playerIndex.value].x = data.data?.position?.x;
+        (racer.cars.value)[playerIndex.value].y = data.data?.position?.y;
+        (racer.cars.value)[playerIndex.value].z = data.data?.position?.z;
+        (racer.cars.value)[playerIndex.value].speed = data.data?.speed;
     }
 
     static carCollision(data: DataStruct): void {
@@ -73,6 +96,6 @@ export default class socketSync {
         (racer.cars.value)[playerIndex.value].x = data.data?.position?.x;
         (racer.cars.value)[playerIndex.value].y = data.data?.position?.y;
         (racer.cars.value)[playerIndex.value].z = data.data?.position?.z;
-        (racer.cars.value)[playerIndex.value].speed = data.data?.position?.speed;
+        (racer.cars.value)[playerIndex.value].speed = data.data?.speed;
     }
 }
