@@ -210,6 +210,7 @@ event type: command | sync | result | error
 | game-rise            | sync    | server->client       | all user   |
 | alert-client-amount  | sync    | server->client       | all user   |
 | game-end             | command | client->server       | -          |
+| get-users            | command | client->server       | -          |
 | car-ranking          | command | client->server       | same group |
 | car-straight         | command | client->server       | same group |
 | car-straight-cancel  | command | client->server       | same group |
@@ -354,13 +355,23 @@ administer send
 ```
 
 `error`
-The game has start
+The game has started
 ```json
 {
   "type": "error",
   "data": {
-    "reasonKey": "ERR_GAME_HAS_START"
+    "reasonKey": "ERR_GAME_HAS_STARTED"
   }
+}
+```
+
+`error` 權限非法
+```json
+{
+    "type": "error",
+    "data": {
+      "reasonKey": "ERR_PERMISSION_DENY"
+    }
 }
 ```
 

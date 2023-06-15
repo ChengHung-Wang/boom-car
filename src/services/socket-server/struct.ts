@@ -3,26 +3,30 @@ import { Socket } from "socket.io";
 import moment from 'moment-timezone';
 
 export interface member {
-    nickname: string,
-    playerId: string,
-    rank?: number,
-    rise?: boolean,
     eventName?: string,
-    permission?: "user" | "admin"
+    nickname: string,
+    permission?: "user" | "admin",
+    playerId: string,
+    groupId?: string,
+    rank?: number,
+    roundEnd?: boolean,
+    rise?: boolean
 }
 
 export interface round {
     risePercent: number,
     track: string,
-    maxRunTime: number
+    maxRunTime: number,
+    hasFinish: boolean
 }
 
 export interface event {
-    code: string,
-    maxCompetitor: number,
-    name: string,
-    rounds: Array<round>,
-    startAt: moment.Moment
+    code: string;
+    maxCompetitor: number;
+    name: string;
+    rounds: Array<round>;
+    startAt: moment.Moment;
+    hasStart: boolean;
 }
 
 export interface DataStruct {

@@ -63,7 +63,7 @@ export default class SocketService {
             permission: "user",
             nickname: ""
         });
-        this.sender.sync.send(this.io, <SocketStruct.DataStruct>{
+        this.sender.sync.sendToAllClients(<SocketStruct.DataStruct>{
             type: "sync",
             data: {
                 clientAmount: allClients.length
@@ -71,10 +71,41 @@ export default class SocketService {
         });
     }
 
+    public isAdmin(playerId: string): boolean
+    {
+        const thisUser: member|undefined = this.membersMap.get(playerId);
+        return thisUser != undefined && thisUser?.permission == "admin";
+    }
+
+    public getEvent(socket: Socket, serial: string): event|undefined {
+        const thisEvent: event|undefined = this.events.get(serial);
+        // check event exist
+        if (! thisEvent) {
+            (new Sender.Error()).send(socket, {
+                type: "error",
+                data: {
+                    reasonKey: "ERR_EVENT_NOT_FOUND"
+                }
+            })
+            socket.disconnect(true);
+        }
+        return thisEvent;
+    }
+
     public async getClients(roomName: Array<string> = []): Promise<(member | undefined)[]> {
         const data = await (roomName.length == 0 ? this.io.fetchSockets() : this.io.in(roomName).fetchSockets());
-        return Array<string>(data).map(socketID => {
-            return this.membersMap.get(socketID);
-        })
+        return ((data).map(socketID => {
+            return this.membersMap.get(socketID.id);
+        }))
+    }
+
+    public setGameStart(serial: string): void
+    {
+        // TODO: 計時器，分配組別
+    }
+
+    public setGameRise(serial: string): void
+    {
+        // TODO: 切換到下一個 round，重新分配組別，
     }
 }

@@ -11,11 +11,11 @@ export class Result implements SocketStruct.Methods {
 }
 
 export class Sync implements SocketStruct.Methods {
-    send(socket: Socket|Server, data: SocketStruct.DataStruct): void {
+    send(socket: Socket, data: SocketStruct.DataStruct): void {
         socket.broadcast.emit("sync", data);
     }
 
-    sendGroup(socket: Socket|Server, data: SocketStruct.DataStruct, groupNumber: string): void {
+    sendGroup(socket: Socket, data: SocketStruct.DataStruct, groupNumber: string): void {
         socket.to(groupNumber).emit("sync", data);
     }
 
@@ -30,6 +30,17 @@ export class Error implements SocketStruct.Methods {
         data.type = "error";
         socket.emit("error", data);
     }
+
+    permissionDeny(socket: Socket): void
+    {
+        socket.emit("error", <SocketStruct.DataStruct>{
+            type: "error",
+            data: {
+                reasonKey: "ERR_PERMISSION_DENY"
+            }
+        })
+    }
+
     sendReason(socket: Socket, reason: string): void {
         socket.emit("error", <SocketStruct.DataStruct>{
             type: "error",

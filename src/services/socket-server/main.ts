@@ -14,15 +14,23 @@ service.events.set("pipeline-of-richer-pay", {
         {
             maxRunTime: 1000 * 60 * 2,
             track: "track1",
-            risePercent: 50
+            risePercent: 50,
+            hasFinish: false
+        },
+        {
+            maxRunTime: 1000 * 60 * 2,
+            track: "track3",
+            risePercent: 50,
+            hasFinish: false
+        },
+        {
+            maxRunTime: 1000 * 60 * 2,
+            track: "track4",
+            risePercent: 0,
+            hasFinish: false
         }
     ],
     maxCompetitor: 60,
-    startAt: moment("2023-06-06", "YYYY-MM-DD").tz("Asia/Taipei")
+    startAt: moment("2023-06-06", "YYYY-MM-DD").tz("Asia/Taipei"),
+    hasStart: false
 });
-
-// TODO: remove it
-export let memberList: Map<string, Array<member>> = new Map();
-
-// TODO: remove it
-export let FindMemberGroup: Map<string, string> = new Map();
