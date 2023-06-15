@@ -542,7 +542,9 @@ export class Car {
         const car = newSegment.cars[n];
 
         if (car.index !== this.index) {
-          if (this.speed > car.speed) {
+          if (car.speed === 0) {
+              this.speed = maxSpeed / 5;
+          } else if (this.speed > car.speed) {
             // check for collision with other car, same segment and rects overlap
             if (this.overlap(this.x, this.width, car.x, car.width, 1)) {
               if (this.index !== PlayerIndex) {
