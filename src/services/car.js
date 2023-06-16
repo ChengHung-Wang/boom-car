@@ -258,6 +258,9 @@ export class Car {
 
   getPosition() {
     const i = this.position;
+    const gameStore = useGameStore();
+    gameStore.rank = this.position;
+
     const j = i % 10;
     const k = i % 100;
     if (j === 1 && k !== 11) {
