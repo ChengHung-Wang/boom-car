@@ -128,8 +128,6 @@ export default class SocketService {
         thisEvent.hasStart = true;
         this.events.set(this.forceEventName, thisEvent);
 
-        console.log('setGameStart', 131);
-
         // random
         const groupNames: string[] = [this.getHash(), this.getHash(), this.getHash(), this.getHash()];
         const randomMembers: member[] = this.shuffle(Array.from(this.membersMap.values())).filter(member => {
@@ -137,7 +135,6 @@ export default class SocketService {
         });
         // TODO: solve hard code problem
         // grouping
-        console.log('setGameStart', 140, randomMembers);
         //  分組
         const groupAmount = 4;
         let nowIndex = 0;
@@ -150,11 +147,9 @@ export default class SocketService {
                 nowIndex ++;
             }
         }
-        console.log('setGameStart', this.membersMap);
-
         // join group
         groupNames.forEach(name => {
-            const members: member[] = randomMembers.filter(e => {
+            const members: member[] = Array.from(this.membersMap.values()).filter(e => {
                 return e.groupId == name;
             }).map((e: member, index: number) => {
                 e.rank = index;
@@ -165,12 +160,6 @@ export default class SocketService {
                 this.membersMap.set(e.playerId, e);
                 return e;
             });
-            console.log('setGameStart', 165);
-
-            console.log(<string[]>members.map(e => {
-                return e.playerId;
-            }));
-
             this.io.in(<string[]>members.map(e => {
                 return e.playerId;
             })).socketsJoin(name);

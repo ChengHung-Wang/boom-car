@@ -17,22 +17,22 @@ export default class socketSync {
     }
 
     static gameStart(data: DataStruct): void {
-        if (!(useGameStore()).engineReady)
-            return
-
-        // @ts-ignore
-        racer.race.carCount = data.data?.members.length;
-        const socketId: string = ((useSocketStore()).service.socket?.id) as string;
-        const members: member[] | undefined = data.data?.members;
-        let rank: number = 0;
-        if (members)
-            for (let item of members)
-                if (item.playerId == socketId)
-                    rank = item.rank as number;
-        console.log(socketId, rank, data);
-        (useGameStore()).playerMap.set(socketId, rank - 1);
-        (useGameStore()).playerIndex = ((useGameStore()).playerMap.get(socketId)) as number;
-        racer.startGame(0);
+        if ((useGameStore()).engineReady) {
+            // @ts-ignore
+            racer.race.carCount = data.data?.members.length;
+            const socketId: string = ((useSocketStore()).service.socket?.id) as string;
+            const members: member[] | undefined = data.data?.members;
+            let rank: number = 0;
+            if (members) {
+                for (let item of members)
+                {
+                    (useGameStore()).playerMap.set(item.playerId, <number>(item.rank) - 1);
+                    if (item.playerId == socketId)
+                        (useGameStore()).playerIndex = <number>item.rank - 1;
+                }
+            }
+            racer.startGame(0);
+        }
     }
 
     static gameRanking(data: DataStruct): void {
@@ -44,6 +44,7 @@ export default class socketSync {
     static carStraight(data: DataStruct): void {
         console.log("receive carStraight");
         const playerIndex: number = ((useGameStore()).playerMap.get((data.data?.playerId) as string) as number);
+        console.log(useGameStore().playerMap);
         // @ts-ignore
         (racer.cars.value)[playerIndex].setAccelerate(true);
         socketSync.statusUpdate(data, playerIndex);
@@ -113,7 +114,7 @@ export default class socketSync {
 
     }
 
-    static statusUpdate(data: DataStruct, playerIndex: number): void{
+    static statusUpdate(data: DataStruct, playerIndex: number): void {
         // @ts-ignore
         (racer.cars.value)[playerIndex].x = data.data?.position?.x;
         // @ts-ignore
