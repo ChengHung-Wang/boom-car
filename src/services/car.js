@@ -79,6 +79,9 @@ export class Car {
 
     this.bounce = 1;
     this.finishPosition = 0;
+
+    //debug purposes
+    //this.mult = 1;
   }
 
   doaccelerate(v, accel, dt) {
@@ -379,6 +382,13 @@ export class Car {
       }
     }
 
+    //position modifier, for staggler to have a chance
+    // if(this.index === 0)
+    //   console.log(this.position);
+    mult += 0.01 * this.position;
+    //for dubug purposes
+    //this.mult = mult;
+
     this.bounce = this.bounce * mathRand() * speedPercent;
 
     if ((this.index === 0 || this.index === 1) && racer.race.state !== STATE_RACEOVER) {
@@ -428,6 +438,7 @@ export class Car {
           // going too fast, need to decelerate
           this.speed = this.doaccelerate(this.speed, this.decel, dt);
           if (this.speed < maxSpeed * mult) {
+            console.log("exceeding?? maxSpeed", this.speed, maxSpeed * mult);
             this.speed = maxSpeed * mult;
           }
         }
@@ -506,8 +517,8 @@ export class Car {
       if (this.slipstreamTime > 0) {
         this.slipstreamTime -= dt;
       }
-    } else {
-      if (this.speed < maxSpeed) {
+    } else {//AI
+      if (this.speed < maxSpeed * mult) {
         this.speed = this.doaccelerate(this.speed, this.accel, dt);
       }
 
@@ -581,8 +592,10 @@ export class Car {
       this.x = trackRight + 1.2 * this.width - this.width / 2;
     }
 
-    // limit the speed to max speed
-    this.speed = this.limit(this.speed, 0, maxSpeed); // or exceed maxSpeed
+    // limit the speed to max speed and block reversing
+    //this.speed = this.limit(this.speed, 0, maxSpeed); // or exceed maxSpeed
+    if(this.speed < 0)
+      this.speed = 0;
 
     if (this.index === 0) {
       raceAudioEngineSpeed(this.speedPercent);
