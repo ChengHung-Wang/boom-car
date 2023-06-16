@@ -383,9 +383,7 @@ export class Car {
     }
 
     //position modifier, for staggler to have a chance
-    // if(this.index === 0)
-    //   console.log(this.position);
-    mult += 0.01 * this.position;
+    mult += 0.02 * this.position;
     //for dubug purposes
     //this.mult = mult;
 
@@ -519,7 +517,7 @@ export class Car {
       }
     } else {//AI
       if (this.speed < maxSpeed * mult) {
-        this.speed = this.doaccelerate(this.speed, this.accel, dt);
+        this.speed = this.doaccelerate(this.speed, this.accel * accMult, dt);
       }
 
       const turnDir = this.updateCarPosition(
