@@ -15,8 +15,6 @@ import socketSender from "@/helper/socketSender.ts";
 
 // TODO: let it become module type to solve camera undefined.
 // controls the race
-export let PlayerIndex = parseInt(prompt("enter index"));
-
 const numbers = ["ONE", "TWO", "THREE", "FOUR", "FIVE", "SIX", "SEVEN", "EIGHT"];
 
 export const STATE_PRERACE = 0;
@@ -76,7 +74,7 @@ export class Race {
     }
 
     this.resetCars();
-    racer.player = (racer.cars.value)[PlayerIndex];
+    racer.player = (racer.cars.value)[(useGameStore()).playerIndex];
     racer.player.initSlipstreamLines();
     this.state = STATE_PRERACE;
     this.countdownNumber = 4;
@@ -189,7 +187,7 @@ export class Race {
       if (e.keyCode === 88) {
         if (!this.KeyxIsDown) {
           // next race
-          if ((racer.cars.value)[PlayerIndex].finishPosition === "1st") {
+          if ((racer.cars.value)[(useGameStore()).playerIndex].finishPosition === "1st") {
             this.start(this.raceNumber + 1);
           }
         }
@@ -214,7 +212,7 @@ export class Race {
       //      sprite = SPRITES.CAR_STRAIGHT;
 
       car = new Car();
-      car.PlayerIndex = PlayerIndex;
+      car.PlayerIndex = (useGameStore()).playerIndex;
 
       let x = 0;
       if (n % 2) {
@@ -231,7 +229,7 @@ export class Race {
       car.percent = utilPercentRemaining(car.z, Track.segmentLength);
 
       // player speeds are set in car.js
-      if (false) { //car.index !== PlayerIndex
+      if (false) { //car.index !== (useGameStore()).controlIndex
         const maxSpeed = 23000; //23000;
         if (car.index < 8 && car.index > 3) {
           car.maxSpeed =
@@ -418,20 +416,20 @@ export class Race {
       // cntx.cntxStroke();
       // cntx.cntxFillRect(800, 114, racer.player.turboAmount * 2, 20);
 
-      if ((racer.cars.value)[PlayerIndex].newPositionTime > 0) {
+      if ((racer.cars.value)[(useGameStore()).playerIndex].newPositionTime > 0) {
         racer.context.value.font = " 160px " + constants.helvetica;
         cntx.cntxFillStyle(LIGHTGREY);
-        racer.context.value.fillText((racer.cars.value)[PlayerIndex].getPosition(), 334, 184);
+        racer.context.value.fillText((racer.cars.value)[(useGameStore()).playerIndex].getPosition(), 334, 184);
       }
     }
 
     if (this.state === STATE_RACEOVER) {
       racer.context.value.font = " 300px " + constants.helvetica;
       cntx.cntxFillStyle(LIGHTGREY);
-      racer.context.value.fillText((racer.cars.value)[PlayerIndex].finishPosition, 300, 290); //cars[PlayerIndex].finishPosition, 494, 254);
+      racer.context.value.fillText((racer.cars.value)[(useGameStore()).playerIndex].finishPosition, 300, 290); //cars[(useGameStore()).controlIndex].finishPosition, 494, 254);
       racer.context.value.font = " 40px " + constants.helvetica;
       let y = 380;
-      if ((racer.cars.value)[PlayerIndex].finishPosition === "1st") {
+      if ((racer.cars.value)[(useGameStore()).playerIndex].finishPosition === "1st") {
         racer.context.value.fillText("x: Next Race", 397, y);
         y += 80;
       }
@@ -442,7 +440,7 @@ export class Race {
   //改變車輛
   static ChangeCar(carIndex) {
     // racer.camera.WatchPlayer(carIndex);
-    PlayerIndex = carIndex;
+    (useGameStore()).playerIndex = carIndex;
     racer.player = (racer.cars.value)[carIndex];
   }
 

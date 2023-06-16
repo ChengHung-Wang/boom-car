@@ -3,7 +3,7 @@ import * as GameService from "@/services/racer.js"
 import { onMounted, Ref, ref, watch } from "vue";
 import { racer } from "@/services/racer.js";
 import { useGameStore } from "@/stores/game";
-import { playerIndex } from "@/helper/socketSync";
+import { controlIndex } from "@/helper/socketSync";
 
 const gameCanvas: Ref<HTMLCanvasElement | undefined> = ref();
 const mapCanvas: Ref<HTMLCanvasElement | undefined> = ref();
@@ -59,7 +59,7 @@ watch(
                           <el-button @click="startGame(3)" type="info">困難</el-button>
                       </el-button-group>
                       <p>遊戲中按 X 可以啟動加速。</p>
-                      <select v-model="playerIndex">
+                      <select v-model="controlIndex">
                         <option value="0">player index: 0</option>
                         <option value="1">player index: 1</option>
                       </select>
