@@ -1,35 +1,36 @@
 import type { DataStruct } from "@/services/socket-server/struct";
 import * as helper from "@/helper/helper"
 import type { Car } from "@/services/car.js";
+import { useSocketStore } from "@/stores/socket";
 
-export default class socketSender {
+export default class SocketSender {
     command(data: DataStruct) : void {
         helper.socket.send(data);
     }
 
-    setNickname(car: Car) : void {
+    setNickname() : void {
         console.log("send setNickname")
         this.command(<DataStruct>{
             type: "command",
             data: {
                 command: "set-nickname",
-                nickname: "string"
+                nickname: (useSocketStore()).nickname
             }
         })
     }
 
-    joinEvent(car: Car) : void {
+    joinEvent() : void {
         console.log("send joinEvent")
         this.command(<DataStruct>{
             type: "command",
             data: {
                 command: "join-event",
-                code: "pipeline-of-richer-pay"
+                code: (useSocketStore()).socketServerUrl
             }
         })
     }
 
-    gameEnd(car: Car) : void {
+    gameEnd() : void {
         console.log("send gameEnd")
         this.command(<DataStruct>{
             type: "command",
@@ -45,7 +46,7 @@ export default class socketSender {
         })
     }
 
-    carRanking(car: Car) : void {
+    carRanking() : void {
         console.log("send carRanking")
         this.command(<DataStruct>{
             type: "command",

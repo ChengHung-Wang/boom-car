@@ -5,7 +5,7 @@ export function sync(data: DataStruct): void {
     const list: Map<string,(data: DataStruct) => void> = new Map();
 
     list.set("set-nickname", socketSync.setNickname);
-    list.set("join-event", socketSync.joinEvent);
+    list.set("alert-client-amount", socketSync.alertClientAmount);
     list.set("game-start", socketSync.gameStart);
     list.set("game-ranking", socketSync.gameRanking);
     list.set("game-rise", socketSync.gameRise);

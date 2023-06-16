@@ -2,14 +2,18 @@ import type { DataStruct } from "@/services/socket-server/struct";
 import { racer } from "@/services/racer";
 import { ref } from "vue";
 import type { Ref } from "vue";
+import { useSocketStore } from "@/stores/socket";
+import { useGameStore } from "@/stores/game";
 
 export let playerIndex: Ref<number> = ref(1);
 
 export default class socketSync {
     static setNickname(data: DataStruct): void {
+        (useSocketStore()).members = data.data?.members?.length ? data.data?.members : [];
     }
 
-    static joinEvent(data: DataStruct): void {
+    static alertClientAmount(data: DataStruct): void {
+        (useGameStore()).clientAmount = data.data?.clientAmount ? data.data.clientAmount : 0;
     }
 
     static gameStart(data: DataStruct): void {

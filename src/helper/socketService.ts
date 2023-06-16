@@ -23,6 +23,7 @@ export default class SocketService {
         this.socket.on("connection", this.onConnected);
         this.socket.on("sync", this.onSync);
         this.socket.on("result", this.onResult);
+        this.socket.on("error", this.onError);
     }
 
     start(): void {
@@ -69,6 +70,10 @@ export default class SocketService {
 
     onResult(data: DataStruct): void {
         console.log('result', data);
+    }
+
+    onError(data: DataStruct): void {
+        console.log('error', data)
     }
 
     private getHash(length: number = 8) {
