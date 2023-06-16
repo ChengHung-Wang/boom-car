@@ -1,7 +1,6 @@
 import { racer } from "./racer.js";
 import { cntx } from "./canvasFunctions.js";
 import { constants } from "./constants.js";
-import { PlayerIndex } from "./race.js";
 import * as mathFunc from "./mathFunctions.js";
 import * as graphics from "./graphics.js";
 import { useGameStore } from "@/stores/game";
@@ -535,7 +534,7 @@ export class Track {
 
     // camera z position plus player z position from camera
     // 小地圖紅點
-    const playerPosition = (racer.cars.value)[PlayerIndex].z;
+    const playerPosition = (racer.cars.value)[(useGameStore()).playerIndex].z;
     const playerSegment = this.findSegment(playerPosition);
 
     cntx.cntxBeginPath();

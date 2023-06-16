@@ -1,11 +1,11 @@
-import type { DataStruct } from "@/services/socket-server/struct";
+import type { DataStruct, member } from "@/services/socket-server/struct";
 import { racer } from "@/services/racer";
-import { ref } from "vue";
 import type { Ref } from "vue";
+import { ref } from "vue";
 import { useSocketStore } from "@/stores/socket";
 import { useGameStore } from "@/stores/game";
 
-export let playerIndex: Ref<number> = ref(1);
+export let controlIndex: Ref<number> = ref(1);
 
 export default class socketSync {
     static setNickname(data: DataStruct): void {
@@ -17,6 +17,22 @@ export default class socketSync {
     }
 
     static gameStart(data: DataStruct): void {
+        if (!(useGameStore()).engineReady)
+            return
+
+        // @ts-ignore
+        racer.race.carCount = data.data?.members.length;
+        const socketId: string = ((useSocketStore()).service.socket?.id) as string;
+        const members: member[] | undefined = data.data?.members;
+        let rank: number = 0;
+        if (members)
+            for (let item of members)
+                if (item.playerId == socketId)
+                    rank = item.rank as number;
+        console.log(socketId, rank, data);
+        (useGameStore()).playerMap.set(socketId, rank - 1);
+        (useGameStore()).playerIndex = ((useGameStore()).playerMap.get(socketId)) as number;
+        racer.startGame(0);
     }
 
     static gameRanking(data: DataStruct): void {
@@ -27,49 +43,65 @@ export default class socketSync {
 
     static carStraight(data: DataStruct): void {
         console.log("receive carStraight");
-        (racer.cars.value)[playerIndex.value].setAccelerate(true);
+        const playerIndex: number = ((useGameStore()).playerMap.get((data.data?.playerId) as string) as number);
+        // @ts-ignore
+        (racer.cars.value)[playerIndex].setAccelerate(true);
         socketSync.statusUpdate(data, playerIndex);
     }
 
     static carStraightCancel(data: DataStruct): void {
         console.log("receive carStraightCancel");
-        (racer.cars.value)[playerIndex.value].setAccelerate(false);
+        const playerIndex: number = ((useGameStore()).playerMap.get((data.data?.playerId) as string) as number);
+        // @ts-ignore
+        (racer.cars.value)[playerIndex].setAccelerate(true);
         socketSync.statusUpdate(data, playerIndex);
     }
 
     static carLeft(data: DataStruct): void {
         console.log("receive carLeft");
-        (racer.cars.value)[playerIndex.value].setTurnLeft(true);
+        const playerIndex: number = ((useGameStore()).playerMap.get((data.data?.playerId) as string) as number);
+        // @ts-ignore
+        (racer.cars.value)[playerIndex].setAccelerate(true);
         socketSync.statusUpdate(data, playerIndex);
     }
 
     static carLeftCancel(data: DataStruct): void {
         console.log("receive carLeftCancel");
-        (racer.cars.value)[playerIndex.value].setTurnLeft(false);
+        const playerIndex: number = ((useGameStore()).playerMap.get((data.data?.playerId) as string) as number);
+        // @ts-ignore
+        (racer.cars.value)[playerIndex].setAccelerate(true);
         socketSync.statusUpdate(data, playerIndex);
     }
 
     static carRight(data: DataStruct): void {
         console.log("receive carRight");
-        (racer.cars.value)[playerIndex.value].setTurnRight(true);
+        const playerIndex: number = ((useGameStore()).playerMap.get((data.data?.playerId) as string) as number);
+        // @ts-ignore
+        (racer.cars.value)[playerIndex].setAccelerate(true);
         socketSync.statusUpdate(data, playerIndex);
     }
 
     static carRightCancel(data: DataStruct): void {
         console.log("receive carRightCancel");
-        (racer.cars.value)[playerIndex.value].setTurnRight(false);
+        const playerIndex: number = ((useGameStore()).playerMap.get((data.data?.playerId) as string) as number);
+        // @ts-ignore
+        (racer.cars.value)[playerIndex].setAccelerate(true);
         socketSync.statusUpdate(data, playerIndex);
     }
 
     static carTurbo(data: DataStruct): void {
         console.log("receive carTurbo");
-        (racer.cars.value)[playerIndex.value].setTurbo(true);
+        const playerIndex: number = ((useGameStore()).playerMap.get((data.data?.playerId) as string) as number);
+        // @ts-ignore
+        (racer.cars.value)[playerIndex].setAccelerate(true);
         socketSync.statusUpdate(data, playerIndex);
     }
 
     static carTurboCancel(data: DataStruct): void {
         console.log("receive carTurboCancel");
-        (racer.cars.value)[playerIndex.value].setTurbo(false);
+        const playerIndex: number = ((useGameStore()).playerMap.get((data.data?.playerId) as string) as number);
+        // @ts-ignore
+        (racer.cars.value)[playerIndex].setAccelerate(true);
         socketSync.statusUpdate(data, playerIndex);
     }
 
@@ -81,10 +113,14 @@ export default class socketSync {
 
     }
 
-    static statusUpdate(data: DataStruct, playerIndex: Ref<number>): void{
-        (racer.cars.value)[playerIndex.value].x = data.data?.position?.x;
-        (racer.cars.value)[playerIndex.value].y = data.data?.position?.y;
-        (racer.cars.value)[playerIndex.value].z = data.data?.position?.z;
-        (racer.cars.value)[playerIndex.value].speed = data.data?.speed;
+    static statusUpdate(data: DataStruct, playerIndex: number): void{
+        // @ts-ignore
+        (racer.cars.value)[playerIndex].x = data.data?.position?.x;
+        // @ts-ignore
+        (racer.cars.value)[playerIndex].y = data.data?.position?.y;
+        // @ts-ignore
+        (racer.cars.value)[playerIndex].z = data.data?.position?.z;
+        // @ts-ignore
+        (racer.cars.value)[playerIndex].speed = data.data?.speed;
     }
 }
