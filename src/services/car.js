@@ -12,6 +12,7 @@ import { useGameStore } from "@/stores/game";
 
 export class Car {
   constructor() {
+    this.isAI = true; //const??
     this.sprite = 0;
     this.index = 0;
     this.width = 500;
@@ -389,7 +390,8 @@ export class Car {
 
     this.bounce = this.bounce * mathRand() * speedPercent;
 
-    if ((this.index === 0 || this.index === 1) && racer.race.state !== STATE_RACEOVER) {
+    //if ((this.index === 0 || this.index === 1) && racer.race.state !== STATE_RACEOVER) {
+    if(this.isAI === false && racer.race.state !== STATE_RACEOVER){
       // its the player
 
       this.x = this.x - (dx * speedPercent * playerSegment.curve * this.centrifugal);
