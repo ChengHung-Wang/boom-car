@@ -123,5 +123,7 @@ export default class socketSync {
         (racer.cars.value)[playerIndex].z = data.data?.position?.z;
         // @ts-ignore
         (racer.cars.value)[playerIndex].speed = data.data?.speed;
+        // @ts-ignore
+        (racer.cars.value)[playerIndex].lap = data.data?.lap;
     }
 }
