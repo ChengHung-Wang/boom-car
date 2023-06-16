@@ -46,7 +46,7 @@ export interface DataStruct {
         speed?: number,
         playerId?: string,
         groupId?: string,
-        members?: member[],
+        members?: Array<member>,
         nickname?: string, // 暱稱
         rank?: number, // for: game-end
     }

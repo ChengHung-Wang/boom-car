@@ -111,7 +111,7 @@ export default class CommandHandler {
         if (thisEvent.hasStart) {
             return (new Sender.Error()).sendReason(this.socket, "ERR_GAME_HAS_STARTED");
         }
-
+        console.log('setGameStart', 114);
         service.setGameStart(thisEvent.name);
     }
 
