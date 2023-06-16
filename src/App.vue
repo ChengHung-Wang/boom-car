@@ -1,7 +1,12 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import {onMounted} from "vue";
+import device from "current-device";
+import {useGameStore} from "@/stores/game";
 
+onMounted(() => {
+  (useGameStore()).mobile = !device.desktop();
+})
 </script>
 
 <template>

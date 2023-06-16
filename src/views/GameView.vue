@@ -8,6 +8,7 @@ import NicknameInput from "@/components/NicknameInput.vue";
 import Dashboard from "@/components/Dashboard.vue";
 import MiniMap from "@/components/MiniMap.vue";
 import CameraSetting from "@/components/CameraSetting.vue";
+import device from "current-device";
 import TurboBox from "@/components/TurboBox.vue";
 import {constants} from "@/services/constants";
 
@@ -17,12 +18,16 @@ const gameStore = useGameStore();
 const gameStarted = ref(false);
 const {t, locale} = useI18n();
 
+gameStore.mobile = device.mobile();
+
 function startGame(trackNumber: number): void {
   gameStarted.value = true;
   GameService.racer.startGame(trackNumber);
   GameService.racer.player.setAccelerate(true);
 
 }
+
+
 
 function openInNewTab(url) {
   window.open(url, '_blank', 'noreferrer');
@@ -117,7 +122,10 @@ function right(touch : boolean) {
       <!--          <MiniMap/>-->
       <CameraSetting/>
       <!--          <TurboBox/>-->
-      <div class="control-panel">
+      <div class="control-panel" v-if="gameStore.mobile">
+        <button class="turbo-btn">
+
+        </button>
         <button class="dir-btn" @touchstart="left(true)" @touchend="left(false)">
           <svg width="32" height="47" viewBox="0 0 32 47" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M23.2727 0L0 23.2727L23.2727 46.5455L32 37.8182L17.4545 23.2727L32 8.72727L23.2727 0Z"
@@ -206,5 +214,8 @@ canvas {
 .dir-btn::after {
   border: 1px solid;
   border-image-source: linear-gradient(180deg, rgba(199, 199, 199, 0.9) 0%, rgba(199, 199, 199, 0.2) 100%);
+}
+.turbo-btn {
+
 }
 </style>
