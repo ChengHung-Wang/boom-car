@@ -541,7 +541,7 @@ export class Car {
       const car = newSegment.cars[n];
 
       if (car.index !== this.index) {//不是自己撞自己
-        if (this.speed > car.speed) {//判斷己方速度要高於對方速度，否則不會碰撞，也有判斷前後車的效果?
+        if (this.speed > car.speed && this.z < car.z) {//判斷己方速度要高於對方速度，否則不會碰撞，也有判斷前後車的效果?
           // check for collision with other car, same segment and rects overlap
           if (this.overlap(this.x, this.width, car.x, car.width, 1)) {//兩台車在同區段且x軸重疊
             console.log(this.index, " crashed into ", car.index);
@@ -558,10 +558,11 @@ export class Car {
                 Callback.callback_PlayerCrashwithCar(car);
               }
               if(this.accelerate)
-                this.speed = Math.max(this.maxSpeed / 5 , car.speed);
+                Math.max(this.speed = this.maxSpeed / 10, car.speed / 2);
               else
-                this.speed = car.speed;
+                this.speed = car.speed / 2;
 
+              //this.z = utilIncrease(playerSegment.p1.world.z, 0, racer.track.getLength()); // stop in front of sprite (at front of segment)
               this.z = car.z - 200;
             }
             break;
