@@ -70,7 +70,7 @@ watch(
     </div>
     <canvas ref="gameCanvas"></canvas>
     <canvas ref="mapCanvas" id="map"></canvas>
-    <div class="container" v-if="!gameStarted">
+    <div class="container" v-if="!gameStore.gameStarted">
 
       <div class="row">
         <div class="col-12 fsc text-light h-100vh">
@@ -92,7 +92,7 @@ watch(
       </div>
     </div>
 
-    <div style="width: 500px;" class="container text-light title-card" v-if="gameStarted">
+    <div style="width: 500px;" class="container text-light title-card" v-if="gameStore.gameStarted">
       <div class="focus-display">
         <p>名次 {{ gameStore.rank }}</p>
         <p>速度 {{ gameStore.speed }}</p>
