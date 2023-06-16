@@ -246,9 +246,7 @@ event type: command | sync | result | error
     "type": "command",
     "data": {
         "command": "join-event",
-        "data": {
-          "code": "pipeline-of-richer-pay"
-        }
+        "code": "pipeline-of-richer-pay"
     }
 }
 ```
@@ -294,9 +292,7 @@ client send:
     "type": "command",
     "data": {
         "command": "set-nickname",
-        "data": {
-            "nickname": "string"
-        }
+        "nickname": "string"
     }
 }
 ```
@@ -332,9 +328,7 @@ client send:
   "type": "sync",
   "data": {
     "command": "alert-client-amount",
-    "data": {
-      "clientAmount": 38
-    }
+    "clientAmount": 38
   }
 }
 ```
@@ -384,20 +378,18 @@ rank 在這邊是指你是跑道上的第幾台車。
     "type": "sync",
     "data": {
       "command": "game-start",
-      "data": {
-        "members":[
-          {
-            "nickname": "B11015020",
-            "player_id": "blablablablabla",
-            "rank": 0
-          },
-          {
-            "nickname": "B11015033",
-            "player_id": "ccccccccccccCat",
-            "rank": 1
-          }
-        ]
-      }
+      "members":[
+        {
+          "nickname": "B11015020",
+          "player_id": "blablablablabla",
+          "rank": 0
+        },
+        {
+          "nickname": "B11015033",
+          "player_id": "ccccccccccccCat",
+          "rank": 1
+        }
+      ]
     }
 }
 ```
@@ -416,22 +408,20 @@ server send to all client (group by userGroup)
     "type": "sync",
     "data": {
       "command": "game-ranking",
-      "data": {
-        "members":[
-          {
-            "nickname": "B11015020",
-            "player_id": "blablablablabla",
-            "rank": 1,
-            "rise": true
-          },
-          {
-            "nickname": "B11015033",
-            "player_id": "ccccccccccccCat",
-            "rank": 1,
-            "rise": false
-          }
-        ]
-      }
+      "members":[
+        {
+          "nickname": "B11015020",
+          "player_id": "blablablablabla",
+          "rank": 1,
+          "rise": true
+        },
+        {
+          "nickname": "B11015033",
+          "player_id": "ccccccccccccCat",
+          "rank": 1,
+          "rise": false
+        }
+      ]
     }
 }
 ```
@@ -471,20 +461,18 @@ rank 在這邊是指你是跑道上的第幾台車。
     "type": "sync",
     "data": {
       "command": "game-rise",
-      "data": {
-        "members":[
-          {
-            "nickname": "B11015020",
-            "player_id": "blablablablabla",
-            "rank": 0
-          },
-          {
-            "nickname": "B11015033",
-            "player_id": "ccccccccccccCat",
-            "rank": 1
-          }
-        ]
-      }
+      "members":[
+        {
+          "nickname": "B11015020",
+          "player_id": "blablablablabla",
+          "rank": 0
+        },
+        {
+          "nickname": "B11015033",
+          "player_id": "ccccccccccccCat",
+          "rank": 1
+        }
+      ]
     }
 }
 ```

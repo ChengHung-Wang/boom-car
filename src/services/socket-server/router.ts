@@ -24,7 +24,7 @@ export class CommandRouter {
         functionMap.set("game-start", this.service.setGameStart); // 遊戲開始 (admin)
         functionMap.set("game-rise", this.service.setGameRise); // 遊戲晉級 (admin)
         functionMap.set("game-end", this.service.userEndGame); // 遊戲結束
-        functionMap.set("get-user", this.service.getUsers); // 取得用戶清單
+        functionMap.set("get-members", this.service.getUsers); // 取得用戶清單
 
         // car-*
         functionMap.set("car-straight", this.service.carEvent); // 前進

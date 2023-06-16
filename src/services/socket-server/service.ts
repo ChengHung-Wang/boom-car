@@ -87,6 +87,7 @@ export default class SocketService {
         this.sender.sync.sendToAllClients(<SocketStruct.DataStruct>{
             type: "sync",
             data: {
+                command: "alert-client-amount",
                 clientAmount: allClients.length
             }
         });
@@ -129,7 +130,9 @@ export default class SocketService {
 
         // random
         const groupNames: string[] = [this.getHash(), this.getHash(), this.getHash(), this.getHash()];
-        const randomMembers: member[] = this.shuffle(<any>this.membersMap.values());
+        const randomMembers: member[] = this.shuffle(<any>this.membersMap.values()).filter(member => {
+            return member.permission != "admin";
+        });
         // TODO: solve hard code problem
         // grouping
         const groupAmount = 4;
@@ -153,17 +156,23 @@ export default class SocketService {
                 this.membersMap.set(e.playerId, e);
                 return e;
             });
+
+            console.log(<string[]>members.map(e => {
+                return e.playerId;
+            }));
+
             this.io.in(<string[]>members.map(e => {
                 return e.playerId;
             })).socketsJoin(name);
             // sync group
-            this.sender.sync.sendGroup(this.io, <SocketStruct.DataStruct>{
+            console.log(name, members);
+            this.io.to(name).emit("sync", {
                 type: "sync",
                 data: {
                     command: "game-start",
                     members: members
                 }
-            }, name);
+            });
         })
         // start this round
         this.roundStartAt = moment().tz("Asia/Taipei");

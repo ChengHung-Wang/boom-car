@@ -14,7 +14,6 @@ export default class CommandHandler {
     }
 
     public joinEvent = async (): Promise<void> => {
-        console.log(this.socket);
         const event = service.getEvent(<Socket>this.socket, <string>this.data.data?.code);
         // check event exist
         if (!event) {
@@ -64,7 +63,10 @@ export default class CommandHandler {
         }
 
         // check duplicate nickname
-        if (service.membersMap.has(nickname)) {
+        const duplicatedMember = Array.from(service.membersMap.values()).filter(e => {
+            return e.nickname == nickname && e.playerId != this.socket.id;
+        });
+        if (duplicatedMember.length > 0) {
             (new Sender.Error()).send(this.socket, {
                 type: "error",
                 data: {
@@ -74,8 +76,8 @@ export default class CommandHandler {
             return;
         }
 
-        service.membersMap.set(nickname, {
-            ...<member>(service.membersMap.get(nickname)),
+        service.membersMap.set(this.socket.id, {
+            ...<member>(service.membersMap.get(this.socket.id)),
             nickname: nickname
         });
 
@@ -84,6 +86,7 @@ export default class CommandHandler {
         (new Sender.Sync()).sendToAllClients(<DataStruct>{
             type: "sync",
             data: {
+                command: "set-nickname",
                 members: (await service.getClients()).filter(item => {
                     return item && item?.nickname != "" && item?.permission != "admin";
                 })
@@ -156,7 +159,13 @@ export default class CommandHandler {
     }
 
     public getUsers = async (): Promise<void> => {
-        // TODO: 取得整個用戶清單
+        (new Sender.Result()).send(this.socket, <DataStruct>{
+            type: "result",
+            data: {
+                command: "get-members",
+                members: Array.from(service.membersMap.values())
+            }
+        });
     }
 
     public carEvent = async (): Promise<void> => {
