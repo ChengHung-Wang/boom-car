@@ -44,6 +44,7 @@ export interface DataStruct {
             z: number
         },
         speed?: number,
+        lap?: number,
         playerId?: string,
         groupId?: string,
         members?: Array<member>,

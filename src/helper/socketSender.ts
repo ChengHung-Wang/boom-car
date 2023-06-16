@@ -68,7 +68,8 @@ export default class SocketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed
+                speed: car.speed,
+                lap: car.lap
             }
         })
     }
@@ -84,7 +85,8 @@ export default class SocketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed
+                speed: car.speed,
+                lap: car.lap
             }
         })
     }
@@ -100,7 +102,8 @@ export default class SocketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed
+                speed: car.speed,
+                lap: car.lap
             }
         })
     }
@@ -116,7 +119,8 @@ export default class SocketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed
+                speed: car.speed,
+                lap: car.lap
             }
         })
     }
@@ -132,7 +136,8 @@ export default class SocketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed
+                speed: car.speed,
+                lap: car.lap
             }
         })
     }
@@ -148,7 +153,8 @@ export default class SocketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed
+                speed: car.speed,
+                lap: car.lap
             }
         })
     }
@@ -164,7 +170,8 @@ export default class SocketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed
+                speed: car.speed,
+                lap: car.lap
             }
         })
     }
@@ -180,7 +187,8 @@ export default class SocketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed
+                speed: car.speed,
+                lap: car.lap
             }
         })
     }
@@ -196,7 +204,8 @@ export default class SocketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed
+                speed: car.speed,
+                lap: car.lap
             }
         })
     }
@@ -212,7 +221,8 @@ export default class SocketSender {
                     y: car.y,
                     z: car.z
                 },
-                speed: car.speed
+                speed: car.speed,
+                lap: car.lap
             }
         })
     }
