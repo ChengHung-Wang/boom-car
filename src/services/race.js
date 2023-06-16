@@ -76,7 +76,7 @@ export class Race {
     }
 
     this.resetCars();
-    racer.player = racer.cars[PlayerIndex];
+    racer.player = (racer.cars.value)[PlayerIndex];
     racer.player.initSlipstreamLines();
     this.state = STATE_PRERACE;
     this.countdownNumber = 4;
@@ -135,7 +135,7 @@ export class Race {
   }
 
   keyUp(e) {
-    if (this.state != STATE_RACEOVER) {
+    if (this.state !== STATE_RACEOVER) {
       switch (e.keyCode) {
         case 90: // z
           this.KeyzIsDown = false;
@@ -177,7 +177,7 @@ export class Race {
           break;
       }
     } else {
-      if (e.keyCode == 90) {
+      if (e.keyCode === 90) {
         if (!this.KeyzIsDown) {
           // retry race
 
@@ -186,10 +186,10 @@ export class Race {
         this.zIsDown = false;
       }
 
-      if (e.keyCode == 88) {
+      if (e.keyCode === 88) {
         if (!this.KeyxIsDown) {
           // next race
-          if (racer.cars[PlayerIndex].finishPosition == "1st") {
+          if ((racer.cars.value)[PlayerIndex].finishPosition === "1st") {
             this.start(this.raceNumber + 1);
           }
         }
@@ -200,7 +200,7 @@ export class Race {
 
   resetCars() {
     //    resetCars();
-    racer.cars = [];
+    racer.cars.value = [];
     let car, segment, z, sprite;
     for (let n = 0; n < this.carCount; n++) {
       z = racer.track.getLength() - (this.carCount - n) * Track.segmentLength * 13;
@@ -224,7 +224,6 @@ export class Race {
       }
 
       car.index = n;
-      //      car.offset = offset;
       car.x = x;
       car.z = z;
       car.sprite = sprite;
@@ -232,7 +231,7 @@ export class Race {
       car.percent = utilPercentRemaining(car.z, Track.segmentLength);
 
       // player speeds are set in car.js
-      if (car.index !== 0) {
+      if (false) { //car.index !== PlayerIndex
         const maxSpeed = 23000; //23000;
         if (car.index < 8 && car.index > 3) {
           car.maxSpeed =
@@ -255,7 +254,7 @@ export class Race {
         }
       }
       segment.cars.push(car);
-      racer.cars.push(car);
+      (racer.cars.value).push(car);
     }
   }
 
@@ -264,10 +263,10 @@ export class Race {
     if (time - this.lastTime > Race.COUNTDOWN_INTERVAL) {
       this.lastTime = racer.getTimestamp();
       this.countdownNumber--;
-      if (this.countdownNumber == 3) {
+      if (this.countdownNumber === 3) {
         speak("RACE");
       }
-      if (this.countdownNumber == 2) {
+      if (this.countdownNumber === 2) {
         speak(numbers[this.raceNumber]);
       }
       if (this.countdownNumber <= 0) {
@@ -300,8 +299,8 @@ export class Race {
     const playerSegment = racer.track.findSegment(racer.player.z);
     const startPosition = racer.camera.z;
 
-    for (let i = 0; i < racer.cars.length; i++) {
-      racer.cars[i].update(dt);
+    for (let i = 0; i < (racer.cars.value).length; i++) {
+      (racer.cars.value)[i].update(dt);
     }
 
     racer.camera.update(dt);
@@ -345,7 +344,7 @@ export class Race {
 
   render() {
     render.renderRender();
-    if (this.state == STATE_PRERACE) {
+    if (this.state === STATE_PRERACE) {
       racer.context.value.font = "italic bold 350px " + constants.helvetica;
 
       if (this.countdownNumber < 4) {
@@ -356,13 +355,13 @@ export class Race {
       }
 
       if (this.countdownNumber < 3) {
-        if (this.raceNumber == 0) {
+        if (this.raceNumber === 0) {
           racer.context.value.font = "italic bold 440px " + constants.helvetica;
-        } else if (this.raceNumber == 1) {
+        } else if (this.raceNumber === 1) {
           racer.context.value.font = "italic bold 430px " + constants.helvetica;
-        } else if (this.raceNumber == 2) {
+        } else if (this.raceNumber === 2) {
           racer.context.value.font = "italic bold 290px " + constants.helvetica;
-        } else if (this.raceNumber == 3) {
+        } else if (this.raceNumber === 3) {
           racer.context.value.font = "italic bold 358px " + constants.helvetica;
         }
 
@@ -373,7 +372,7 @@ export class Race {
       }
     }
 
-    if (this.state == STATE_COUNTDOWN) {
+    if (this.state === STATE_COUNTDOWN) {
       racer.context.value.font = " 300px " + constants.helvetica;
       racer.context.value.fillStyle = "#111111";
       racer.context.value.fillText(this.countdownNumber, 449, 254);
@@ -381,7 +380,7 @@ export class Race {
       racer.context.value.fillText(this.countdownNumber, 445, 250);
     }
 
-    if (this.state == STATE_RACING) {
+    if (this.state === STATE_RACING) {
 
       const speed = (
           "000" + Math.round(racer.player.getSpeed() / 100).toString(10)
@@ -419,20 +418,20 @@ export class Race {
       // cntx.cntxStroke();
       // cntx.cntxFillRect(800, 114, racer.player.turboAmount * 2, 20);
 
-      if (racer.cars[PlayerIndex].newPositionTime > 0) {
+      if ((racer.cars.value)[PlayerIndex].newPositionTime > 0) {
         racer.context.value.font = " 160px " + constants.helvetica;
         cntx.cntxFillStyle(LIGHTGREY);
-        racer.context.value.fillText(racer.cars[PlayerIndex].getPosition(), 334, 184);
+        racer.context.value.fillText((racer.cars.value)[PlayerIndex].getPosition(), 334, 184);
       }
     }
 
-    if (this.state == STATE_RACEOVER) {
+    if (this.state === STATE_RACEOVER) {
       racer.context.value.font = " 300px " + constants.helvetica;
       cntx.cntxFillStyle(LIGHTGREY);
-      racer.context.value.fillText(racer.cars[PlayerIndex].finishPosition, 300, 290); //cars[PlayerIndex].finishPosition, 494, 254);
+      racer.context.value.fillText((racer.cars.value)[PlayerIndex].finishPosition, 300, 290); //cars[PlayerIndex].finishPosition, 494, 254);
       racer.context.value.font = " 40px " + constants.helvetica;
       let y = 380;
-      if (racer.cars[PlayerIndex].finishPosition == "1st") {
+      if ((racer.cars.value)[PlayerIndex].finishPosition === "1st") {
         racer.context.value.fillText("x: Next Race", 397, y);
         y += 80;
       }
@@ -444,15 +443,15 @@ export class Race {
   static ChangeCar(carIndex) {
     // racer.camera.WatchPlayer(carIndex);
     PlayerIndex = carIndex;
-    racer.player = racer.cars[carIndex];
+    racer.player = (racer.cars.value)[carIndex];
   }
 
 //改變車輛最大速度
   static ChangeMaxSpeed(carIndex, speed) {
-    racer.cars[carIndex].maxSpeed = speed;
+    (racer.cars.value)[carIndex].maxSpeed = speed;
   }
 
   static getCarSpeed(carIndex) {
-    return racer.cars[carIndex].speed;
+    return (racer.cars.value)[carIndex].speed;
   }
 }

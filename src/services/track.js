@@ -4,6 +4,7 @@ import { constants } from "./constants.js";
 import { PlayerIndex } from "./race.js";
 import * as mathFunc from "./mathFunctions.js";
 import * as graphics from "./graphics.js";
+import { useGameStore } from "@/stores/game";
 
 // define the tracks in the game
 export const COLORS_KERBLIGHT = "#a02222";
@@ -20,6 +21,7 @@ export class Track {
     this.currentAngle = 0;
 
     this.segments = [];
+    this.carSegIndex = [];
     this.map = null;
   }
 
@@ -39,7 +41,7 @@ export class Track {
     for (let i = 0; i < segmentCount; i++) {
       const segment = this.segments[i];
 
-      if (i % 20 == 0) {
+      if (i % 20 === 0) {
         let x = segment.p1.world.x;
         segment.sprites.push({
           source: graphics.SPRITES_STREETLIGHTLEFT,
@@ -280,7 +282,7 @@ export class Track {
   }
 
   lastY() {
-    return this.segments.length == 0
+    return this.segments.length === 0
       ? 0
       : this.segments[this.segments.length - 1].p3.world.y;
   }
@@ -312,7 +314,7 @@ export class Track {
     const xRight = laneWidth;
 
     let kerbWidth = 0;
-    if (curve != 0) {
+    if (curve !== 0) {
       kerbWidth = curve * 40;
       if (kerbWidth < 0) {
         kerbWidth = -kerbWidth;
@@ -378,7 +380,7 @@ export class Track {
     }
 
     let anglePerCurve = 0;
-    if (totalCurve != 0) {
+    if (totalCurve !== 0) {
       anglePerCurve = (exitAngle - this.currentAngle) / totalCurve;
     }
 
@@ -459,18 +461,14 @@ export class Track {
 
   drawMap() {
     if (this.map == null) {
-      this.map = document.createElement("canvas");
+      // this.map = document.createElement("canvas");
+      this.map = useGameStore().mapCanvas;
     }
     this.map.width = 600;
-    this.map.height = 600;
+    this.map.height = 405;
     cntx.cntx = this.map.getContext("2d");
 
-    // const width = canvas.width;
-    // const height = canvas.height;
-    // racer.context.value.fillStyle = '#222222';
-    // racer.context.value.fillRect(0, 0, width, height);
-
-    cntx.cntxClearRect(600, 600);
+    cntx.cntxClearRect(this.map.width, this.width);
     cntx.cntxStrokeStyle("#666666");
     cntx.cntx.lineWidth = 5;
 
@@ -481,7 +479,7 @@ export class Track {
     cntx.cntxBeginPath();
     let segmentDrawLength = 0.5;
     cntx.cntxMoveTo(x, y);
-    for (let i = 0; i < this.segments.length; i++) {
+    for (let i = 0; i < this.segments.length; ++i) {
       angle = (this.segments[i].angle / 180) * mathFunc.PI;
       x += segmentDrawLength * mathFunc.cos(angle);
       y += segmentDrawLength * mathFunc.sin(angle);
@@ -514,16 +512,15 @@ export class Track {
   }
 
   drawOverheadTrack() {
-    //let canvas = document.getElementById('trackCanvas');
-    cntx.cntx = graphics.overheadTrack.x; //canvas.getContext('2d');
+    cntx.cntx = graphics.overheadTrack.x;
     this.overheadMap = graphics.overheadTrack.c;
 
-    cntx.cntxClearRect(600, 600);
+    cntx.cntxClearRect(600, 405);
     cntx.cntxDrawImage(this.map, 0, 0, 600, 600, 0, 0, 600, 600);
 
     // opponents
-    for (let i = 0; i < racer.cars.length; i++) {
-      const carPosition = racer.cars[i].z;
+    for (let i = 0; i < (racer.cars.value).length; ++i) {
+      const carPosition = (racer.cars.value)[i].z;
       const segment = this.findSegment(carPosition);
 
       cntx.cntxBeginPath();
@@ -537,8 +534,8 @@ export class Track {
     }
 
     // camera z position plus player z position from camera
-    //小地圖紅點
-    const playerPosition = racer.cars[PlayerIndex].z;
+    // 小地圖紅點
+    const playerPosition = (racer.cars.value)[PlayerIndex].z;
     const playerSegment = this.findSegment(playerPosition);
 
     cntx.cntxBeginPath();
@@ -549,5 +546,15 @@ export class Track {
     racer.context.value.lineWidth = 2;
     cntx.cntxStrokeStyle(graphics.MEDIUMGREY);
     cntx.cntxStroke();
+  }
+
+  clearOldCarSegment(car) {
+      for (let i=0; i < this.segments.length; i++) {
+        for (let j = 0; j < this.segments[i].cars.length; j++) {
+          if (this.segments[i].cars[j] === car) {
+            this.segments[i].cars.splice(0, 1);
+          }
+        }
+      }
   }
 }

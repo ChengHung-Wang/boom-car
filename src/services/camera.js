@@ -39,15 +39,15 @@ export class Camera {
   }
 
   update() {
-    this.z = racer.cars[PlayerIndex].z - this.zOffset;
+    this.z = (racer.cars.value)[PlayerIndex].z - this.zOffset;
     if (this.z < 0) {
       this.z += racer.track.getLength();
     }
 
-    racer.camera.x = racer.cars[PlayerIndex].x + racer.cars[PlayerIndex].width / 2;
+    racer.camera.x = (racer.cars.value)[PlayerIndex].x + (racer.cars.value)[PlayerIndex].width / 2;
 
-    const playerSegment = racer.track.findSegment(racer.cars[PlayerIndex].z);
-    const playerPercent = utilPercentRemaining(racer.cars[PlayerIndex].z, Track.segmentLength);
+    const playerSegment = racer.track.findSegment((racer.cars.value)[PlayerIndex].z);
+    const playerPercent = utilPercentRemaining((racer.cars.value)[PlayerIndex].z, Track.segmentLength);
 
     this.y =
       this.yOffset +

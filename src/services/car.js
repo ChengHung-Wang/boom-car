@@ -275,7 +275,7 @@ export class Car {
     let maxSpeed = this.maxSpeed;
     this.speedPercent = this.speed / this.maxSpeed;
     const currentSegment = racer.track.findSegment(this.z);
-    const playerSegment = racer.track.findSegment(racer.cars[PlayerIndex].z);
+    const playerSegment = racer.track.findSegment((racer.cars.value)[PlayerIndex].z);
     const speedPercent = this.speedPercent;
     this.percent = utilPercentRemaining(this.z, Track.segmentLength);
 
@@ -476,14 +476,14 @@ export class Car {
       }
 
       let isBehind = false;
-      for (let i = 0; i < racer.cars.length; ++i) {
-        let distance = racer.cars[i].z - racer.player.z;
+      for (let i = 0; i < (racer.cars.value).length; ++i) {
+        let distance = (racer.cars.value)[i].z - racer.player.z;
         if (racer.player.z > racer.track.getLength() - 1200) {
           distance -= racer.track.getLength();
         }
 
         if (distance > 0 && distance < 1800) {
-          let offCentre = (racer.player.x - racer.cars[i].x) / racer.cars[i].width;
+          let offCentre = (racer.player.x - (racer.cars.value)[i].x) / (racer.cars.value)[i].width;
           if (offCentre < 0) {
             offCentre = -offCentre;
           }
@@ -536,32 +536,35 @@ export class Car {
 
     // check collisions with other cars
     // check other cars
+    //if (this.index === PlayerIndex){ // 我覺得他有邏輯錯誤
+    for (let n = 0; n < newSegment.cars.length; n++) {
+      const car = newSegment.cars[n];
 
-    if (this.index === PlayerIndex) {
-      for (let n = 0; n < newSegment.cars.length; ++n) {
-        const car = newSegment.cars[n];
-
-        if (car.index !== this.index) {
-          if (this.speed > car.speed) {
-            // check for collision with other car, same segment and rects overlap
-            if (this.overlap(this.x, this.width, car.x, car.width, 1)) {
-              if (this.index !== PlayerIndex) {
-                this.speed = car.speed / 2;
-                if (car.index !== PlayerIndex) {
-                  car.speed = car.speed * 1.2;
-                }
-              } else {
-                if (this.index === PlayerIndex) {
-                  raceAudioCrash();
-                  this.slipstream = 0;
-                  this.slipstreamTime = 0;
-                  Callback.callback_PlayerCrashwithCar(car);
-                }
-                this.speed = car.speed;
-                this.z = car.z - 100;
+      if (car.index !== this.index) {//不是自己撞自己
+        if (this.speed > car.speed) {//判斷己方速度要高於對方速度，否則不會碰撞，也有判斷前後車的效果?
+          // check for collision with other car, same segment and rects overlap
+          if (this.overlap(this.x, this.width, car.x, car.width, 1)) {//兩台車在同區段且x軸重疊
+            console.log(this.index, " crashed into ", car.index);
+            if (false) { //AI撞車 //this.index !== PlayerIndex
+              this.speed = car.speed / 2;
+              if (car.index !== PlayerIndex) {
+                car.speed = car.speed * 1.2;
               }
-              break;
+            } else {//玩家撞車
+              if (this.index === PlayerIndex) {//確定一次是玩家撞車才重設一些東西和放聲音
+                raceAudioCrash();
+                this.slipstream = 0;
+                this.slipstreamTime = 0;
+                Callback.callback_PlayerCrashwithCar(car);
+              }
+              if(this.accelerate)
+                this.speed = Math.max(this.maxSpeed / 5 , car.speed);
+              else
+                this.speed = car.speed;
+
+              this.z = car.z - 200;
             }
+            break;
           }
         }
       }
@@ -584,10 +587,13 @@ export class Car {
     }
 
     if (currentSegment !== newSegment) {
+      racer.track.clearOldCarSegment(this);
       const index = currentSegment.cars.indexOf(this);
-      currentSegment.cars.splice(index, 1);
+      // currentSegment.cars.splice(index, 10);
       newSegment.cars.push(this);
+      racer.track.carSegIndex[this.index] = newSegment.index;
     }
+
 
     // next lap?
     if (this.z < Track.segmentLength * 1.2 && !this.lapStarted) {
@@ -612,12 +618,12 @@ export class Car {
     //計算當前排名
     const currentPosition = this.position;
     this.position = 1;
-    for (let i = 0; i < racer.cars.length; ++i) {
+    for (let i = 0; i < (racer.cars.value).length; ++i) {
       if (i !== this.index) {
-        if (racer.cars[i].lap > this.lap) {
+        if ((racer.cars.value)[i].lap > this.lap) {
           this.position++;
-        } else if (racer.cars[i].lap === this.lap) {
-          if (racer.cars[i].z > this.z) {
+        } else if ((racer.cars.value)[i].lap === this.lap) {
+          if ((racer.cars.value)[i].z > this.z) {
             this.position++;
           }
         }

@@ -1,4 +1,4 @@
-import { ref, computed } from 'vue'
+import { ref, computed, Ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useGameStore = defineStore('game', () => {
@@ -9,6 +9,7 @@ export const useGameStore = defineStore('game', () => {
     const rank = ref(0)
     const speed = ref(0)
     const turboAmount = ref(0)
+    const mapCanvas: Ref<HTMLCanvasElement> = ref();
 
-    return { lapTime, lapCount, lapTotal, rank, speed, turboAmount }
+    return { lapTime, lapCount, lapTotal, rank, speed, turboAmount, mapCanvas }
 })

@@ -33,6 +33,7 @@ export default class SocketService {
         if (this.socket === null || !this.socket.connected) return;
         setInterval(() => {
             this.send(<DataStruct>{
+                type: "command",
                 data: {
                     command: "car-straight",
                     position: {
@@ -41,7 +42,7 @@ export default class SocketService {
                         z: 0
                     },
                     speed: 220.4,
-                    group_id: 1
+                    group_id: "1"
                 }
             })
         }, 1000)
