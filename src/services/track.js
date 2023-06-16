@@ -514,16 +514,22 @@ export class Track {
     cntx.cntx = graphics.overheadTrack.x;
     this.overheadMap = graphics.overheadTrack.c;
 
-    cntx.cntxClearRect(600, 405);
+    cntx.cntxClearRect(600, 600);
     cntx.cntxDrawImage(this.map, 0, 0, 600, 600, 0, 0, 600, 600);
 
+    // camera z position plus player z position from camera
+    // 小地圖紅點
+    const playerPosition = (racer.cars.value)[(useGameStore()).playerIndex].z;
+    const playerSegment = this.findSegment(playerPosition);
+    cntx.cntx.clearRect(0, 0, this.map.width, this.map.height);
+    this.map = useGameStore().mapCanvas;
+    cntx.cntx = this.map.getContext("2d");
+    this.drawMap();
     // opponents
     for (let i = 0; i < (racer.cars.value).length; ++i) {
       const carPosition = (racer.cars.value)[i].z;
       const segment = this.findSegment(carPosition);
-
       cntx.cntxBeginPath();
-
       cntx.cntxArc(segment.x, segment.y, 5, 0, 2 * mathFunc.PI, false);
       cntx.cntxFillStyle(graphics.DARKGREY);
       cntx.cntxFill();
@@ -531,12 +537,6 @@ export class Track {
       cntx.cntxStrokeStyle("#999999");
       cntx.cntxStroke();
     }
-
-    // camera z position plus player z position from camera
-    // 小地圖紅點
-    const playerPosition = (racer.cars.value)[(useGameStore()).playerIndex].z;
-    const playerSegment = this.findSegment(playerPosition);
-
     cntx.cntxBeginPath();
     cntx.cntxArc(playerSegment.x, playerSegment.y, 5, 0, 2 * mathFunc.PI, false);
     cntx.cntxFillStyle("#ff0000");
@@ -548,12 +548,12 @@ export class Track {
   }
 
   clearOldCarSegment(car) {
-      for (let i=0; i < this.segments.length; i++) {
-        for (let j = 0; j < this.segments[i].cars.length; j++) {
-          if (this.segments[i].cars[j].index === car.index) {
-            this.segments[i].cars.splice(0, 1);
-          }
+    for (let i=0; i < this.segments.length; i++) {
+      for (let j = 0; j < this.segments[i].cars.length; j++) {
+        if (this.segments[i].cars[j] === car) {
+          this.segments[i].cars.splice(0, 1);
         }
       }
+    }
   }
 }
