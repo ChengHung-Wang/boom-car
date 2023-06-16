@@ -1,10 +1,11 @@
 import { utilPercentRemaining, utilInterpolate } from "./util.js";
-import { STATE_RACING, PlayerIndex } from "./race.js";
+import { STATE_RACING } from "./race.js";
 import { cntx } from "./canvasFunctions.js";
 import { racer } from "./racer.js";
 import { constants } from "./constants.js";
 import * as trackjs from "./track.js";
 import * as graphics from "./graphics.js";
+import { useGameStore } from "@/stores/game";
 
 // draw all the race stuff to the screen
 export let width = document.documentElement.clientWidth;
@@ -229,7 +230,7 @@ function renderPlayer(scale, destX, destY, steer) {
 
     // ************* DRAW SLIP STREAM ********** //
     if (racer.player.slipstreamTime > 0 || racer.player.slipstream > 0) {
-        (racer.cars.value)[PlayerIndex].initSlipstreamLines();
+        (racer.cars.value)[(useGameStore()).playerIndex].initSlipstreamLines();
 
         let amount = 0;
         if (racer.player.slipstreamTime <= 0) {
@@ -241,10 +242,10 @@ function renderPlayer(scale, destX, destY, steer) {
 
         cntx.cntxGlobalAlpha(1 - amount);
 
-        for (let i = 0; i < (racer.cars.value)[PlayerIndex].slipstreamLines.length; ++i) {
-            const points = (racer.cars.value)[PlayerIndex].slipstreamLines[i];
+        for (let i = 0; i < (racer.cars.value)[(useGameStore()).playerIndex].slipstreamLines.length; ++i) {
+            const points = (racer.cars.value)[(useGameStore()).playerIndex].slipstreamLines[i];
             cntx.cntxBeginPath();
-            cntx.cntxMoveTo(points[PlayerIndex].screen.x, points[PlayerIndex].screen.y);
+            cntx.cntxMoveTo(points[(useGameStore()).playerIndex].screen.x, points[(useGameStore()).playerIndex].screen.y);
             for (let j = 1; j < points.length; ++j) {
                 cntx.cntxLineTo(points[j].screen.x, points[j].screen.y);
             }
@@ -365,7 +366,7 @@ export function renderRender() {
         for (let i = 0; i < segment.cars.length; i++) {
             car = segment.cars[i];
 
-            if (car.index !== PlayerIndex) {
+            if (car.index !== (useGameStore()).playerIndex) {
                 sprite = car.sprite;
                 const scale = utilInterpolate(segment.p1.screen.scale, segment.p3.screen.scale, car.percent);
 
@@ -435,8 +436,8 @@ export function renderRender() {
 
         const playerShadowY = playerScreenY;
 
-        if ((racer.cars.value)[PlayerIndex].yOffset > 0) {
-            playerScreenY -= (racer.cars.value)[PlayerIndex].yOffset * racer.camera.depth / racer.camera.zOffset * height / 2;
+        if ((racer.cars.value)[(useGameStore()).playerIndex].yOffset > 0) {
+            playerScreenY -= (racer.cars.value)[(useGameStore()).playerIndex].yOffset * racer.camera.depth / racer.camera.zOffset * height / 2;
         }
 
         let carX = width / 2;
@@ -446,7 +447,7 @@ export function renderRender() {
             (playerSegment.p1.screen.x + playerSegment.p2.screen.x) / 2,
             (playerSegment.p3.screen.x + playerSegment.p4.screen.x) / 2,
             playerPercent)
-            + (scale * (racer.cars.value)[PlayerIndex].x * width / 2);
+            + (scale * (racer.cars.value)[(useGameStore()).playerIndex].x * width / 2);
 
         const p = {
             world: {

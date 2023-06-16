@@ -3,7 +3,7 @@ import GameView from '@/views/GameView.vue'
 import Setup from '@/views/Setup.vue'
 
 import setupRouterConfig from './setup'
-import LiaoTest from "@/views/liaoTest.vue";
+import liaoTest from "@/views/liaoTest.vue";
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -22,7 +22,7 @@ const router = createRouter({
     },
     {
       path: "/liao",
-      component: LiaoTest
+      component: liaoTest
     }
     // {
     //   path: "/teach",

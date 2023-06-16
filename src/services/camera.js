@@ -1,7 +1,7 @@
 import { utilPercentRemaining, utilInterpolate } from "./util.js";
 import { racer } from "./racer.js";
 import { Track } from "./track.js";
-import { PlayerIndex } from "@/services/race";
+import { useGameStore } from "@/stores/game";
 
 export class Camera {
   constructor() {
@@ -39,15 +39,15 @@ export class Camera {
   }
 
   update() {
-    this.z = (racer.cars.value)[PlayerIndex].z - this.zOffset;
+    this.z = (racer.cars.value)[(useGameStore()).playerIndex].z - this.zOffset;
     if (this.z < 0) {
       this.z += racer.track.getLength();
     }
 
-    racer.camera.x = (racer.cars.value)[PlayerIndex].x + (racer.cars.value)[PlayerIndex].width / 2;
+    racer.camera.x = (racer.cars.value)[(useGameStore()).playerIndex].x + (racer.cars.value)[(useGameStore()).playerIndex].width / 2;
 
-    const playerSegment = racer.track.findSegment((racer.cars.value)[PlayerIndex].z);
-    const playerPercent = utilPercentRemaining((racer.cars.value)[PlayerIndex].z, Track.segmentLength);
+    const playerSegment = racer.track.findSegment((racer.cars.value)[(useGameStore()).playerIndex].z);
+    const playerPercent = utilPercentRemaining((racer.cars.value)[(useGameStore()).playerIndex].z, Track.segmentLength);
 
     this.y =
       this.yOffset +
@@ -65,6 +65,6 @@ export class Camera {
 
   //觀戰視角
   // WatchPlayer(n) {
-  //   PlayerIndex = n;
+  //   (useGameStore()).controlIndex = n;
   // }
 }
