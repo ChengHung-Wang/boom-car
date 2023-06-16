@@ -550,7 +550,7 @@ export class Track {
   clearOldCarSegment(car) {
       for (let i=0; i < this.segments.length; i++) {
         for (let j = 0; j < this.segments[i].cars.length; j++) {
-          if (this.segments[i].cars[j] === car) {
+          if (this.segments[i].cars[j].index === car.index) {
             this.segments[i].cars.splice(0, 1);
           }
         }

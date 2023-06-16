@@ -391,6 +391,7 @@ export class Car {
     this.bounce = this.bounce * mathRand() * speedPercent;
 
     //if ((this.index === 0 || this.index === 1) && racer.race.state !== STATE_RACEOVER) {
+    //AI mode is controlled here!!!
     if(this.isAI === false && racer.race.state !== STATE_RACEOVER){
       // its the player
 
