@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import i18n from '@/services/i18n'
 import { ref } from "vue"
+import { useSocketStore } from "@/stores/socket";
 
 const { t } = i18n.global
 
 const room_code = ref(0)
+const socketStore = useSocketStore();
 function checkRoomCode(room_code) {
 
 }
@@ -25,7 +27,7 @@ function checkRoomCode(room_code) {
 <!--            </el-input>-->
             <!--  TODO:與 sever 比對伺服器位址，回傳成功或失敗  -->
             <!--  TODO:增加比對伺服器位址時 Loading 效果，如果成功找到伺服器位址，彈出以下房間代碼選項  -->
-            <el-input class="el-input-custom input" type="text" :placeholder="t('Desktop.MultiPlayer.prompt')">
+            <el-input class="el-input-custom input" type="text" v-model="socketStore.eventCode" :placeholder="t('Desktop.MultiPlayer.prompt')">
               <template #prepend> {{ t("Desktop.MultiPlayer.room_code") }} </template>
             </el-input>
         </div>

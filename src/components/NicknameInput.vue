@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import i18n from '@/services/i18n'
 import {useGameStore} from "@/stores/game";
+import {useSocketStore} from "@/stores/socket";
 
-
+const socketStore = useSocketStore();
 const { t } = i18n.global
 
 const gameStore = useGameStore()
@@ -10,7 +11,7 @@ const gameStore = useGameStore()
 
 <template>
     <el-input class="el-input-custom"
-      v-model="gameStore.nickname"
+      v-model="socketStore.nickname"
       maxlength="10"
       :placeholder="t('Desktop.StartPage.enter_nickname')"
       size="large"

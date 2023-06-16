@@ -23,10 +23,14 @@ const router = createRouter({
     {
       path: "/liao",
       component: liaoTest
-    }
+    },
     // {
     //   path: "/teach",
-    // }
+    // },
+    {
+      path: "/game",
+
+    }
   ]
 })
 

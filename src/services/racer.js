@@ -54,7 +54,7 @@ document.addEventListener("keydown", function (e) {
     if (racer.racing) {
         racer.race.keyDown(e);
     } else {
-        racer.titleScreen.keyDown(e);
+        // racer.titleScreen.keyDown(e);
     }
 });
 
@@ -62,7 +62,7 @@ document.addEventListener("keyup", function (e) {
     if (racer.racing) {
         racer.race.keyUp(e);
     } else {
-        racer.titleScreen.keyUp(e);
+        // racer.titleScreen.keyUp(e);
     }
 });
 
