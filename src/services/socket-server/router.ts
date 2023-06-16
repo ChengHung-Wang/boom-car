@@ -1,13 +1,16 @@
 // @ts-ignore
 import type { Socket } from "socket.io";
 import CommandHandler from "@/services/socket-server/commandHandler";
+import commandHandlerTemp from "@/services/socket-server/commandHandlerTemp";
 import type { DataStruct } from "@/services/socket-server/struct";
+import CommandHandlerTemp from "@/services/socket-server/commandHandlerTemp";
 
 export class CommandRouter {
     private service: CommandHandler;
-
+    private serviceTemp: CommandHandlerTemp;
     constructor(socket: Socket, data: DataStruct) {
         this.service = new CommandHandler(socket, data);
+        this.serviceTemp = new commandHandlerTemp(socket, data);
         const target = this.register().get(<string>(data.data?.command));
         if (target) {
             (async () => {
@@ -22,6 +25,7 @@ export class CommandRouter {
         functionMap.set("set-nickname", this.service.setNickname); // 設置暱稱
         functionMap.set("set-admin", this.service.setAdmin); // 設置管理員權限
         functionMap.set("game-start", this.service.setGameStart); // 遊戲開始 (admin)
+        functionMap.set("game-start-debug", this.serviceTemp.setGameStart); // 遊戲開始 (admin)
         functionMap.set("game-rise", this.service.setGameRise); // 遊戲晉級 (admin)
         functionMap.set("game-end", this.service.userEndGame); // 遊戲結束
         functionMap.set("get-members", this.service.getUsers); // 取得用戶清單
