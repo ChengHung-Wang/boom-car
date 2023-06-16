@@ -1,15 +1,62 @@
 <script setup lang="ts">
+  import { useRouter } from 'vue-router';
+  import { computed } from 'vue';
+  import {ref} from "vue";
+  import {ArrowLeft} from "@element-plus/icons-vue";
+
   const props: any = defineProps(['title'])
+  const size = ref(24)
+  const color = ref("#C4C4C4")
+
+  const router = useRouter();
+
+  const previousPage = computed(() => {
+    const lastPath = router.options.history.state.back;
+    return lastPath ? lastPath : '/';
+  });
+
 </script>
 
 <template>
-  <nav>
-    <p>icon1</p>
-    <p>{{ props.title }}</p>
-    <p>icon2</p>
-  </nav>
+  <div class="container game-nav">
+    <div class="row">
+      <div class="col-12 fbc">
+        <router-link :to="previousPage">
+          <img src="@/assets/icon/return-icon.svg" alt="">
+        </router-link>
+        <span class="title">{{ props.title }}</span>
+        <el-icon size="24px">
+          <Setting/>
+        </el-icon>
+      </div>
+    </div>
+  </div>
+
 </template>
 
 <style scoped>
-
+.game-nav {
+  position: fixed;;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100vw;
+  height: 50px;
+  color: #D9D9D9;
+  margin-top: 15px;
+}
+.game-nav .title {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 29px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #D9D9D9;
+}
+.game-nav .icon {
+  width: 24px;
+  height: 24px;
+}
 </style>

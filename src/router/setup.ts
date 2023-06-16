@@ -2,22 +2,22 @@ import Setup from '@/views/Setup.vue'
 const setupRouterConfig = [
     {
         path: "menu",
-        name: "GameMenu",
+        name: "Menu",
         component: () => import("@/views/GameMode/GameMenu.vue")
     },
     {
         path: "single", // url: /setup/single/
-        name: "setup.single",
+        name: "Single",
         component: () => import("@/views/GameMode/SinglePlayer/SinglePlayerMode.vue"),
     },
     {
         path: "multiplayer/connection",
-        name: "setup.multiplayer",
+        name: "Connection",
         component: () => import("@/views/GameMode/Multiplayer/BuildConnections.vue"),
     },
     {
         path: "multiplayer/match",
-        name: "setup.match",
+        name: "Match",
         component: () => import("@/views/GameMode/Multiplayer/MatchMaking.vue")
     }
 ]
