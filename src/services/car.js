@@ -6,6 +6,7 @@ import { Track } from "./track.js";
 import { speak } from "./speech.js";
 import { width, height } from "./render.js";
 import { racer } from "./racer.js";
+import { useGameStore } from "@/stores/game";
 
 export class Car {
   constructor() {
@@ -243,6 +244,9 @@ export class Car {
 
   getPosition() {
     const i = this.position;
+    const gameStore = useGameStore();
+    gameStore.rank = this.position;
+
     const j = i % 10;
     const k = i % 100;
     if (j == 1 && k != 11) {

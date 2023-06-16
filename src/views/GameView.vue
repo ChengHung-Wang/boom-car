@@ -4,23 +4,25 @@ import { onMounted, Ref, ref, watch } from "vue";
 import { racer } from "@/services/racer.js";
 import { useGameStore } from "@/stores/game";
 import { useI18n } from "vue-i18n";
+import NicknameInput from "@/components/NicknameInput.vue";
+import Dashboard from "@/components/Dashboard.vue";
+import MiniMap from "@/components/MiniMap.vue";
+import CameraSetting from "@/components/CameraSetting.vue";
+import TurboBox from "@/components/TurboBox.vue";
 
 const gameCanvas: Ref<HTMLCanvasElement | undefined> = ref();
 const gameStore = useGameStore();
 
 const gameStarted = ref(false);
-const camera = ref({
-    x: 0,
-    y: 0,
-    z: 0
-});
-
-
 const { t, locale } = useI18n();
 
 function startGame(trackNumber: number): void {
     gameStarted.value = true;
     GameService.racer.startGame(trackNumber);
+}
+
+function openInNewTab(url) {
+  window.open(url, '_blank', 'noreferrer');
 }
 
 onMounted(() => {
@@ -31,68 +33,62 @@ onMounted(() => {
         GameService.racer.context.value = (GameService.racer.canvas.value).getContext('2d');
         GameService.init();
 
-        camera.value.y = racer.camera.yOffset;
-        camera.value.z = racer.camera.zOffset;
+        gameStore.camera.y = racer.camera.yOffset;
+        gameStore.camera.z = racer.camera.zOffset;
     }
 });
 
 watch(
-    camera, () => {
+    gameStore.camera, () => {
         if (gameStarted.value) {
-            racer.camera.adjust(camera.value.y, camera.value.z);
+            racer.camera.adjust(gameStore.camera.y, gameStore.camera.z);
         }
     }, { deep: true })
 
-// const { t, locale } = useI18n(i18n.messages)
-// const handleChangeLanguage = (e) => {
-//   locale.value = e.target.value;
-// };
 </script>
 <template>
   <div id="game">
       <canvas ref="gameCanvas"></canvas>
       <div class="container" v-if="!gameStarted">
-          <nav class="focus-display">
-            <select v-model="locale">
-              <option>tw</option>
-              <option>en</option>
-            </select>
-          </nav>
-          <div class="row">
-              <div class="col-12 fsc text-light h-100vh">
-                  <div class="title-card">
-                      <h1>boom car</h1>
-                      <p class="mb-2"><strong>難度</strong></p>
-                      <el-button-group class="mb-3">
-                          <el-button @click="startGame(0)" type="info"> {{ t("Level.easy") }} </el-button>
-                          <el-button @click="startGame(2)" type="info"> {{ t("Level.normal") }} </el-button>
-                          <el-button @click="startGame(3)" type="info"> {{ t("Level.hard") }} </el-button>
-                      </el-button-group>
-                      <p>遊戲中按 X 可以啟動加速。</p>
+        <nav class="focus-display">
+          <select v-model="locale">
+            <option>tw</option>
+            <option>en</option>
+          </select>
+        </nav>
+        <div class="row">
+            <div class="col-12 fsc h-100vh">
+                <div class="h-60vh fcc f-wrap">
+                  <img src="../assets/icon/boom-car-icon.svg" alt="" style="align-self:flex-start">
+                  <div style="width: 100%">
+                    <NicknameInput/>
                   </div>
+                  <el-button class="el-btn-custom "
+                             size="large"
+                             @click="$router.push('/setup/menu')">
+                    <span class="color-text-white"> {{ t("Desktop.StartPage.enter_event") }}</span>
+                  </el-button>
+                  <el-button
+                      class="github-icon"
+                      @click="openInNewTab('https://github.com/ChengHung-Wang/boom-car')">
+                    <img src="../assets/icon/github-icon.svg" alt="">
+                    <a href=""></a>
+                  </el-button>
+                </div>
+              <div>
+                <el-button @click="startGame(0)">
+                  start
+                </el-button>
               </div>
+            </div>
           </div>
       </div>
 
-      <div class="container text-light title-card" v-if="gameStarted">
-        <div class="focus-display">
-          圈數 [總圈數/現在圈數]
-          LapTime {{ gameStore.lapTime }}
-        </div>
-          <div class="row">
-              <div class="col-4">
-                  <h5>Camera X</h5>
-                  <el-slider v-model="camera.x" />
-              </div>
-              <div class="col-4">
-                  <h5>Camera Y</h5>
-                  <el-slider v-model="camera.y" :min="300" :max="10000" />
-              </div>
-              <div class="col-4">
-                  <h5>Camera Z</h5>
-                  <el-slider v-model="camera.z" :min="300" :max="10000" />
-              </div>
-          </div>
+      <div class="" v-if="gameStarted">
+          <Dashboard/>
+<!--          <MiniMap/>-->
+          <CameraSetting/>
+<!--          <TurboBox/>-->
       </div>
   </div>
 </template>
@@ -105,14 +101,22 @@ watch(
       inset: 0;
   }
   .title-card {
-      backdrop-filter: saturate(180%) blur(30px);
-      background: rgba(0, 0, 0, 0.3);
+      backdrop-filter: saturate(180%);
+      //background: rgba(0, 0, 0, 0.3);
       padding: 15px;
+      height: 60%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
   }
   .fcc {
       display: flex;
       align-items: center;
       justify-content: center;
+  }
+  .f-wrap {
+    flex-wrap: wrap;
   }
   .fsc {
       display: flex;
@@ -121,6 +125,10 @@ watch(
   }
   .h-100vh {
       height: 100vh;
+  }
+
+  .h-60vh {
+    height: 60vh;
   }
   .focus-display {
     position: fixed;
