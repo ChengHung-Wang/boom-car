@@ -170,6 +170,11 @@ export default class CommandHandler {
 
     public carEvent = async (): Promise<void> => {
         delete this.data.hash;
-        (new Sender.Sync()).send(this.socket, this.data);
+        let sendData = this.data;
+        sendData.data = {
+            ...sendData.data,
+            playerId: <string>this.socket.id
+        };
+        (new Sender.Sync()).send(this.socket, sendData);
     }
 }

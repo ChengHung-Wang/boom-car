@@ -132,22 +132,25 @@ export default class SocketService {
 
         // random
         const groupNames: string[] = [this.getHash(), this.getHash(), this.getHash(), this.getHash()];
-        const randomMembers: member[] = this.shuffle(<any>this.membersMap.values()).filter(member => {
+        const randomMembers: member[] = this.shuffle(Array.from(this.membersMap.values())).filter(member => {
             return member.permission != "admin";
         });
         // TODO: solve hard code problem
         // grouping
-        console.log('setGameStart', 140);
-
+        console.log('setGameStart', 140, randomMembers);
+        //  分組
         const groupAmount = 4;
-        let indexNow = 0;
+        let nowIndex = 0;
         while (randomMembers.length > 0) {
-            let e: SocketStruct.member = randomMembers[indexNow];
-            e.groupId = groupNames[indexNow % groupAmount];
-            this.membersMap.set(e.playerId, e);
-            indexNow ++;
+            const thisMember = randomMembers.pop();
+            if (thisMember) {
+                let e: SocketStruct.member = thisMember;
+                e.groupId = groupNames[nowIndex % groupAmount];
+                this.membersMap.set(e.playerId, e);
+                nowIndex ++;
+            }
         }
-        console.log('setGameStart', 150);
+        console.log('setGameStart', this.membersMap);
 
         // join group
         groupNames.forEach(name => {
