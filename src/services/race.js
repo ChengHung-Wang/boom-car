@@ -28,9 +28,8 @@ export class Race {
     this.countdownNumber = 3;
     this.lastTime = 0;
 
-    this.carCount = 10; // Default: 10;
-    this.PlayerAmount = this.carCount;
-    this.AIAmount = this.carCount - this.PlayerAmount;
+    this.carCount = 2; // Default: 10;
+    this.AIAmount = 0;
 
     this.trackNumber = 0;
 
@@ -214,7 +213,7 @@ export class Race {
       //      sprite = SPRITES.CAR_STRAIGHT;
 
       car = new Car();
-      if(n < this.PlayerAmount)
+      if(n < this.carCount - this.AIAmount)
         car.isAI = false;
       car.PlayerIndex = (useGameStore()).playerIndex;
 
