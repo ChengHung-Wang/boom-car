@@ -21,6 +21,14 @@ a,
   transition: 0.4s;
 }
 
+#map {
+  position: fixed;
+  /*background-color: black;*/
+  width: 200px;
+  height: 120px;
+  z-index: 9;
+}
+
 .description {
   font-style: normal;
   font-weight: 400;
@@ -119,6 +127,22 @@ el-button:focus, .el-button:hover {
   border-radius: 8px 0px 0px 8px;
 }
 
+ .el-radio-button .el-radio-button__inner {
+   width: 100%;
+   background: #252525
+ }
+.el-radio-button__original-radio:checked+.el-radio-button__inner {
+  color: #C3C3C3;;
+  background-color: #ED665A;
+  border-color: #606266;
+  box-shadow: -1px 0 0 0 var(--el-radio-button-checked-border-color,var(--el-color-primary));
+}
+
+.el-radio-button__original-radio.el-radio-button__inner {
+  color: #C3C3C3;;
+  background-color: #ED665A;
+  border-color: #606266
+}
 
 .github-icon {
   width: 48px;

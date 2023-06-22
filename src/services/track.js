@@ -108,6 +108,8 @@ export class Track {
   }
 
   buildTrack1() {
+    console.log("buildTrack1")
+
     COLORS_ROAD = "#3a3a3a";
 
     COLORS_LANDLIGHT = "#047804";
@@ -153,6 +155,7 @@ export class Track {
   }
 
   buildTrack2() {
+    console.log("buildTrack2")
     COLORS_ROAD = "#3a3a3a";
 
     COLORS_LANDLIGHT = "#047804";
@@ -459,12 +462,10 @@ export class Track {
   }
 
   drawMap() {
-    if (this.map == null) {
-      // this.map = document.createElement("canvas");
-      this.map = useGameStore().mapCanvas;
-    }
-    this.map.width = 600;
-    this.map.height = 405;
+    this.map = document.createElement("canvas");
+      // this.map = useGameStore().mapCanvas;
+    this.map.width = 200;
+    this.map.height = 120;
     cntx.cntx = this.map.getContext("2d");
 
     cntx.cntxClearRect(this.map.width, this.width);
@@ -522,8 +523,8 @@ export class Track {
     const playerPosition = (racer.cars.value)[(useGameStore()).playerIndex].z;
     const playerSegment = this.findSegment(playerPosition);
     cntx.cntx.clearRect(0, 0, this.map.width, this.map.height);
-    this.map = useGameStore().mapCanvas;
-    cntx.cntx = this.map.getContext("2d");
+    // this.map = useGameStore().mapCanvas;
+    // cntx.cntx = this.map.getContext("2d");
     this.drawMap();
     // opponents
     for (let i = 0; i < (racer.cars.value).length; ++i) {

@@ -13,7 +13,7 @@ function checkRoomCode(room_code) {
 </script>
 
 <template>
-  <div class="container">
+  <div class="container" style="top: 100px;">
     <div class="row">
       <div class="col-12 conn">
         <div class="">

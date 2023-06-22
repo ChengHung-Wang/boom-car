@@ -7,7 +7,7 @@
 </script>
 
 <template>
-  <div class="container">
+  <div class="container" style="top: 100px;">
     <div class="row">
       <div class="col-12">
         <span class="description">正在為您配對適合的對手中...</span>

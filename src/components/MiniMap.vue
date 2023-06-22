@@ -1,12 +1,24 @@
 <script setup lang="ts">
+import {useGameStore} from "@/stores/game";
+const gameStore = useGameStore();
+import * as GameService from "@/services/racer.js"
+import {ref, Ref} from "vue";
 
+function createCanvasMap(width, height) {
+  const canvas = document.getElementById('map');
+  const ctx = canvas.getContext('2d');
+  canvas.width = width;
+  canvas.height = height;
+  return { c: canvas, x: ctx };
+}
+
+
+console.log(gameStore.mapCanvas)
 </script>
 
 <template>
   <div class="mini-map">
-<!--    <div class="back">-->
-    I am mini map
-<!--    </div>-->
+    <canvas ref="mapCanvas" id="map"></canvas>
   </div>
 </template>
 

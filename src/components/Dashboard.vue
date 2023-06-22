@@ -12,7 +12,10 @@ const percentage = ref(100);
       <div class="ranking fcc">
         <div>
           <div class="title">{{ gameStore.rank }}</div>
-          <span>th</span>
+          <span v-if="gameStore.rank == 1">st</span>
+          <span v-if="gameStore.rank == 2">nd</span>
+          <span v-if="gameStore.rank == 3">rd</span>
+          <span v-if="gameStore.rank > 3">th</span>
         </div>
       </div>
       <el-progress :stroke-width="8" :width="87" :color="'#7A43EF'" type="circle" :percentage="parseInt(percentage)" />

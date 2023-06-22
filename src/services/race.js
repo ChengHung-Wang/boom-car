@@ -24,12 +24,13 @@ export const STATE_RACEOVER = 5;
 
 export class Race {
   constructor() {
+    this.gameStore = useGameStore();
     this.state = 0;
     this.countdownNumber = 3;
     this.lastTime = 0;
 
-    this.carCount = 2; // Default: 10;
-    this.AIAmount = 0;
+    this.carCount = 1; // Default: 10;
+    this.AIAmount = this.gameStore.computerAmount;
 
     this.trackNumber = 0;
 
@@ -41,10 +42,14 @@ export class Race {
     // this.KeyRightIsDown = false;
 
     this.raceNumber = 3;
-    this.gameStore = useGameStore();
 
     this.socket_sender = new socketSender();
 
+  }
+
+  setAI() {
+    this.carCount = 1 + this.gameStore.computerAmount;
+    this.AIAmount = this.gameStore.computerAmount;
   }
 
   static COUNTDOWN_INTERVAL = 800;
@@ -55,6 +60,7 @@ export class Race {
     if (trackNumber >= 4) {
       trackNumber = 0;
     }
+
 
     this.raceNumber = trackNumber;
     racer.track = new Track();
@@ -73,6 +79,7 @@ export class Race {
         racer.track.buildTrack4();
         break;
     }
+
 
     this.resetCars();
     racer.player = (racer.cars.value)[(useGameStore()).playerIndex];
@@ -198,7 +205,6 @@ export class Race {
   }
 
   resetCars() {
-    //    resetCars();
     racer.cars.value = [];
     let car, segment, z, sprite;
     for (let n = 0; n < this.carCount; n++) {
@@ -232,7 +238,7 @@ export class Race {
       car.percent = utilPercentRemaining(car.z, Track.segmentLength);
 
       // player speeds are set in car.js
-      if (false) { //car.index !== (useGameStore()).controlIndex
+      if (car.isAI) { //car.index !== (useGameStore()).controlIndex
         const maxSpeed = 23000; //23000;
         if (car.index < 8 && car.index > 3) {
           car.maxSpeed =
@@ -387,11 +393,11 @@ export class Race {
           "000" + Math.round(racer.player.getSpeed() / 100).toString(10)
       ).substr(-3);
 
-      this.gameStore.rank = racer.player.getPosition();
+      this.gameStore.rank = racer.player.position;
       this.gameStore.speed = speed;
       this.gameStore.lapCount = racer.player.getLap()
       this.gameStore.lapTime = racer.player.getCurrentLapTime().toFixed(2);
-      this.gameStore.turboAmount = racer.player.turboAmount * 2
+      this.gameStore.turboAmount = racer.player.turboAmount
 
 
       cntx.cntxFillStyle(LIGHTGREY);

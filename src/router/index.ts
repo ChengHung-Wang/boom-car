@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import GameView from '@/views/GameView.vue'
-import Setup from '@/views/Setup.vue'
+import Setup from '@/components/GameMode/Setup.vue'
 
 import setupRouterConfig from './setup'
 import liaoTest from "@/views/liaoTest.vue";
@@ -11,15 +11,18 @@ const router = createRouter({
     {
       path: '/',
       name: 'home',
-      component: GameView
-    },
-    {
-      path: "/setup",
-      component: Setup,
+      component: GameView,
       children: [
         ...setupRouterConfig
       ]
     },
+    // {
+    //   path: "/setup",
+    //   component: Setup,
+    //   children: [
+    //     ...setupRouterConfig
+    //   ]
+    // },
     {
       path: "/liao",
       component: liaoTest
