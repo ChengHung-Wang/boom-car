@@ -56,11 +56,6 @@ export class Race {
 
   start(trackNumber) {
     raceAudioEngineSpeed(0);
-    // trackNumber = parseInt(prompt("Select Track 0 to 3: (>= 4 will back to 0)."));
-    if (trackNumber >= 4) {
-      trackNumber = 0;
-    }
-
 
     this.raceNumber = trackNumber;
     racer.track = new Track();
@@ -78,6 +73,9 @@ export class Race {
       case 3:
         racer.track.buildTrack4();
         break;
+      default:
+        racer.track.buildTrack1();
+        break;
     }
 
 
@@ -92,6 +90,7 @@ export class Race {
 
   raceOver() {
     this.state = STATE_RACEOVER;
+    this.gameStore.gameOver = true;
   }
 
   keyDown(e) {
@@ -182,25 +181,25 @@ export class Race {
           }
           break;
       }
-    } else {
-      if (e.keyCode === 90) {
-        if (!this.KeyzIsDown) {
-          // retry race
-
-          this.start(this.raceNumber);
-        }
-        this.zIsDown = false;
-      }
-
-      if (e.keyCode === 88) {
-        if (!this.KeyxIsDown) {
-          // next race
-          if ((racer.cars.value)[(useGameStore()).playerIndex].finishPosition === "1st") {
-            this.start(this.raceNumber + 1);
-          }
-        }
-        this.KeyxIsDown = false;
-      }
+    // } else {
+    //   if (e.keyCode === 90) {
+    //     if (!this.KeyzIsDown) {
+    //       // retry race
+    //
+    //       this.start(this.raceNumber);
+    //     }
+    //     this.zIsDown = false;
+    //   }
+    //
+    //   if (e.keyCode === 88) {
+    //     if (!this.KeyxIsDown) {
+    //       // next race
+    //       if ((racer.cars.value)[(useGameStore()).playerIndex].finishPosition === "1st") {
+    //         this.start(this.raceNumber + 1);
+    //       }
+    //     }
+    //     this.KeyxIsDown = false;
+    //   }
     }
   }
 
@@ -352,39 +351,39 @@ export class Race {
   render() {
     render.renderRender();
     if (this.state === STATE_PRERACE) {
-      racer.context.value.font = "italic bold 350px " + constants.helvetica;
-
-      if (this.countdownNumber < 4) {
-        cntx.cntxFillStyle(DARKGREY);
-        cntx.cntxFillText("RACE", 14, 304);
-        cntx.cntxFillStyle(LIGHTGREY);
-        cntx.cntxFillText("RACE", 10, 300);
-      }
-
-      if (this.countdownNumber < 3) {
-        if (this.raceNumber === 0) {
-          racer.context.value.font = "italic bold 440px " + constants.helvetica;
-        } else if (this.raceNumber === 1) {
-          racer.context.value.font = "italic bold 430px " + constants.helvetica;
-        } else if (this.raceNumber === 2) {
-          racer.context.value.font = "italic bold 290px " + constants.helvetica;
-        } else if (this.raceNumber === 3) {
-          racer.context.value.font = "italic bold 358px " + constants.helvetica;
-        }
-
-        cntx.cntxFillStyle(DARKGREY);
-        cntx.cntxFillText(numbers[this.raceNumber], 14, 674);
-        cntx.cntxFillStyle(LIGHTGREY);
-        cntx.cntxFillText(numbers[this.raceNumber], 10, 670);
-      }
+      // racer.context.value.font = "italic bold 350px " + constants.helvetica;
+      //
+      // if (this.countdownNumber < 4) {
+      //   cntx.cntxFillStyle(DARKGREY);
+      //   cntx.cntxFillText("RACE", 14, 304);
+      //   cntx.cntxFillStyle(LIGHTGREY);
+      //   cntx.cntxFillText("RACE", 10, 300);
+      // }
+      //
+      // if (this.countdownNumber < 3) {
+      //   if (this.raceNumber === 0) {
+      //     racer.context.value.font = "italic bold 440px " + constants.helvetica;
+      //   } else if (this.raceNumber === 1) {
+      //     racer.context.value.font = "italic bold 430px " + constants.helvetica;
+      //   } else if (this.raceNumber === 2) {
+      //     racer.context.value.font = "italic bold 290px " + constants.helvetica;
+      //   } else if (this.raceNumber === 3) {
+      //     racer.context.value.font = "italic bold 358px " + constants.helvetica;
+      //   }
+      //
+      //   cntx.cntxFillStyle(DARKGREY);
+      //   cntx.cntxFillText(numbers[this.raceNumber], 14, 674);
+      //   cntx.cntxFillStyle(LIGHTGREY);
+      //   cntx.cntxFillText(numbers[this.raceNumber], 10, 670);
+      // }
     }
 
     if (this.state === STATE_COUNTDOWN) {
-      racer.context.value.font = " 300px " + constants.helvetica;
-      racer.context.value.fillStyle = "#111111";
-      racer.context.value.fillText(this.countdownNumber, 449, 254);
-      racer.context.value.fillStyle = LIGHTGREY;
-      racer.context.value.fillText(this.countdownNumber, 445, 250);
+      // racer.context.value.font = " 300px " + constants.helvetica;
+      // racer.context.value.fillStyle = "#111111";
+      // racer.context.value.fillText(this.countdownNumber, 449, 254);
+      // racer.context.value.fillStyle = LIGHTGREY;
+      // racer.context.value.fillText(this.countdownNumber, 445, 250);
     }
 
     if (this.state === STATE_RACING) {
@@ -400,8 +399,8 @@ export class Race {
       this.gameStore.turboAmount = racer.player.turboAmount
 
 
-      cntx.cntxFillStyle(LIGHTGREY);
-      cntx.cntxStrokeStyle(LIGHTGREY);
+      // cntx.cntxFillStyle(LIGHTGREY);
+      // cntx.cntxStrokeStyle(LIGHTGREY);
       // racer.context.value.font = " 80px " + constants.helvetica;
       // racer.context.value.fillText(racer.player.getPosition(), 10, 80);
       //
@@ -428,21 +427,21 @@ export class Race {
       if ((racer.cars.value)[(useGameStore()).playerIndex].newPositionTime > 0) {
         racer.context.value.font = " 160px " + constants.helvetica;
         cntx.cntxFillStyle(LIGHTGREY);
-        racer.context.value.fillText((racer.cars.value)[(useGameStore()).playerIndex].getPosition(), 334, 184);
+        racer.context.value.fillText((racer.cars.value)[(useGameStore()).playerIndex].getPosition(), 80, 184);
       }
     }
 
     if (this.state === STATE_RACEOVER) {
-      racer.context.value.font = " 300px " + constants.helvetica;
-      cntx.cntxFillStyle(LIGHTGREY);
-      racer.context.value.fillText((racer.cars.value)[(useGameStore()).playerIndex].finishPosition, 300, 290); //cars[(useGameStore()).controlIndex].finishPosition, 494, 254);
-      racer.context.value.font = " 40px " + constants.helvetica;
-      let y = 380;
-      if ((racer.cars.value)[(useGameStore()).playerIndex].finishPosition === "1st") {
-        racer.context.value.fillText("x: Next Race", 397, y);
-        y += 80;
-      }
-      racer.context.value.fillText("z: Retry", 445, y);
+      // racer.context.value.font = " 300px " + constants.helvetica;
+      // cntx.cntxFillStyle(LIGHTGREY);
+      // racer.context.value.fillText((racer.cars.value)[(useGameStore()).playerIndex].finishPosition, 300, 290); //cars[(useGameStore()).controlIndex].finishPosition, 494, 254);
+      // racer.context.value.font = " 40px " + constants.helvetica;
+      // let y = 380;
+      // if ((racer.cars.value)[(useGameStore()).playerIndex].finishPosition === "1st") {
+      //   racer.context.value.fillText("x: Next Race", 397, y);
+      //   y += 80;
+      // }
+      // racer.context.value.fillText("z: Retry", 445, y);
     }
   }
 

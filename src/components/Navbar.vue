@@ -21,9 +21,9 @@
   <div class="container game-nav">
     <div class="row">
       <div class="col-12 fbc">
-        <router-link :to="previousPage">
+        <div @click="router.back()">
           <img src="@/assets/icon/return-icon.svg" alt="">
-        </router-link>
+        </div>
         <span class="title">{{ props.title }}</span>
         <el-icon size="24px">
           <Setting/>
@@ -44,6 +44,7 @@
   height: 50px;
   color: #D9D9D9;
   margin-top: 15px;
+  z-index: 2;
 }
 .game-nav .title {
   font-style: normal;

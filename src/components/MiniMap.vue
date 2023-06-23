@@ -1,24 +1,32 @@
 <script setup lang="ts">
-import {useGameStore} from "@/stores/game";
+import type { Ref } from "vue";
+import { onMounted, ref } from "vue"
+import { useGameStore } from "@/stores/game";
+
 const gameStore = useGameStore();
-import * as GameService from "@/services/racer.js"
-import {ref, Ref} from "vue";
+const mapCanvas: Ref<HTMLCanvasElement | undefined> = ref();
 
-function createCanvasMap(width, height) {
-  const canvas = document.getElementById('map');
-  const ctx = canvas.getContext('2d');
-  canvas.width = width;
-  canvas.height = height;
-  return { c: canvas, x: ctx };
-}
+const width = 350;
+const height = 330;
 
+onMounted(() => {
+  if (mapCanvas.value)  {
+    (<HTMLCanvasElement>(mapCanvas.value)).width = width;
+    (<HTMLCanvasElement>(mapCanvas.value)).height = height;
+    gameStore.mapCanvas = <HTMLCanvasElement>mapCanvas.value;
+  }
+})
 
-console.log(gameStore.mapCanvas)
 </script>
 
 <template>
   <div class="mini-map">
-    <canvas ref="mapCanvas" id="map"></canvas>
+    <canvas ref="mapCanvas" id="map" v-bind:style="{'width': width + 'px', 'height': height + 'px'}"></canvas>
+    <div class="fcc">
+      <span class="text"> {{ gameStore.lapCount}} </span>
+      <span class="text"> / </span>
+      <span class="text"> {{ gameStore.lapTotal }} </span>
+    </div>
   </div>
 </template>
 
@@ -26,12 +34,21 @@ console.log(gameStore.mapCanvas)
 .mini-map {
   left: 0;
   top: 2vh;
-  height: 120px;
-  width: 210px;
   position: relative;
-  background: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(2px);
-  border-radius: 0 8px 8px 0;
+  //background: rgba(0, 0, 0, 0.5);
+  //backdrop-filter: blur(2px);
+  //border-radius: 0 8px 8px 0;
   z-index: 1;
+  height: 125px;
+  width: 210px;
+}
+
+.mini-map .text {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 120px;
+  align-items: center;
+  color: #D9D9D9;
 }
 </style>

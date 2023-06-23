@@ -18,10 +18,9 @@ export class Track {
   constructor() {
     this.trackLength = 0;
     this.currentAngle = 0;
-
+    this.mapInited = false;
     this.segments = [];
     this.carSegIndex = [];
-    this.map = null;
   }
 
   static segmentLength = 300;
@@ -462,19 +461,22 @@ export class Track {
   }
 
   drawMap() {
-    this.map = document.createElement("canvas");
-      // this.map = useGameStore().mapCanvas;
-    this.map.width = 200;
-    this.map.height = 120;
-    cntx.cntx = this.map.getContext("2d");
+    if (! (useGameStore()).mapCanvas) {
+      // (useGameStore()).mapCanvas = document.createElement("canvas");
+      return;
+    }
+    (useGameStore()).mapCanvas.width = 700;
+    (useGameStore()).mapCanvas.height = 600;
 
-    cntx.cntxClearRect(this.map.width, this.width);
+    cntx.cntx = (useGameStore()).mapCanvas.getContext("2d");
+    // Draw
+    cntx.cntxClearRect((useGameStore()).mapCanvas.width, (useGameStore()).mapCanvas.height);
     cntx.cntxStrokeStyle("#666666");
     cntx.cntx.lineWidth = 5;
 
     let angle = 0;
-    let x = 300;
-    let y = 30;
+    let x = 220;
+    let y = 10;
 
     cntx.cntxBeginPath();
     let segmentDrawLength = 0.5;
@@ -512,19 +514,22 @@ export class Track {
   }
 
   drawOverheadTrack() {
+    if (!(useGameStore()).mapCanvas) {
+      return;
+    }
     cntx.cntx = graphics.overheadTrack.x;
     this.overheadMap = graphics.overheadTrack.c;
-
-    cntx.cntxClearRect(600, 600);
-    cntx.cntxDrawImage(this.map, 0, 0, 600, 600, 0, 0, 600, 600);
+    const canvasWidth = ((useGameStore()).mapCanvas.width) - 200;
+    const canvasHeight = ((useGameStore()).mapCanvas.height) - 200;
+    cntx.cntxClearRect(canvasWidth, canvasHeight);
+    cntx.cntxDrawImage((useGameStore()).mapCanvas, 0, 0, canvasWidth, canvasHeight, 0, 0, canvasWidth, canvasHeight);
 
     // camera z position plus player z position from camera
     // 小地圖紅點
     const playerPosition = (racer.cars.value)[(useGameStore()).playerIndex].z;
     const playerSegment = this.findSegment(playerPosition);
-    cntx.cntx.clearRect(0, 0, this.map.width, this.map.height);
-    // this.map = useGameStore().mapCanvas;
-    // cntx.cntx = this.map.getContext("2d");
+    cntx.cntx.clearRect(0, 0, canvasWidth, canvasHeight);
+    cntx.cntx = (useGameStore()).mapCanvas.getContext("2d");
     this.drawMap();
     // opponents
     for (let i = 0; i < (racer.cars.value).length; ++i) {
@@ -547,6 +552,7 @@ export class Track {
     cntx.cntxStrokeStyle(graphics.MEDIUMGREY);
     cntx.cntxStroke();
   }
+
 
   clearOldCarSegment(car) {
     for (let i= 0; i < this.segments.length; i++) {

@@ -1,11 +1,12 @@
 <script setup lang="ts">
 
-import {ref} from "vue";
+import {Ref, ref} from "vue";
 import i18n from '@/services/i18n'
 import {useGameStore} from "@/stores/game";
 import {racer} from "@/services/racer";
 import router from "@/router";
 import * as GameService from "@/services/racer";
+import Card from "@/components/Card.vue";
 
 const { t } = i18n.global
 
@@ -25,36 +26,67 @@ function start() {
   if (gameStore.mobile) {
     GameService.racer.player.setAccelerate(true);
   }
-  router.push("");
 }
+
+const trackFiledList = ref([
+  {
+    name: t("Desktop.SinglePlayer.easy_theme"),
+    level: t("Desktop.SinglePlayer.easy"),
+    img: new URL('/src/assets/picture/track1-image.png', import.meta.url),
+
+  },
+  {},
+  {
+    name: t("Desktop.SinglePlayer.medium_theme"),
+    level: t("Desktop.SinglePlayer.medium"),
+    img: new URL('/src/assets/picture/track2-image.png', import.meta.url),
+    onload: false
+  },
+  {
+    name: t("Desktop.SinglePlayer.hard_theme"),
+    level: t("Desktop.SinglePlayer.hard"),
+    img: new URL('/src/assets/picture/track3-image.png', import.meta.url),
+    onload: false
+  },
+])
 
 </script>
 
 <template>
-  <div class="container" style="top: 100px;">
-    <div class="row">
-      <div class="col-12">
-          <p class="description">場景選擇</p>
-          <!--   TODO:接收場景選擇，傳送選項到 "../GameView.vue"  startGame([代號])       -->
-          <el-radio-group style="width: 100%" v-model="gameStore.trackNumber" size="large">
-            <el-radio-button style="width: 33%" label=0 > {{ t("Desktop.SinglePlayer.easy_theme") }} </el-radio-button>
-            <el-radio-button style="width: 33%" label=1 > {{ t("Desktop.SinglePlayer.medium_theme") }} </el-radio-button>
-            <el-radio-button style="width: 33%" label=2 > {{ t("Desktop.SinglePlayer.hard_theme") }} </el-radio-button>
-          </el-radio-group>
-          <!--   TODO:接收電腦數量，傳送    -->
-        </div>
-        <div class="col-12" style="margin-top: 36px">
-          <p class="description">電腦數量</p>
-          <el-slider class="slider" v-model="gameStore.computerAmount" :min="0" :max="14" />
-         <el-button class="el-btn-custom" @click="start()">進入遊戲</el-button>
-      </div>
+  <div class="row" style="top: 100px;">
+    <div class="col-12">
+      <p class="description">場景選擇</p>
+      <el-radio-group style="width: 100%" v-model="gameStore.trackNumber" size="large">
+        <el-radio-button style="width: 33%" :label="0"> {{ t("Desktop.SinglePlayer.easy_theme") }} </el-radio-button>
+        <el-radio-button style="width: 33%" :label="2" > {{ t("Desktop.SinglePlayer.medium_theme") }} </el-radio-button>
+        <el-radio-button style="width: 33%" :label="3" > {{ t("Desktop.SinglePlayer.hard_theme") }} </el-radio-button>
+      </el-radio-group>
+    </div>
+    <div class="col-12" style="margin-top: 24px">
+      <Card
+          :title="trackFiledList[gameStore.trackNumber].name"
+          :description="trackFiledList[gameStore.trackNumber].level"
+          :img="trackFiledList[gameStore.trackNumber].img">
+      </Card>
+    </div>
+    <div class="col-12">
+      <p class="description">電腦數量</p>
+      <el-slider class="slider" v-model="gameStore.computerAmount" :min="0" :max="14" />
+
+     <el-button class="el-btn-custom" style="margin-top: 60px"  @click="$router.push('/'); start()">進入遊戲</el-button>
     </div>
   </div>
-
 </template>
 
 <style scoped>
   .slider {
       width: 100%;
+  }
+  .description {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 19px;
+    color: #FFFFFF;
   }
 </style>

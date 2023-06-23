@@ -7,35 +7,33 @@
 </script>
 
 <template>
-  <div class="container" style="top: 100px;">
-    <div class="row">
-      <div class="col-12">
-        <span class="description">正在為您配對適合的對手中...</span>
-        <br>
+  <div class="row" style="top: 100px;">
+    <div class="col-12">
+      <span class="description">正在為您配對適合的對手中...</span>
+      <br>
 <!--        <span class="description">點擊右上角更換車子樣式讓別人更好的辨識你！</span>-->
-        <matchDisplay />
+      <matchDisplay />
 
-        <Card :description="gameStore.nickname" img="/src/assets/picture/car-image.png"></Card>
+      <Card :description="gameStore.nickname" img="/src/assets/picture/car-image.png"></Card>
 
 
-        <!-- TODO:抓取玩家名單動態更新列表   -->
-        <div class="flex-wrap player-list">
-          <el-tag
-              v-for="item in 10"
-              :key="item"
-              type="info"
-              class="mx-1"
-              effect="plain"
-              round
-          >
-            {{ 'Tag ' + item }}
-          </el-tag>
-        </div>
-
-        <router-link to="/">
-            Start
-        </router-link>
+      <!-- TODO:抓取玩家名單動態更新列表   -->
+      <div class="flex-wrap player-list">
+        <el-tag
+            v-for="item in 10"
+            :key="item"
+            type="info"
+            class="mx-1"
+            effect="plain"
+            round
+        >
+          {{ 'Tag ' + item }}
+        </el-tag>
       </div>
+
+      <router-link to="/">
+          Start
+      </router-link>
     </div>
   </div>
 </template>

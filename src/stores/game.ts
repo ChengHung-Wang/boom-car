@@ -1,10 +1,11 @@
-import { ref, computed, Ref } from 'vue'
+import type { Ref } from 'vue'
+import { ref, computed } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useGameStore = defineStore('game', () => {
     const lapTime = ref(0)
     const lapCount = ref(0)
-    const lapTotal = ref(0)
+    const lapTotal = ref(2)
 
     const clientAmount: Ref<number> = ref(0);
     const engineReady: Ref<boolean> = ref(false)
@@ -14,23 +15,21 @@ export const useGameStore = defineStore('game', () => {
     const rank = ref(0)
     const speed = ref(0)
     const turboAmount = ref(0)
-    const mapCanvas: Ref<HTMLCanvasElement> = ref(document.createElement("canvas"));
-    mapCanvas.value.width = 200;
-    mapCanvas.value.height = 120;
+    const mapCanvas: Ref<undefined | HTMLCanvasElement> = ref();
     const camera = ref({
         x: 0,
         y: 0,
         z: 0
     });
 
-
-
     const mobile = ref(true);
-    const nickname = ref("User");
+    const nickname = ref("");
     const gameMode = ref(0);
     const computerAmount = ref(1);
     const trackNumber = ref(0)
-    const viewSelect = ref(0);
+    const gameOver = ref(false);
+    const showCountdown = ref(true);
+    const countdownNumber = ref(5);
 
     return {
         lapTime,
@@ -51,6 +50,8 @@ export const useGameStore = defineStore('game', () => {
         gameMode,
         computerAmount,
         trackNumber,
-        viewSelect
+        gameOver,
+        showCountdown,
+        countdownNumber
     }
 })

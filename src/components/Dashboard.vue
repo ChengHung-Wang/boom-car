@@ -36,11 +36,22 @@ const percentage = ref(100);
 </template>
 
 <style scoped>
+.fcc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.fsc {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  flex-wrap: wrap;
+}
 .dashboard {
   width: 210px;
   height: 87px;
   position: relative;
-  left: 0;
 }
 .dashboard .speed-and-time {
   width: 160px;
@@ -63,7 +74,7 @@ const percentage = ref(100);
 }
 .dashboard .speed-and-time .el-icon {
   margin-right: 6px;
-  margin-left: 45px;
+  margin-left: 30px;
 }
 
 .dashboard .speed-and-time span {
@@ -82,7 +93,7 @@ const percentage = ref(100);
 }
 .circle::after {
   content: url("data:image/svg+xml, %3Csvg%20viewBox=%220%200%201024%201024%22%20xmlns=%22http://www.w3.org/2000/svg%22%20data-v-ea893728=%22%22%3E%3Cpath%20fill=%22currentColor%22%20d=%22M529.408%20149.376a29.12%2029.12%200%200%201%2041.728%200%2030.592%2030.592%200%200%201%200%2042.688L259.264%20511.936l311.872%20319.936a30.592%2030.592%200%200%201-.512%2043.264%2029.12%2029.12%200%200%201-41.216-.512L197.76%20534.272a32%2032%200%200%201%200-44.672l331.648-340.224zm256%200a29.12%2029.12%200%200%201%2041.728%200%2030.592%2030.592%200%200%201%200%2042.688L515.264%20511.936l311.872%20319.936a30.592%2030.592%200%200%201-.512%2043.264%2029.12%2029.12%200%200%201-41.216-.512L453.76%20534.272a32%2032%200%200%201%200-44.672l331.648-340.224z%22%3E%3C/path%3E%3C/svg%3E");
-  padding: 5px;
+  padding: 4px;
   position: absolute;
   right: 0;
   bottom: 0;
@@ -110,7 +121,6 @@ const percentage = ref(100);
   font-size: 36px;
   line-height: 30px;
   width: 100%;
-  color: #7A43EF;
   text-align: center;
 }
 .ranking span {
@@ -123,5 +133,4 @@ const percentage = ref(100);
   text-align: center;
   display: block;
 }
-
 </style>

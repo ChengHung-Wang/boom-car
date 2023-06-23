@@ -7,6 +7,7 @@ import { TitleScreen } from "./titleScreen.js";
 import { raceAudioInit } from "./audio.js";
 import { speak } from "./speech.js";
 import { outlineOnly } from "./render.js";
+import {useGameStore} from "@/stores/game";
 
 // 帶有 ref(<T>) 或 Ref<T> 的東西要取 value 的話就 variable.value 就可以拿到值
 export const helper = helperPkg;
@@ -20,6 +21,13 @@ export function init()
     racer.titleScreen = new TitleScreen(racer.canvas.value, racer.context.value);
     racer.titleScreen.init();
 
+    frame();
+}
+
+export function end() {
+    racer.track = new Track();
+    racer.titleScreen = new TitleScreen(racer.canvas.value, racer.context.value);
+    racer.titleScreen.init();
     frame();
 }
 
@@ -42,12 +50,27 @@ racer.gdt = 0;
 racer.cars = ref([]);
 racer.player = null;
 
+function countDown () {
+    (useGameStore()).countdownNumber--
+    if ( (useGameStore()).countdownNumber === 0) {
+        (useGameStore()).showCountdown = false
+        return;
+    }
+    setTimeout(() => {
+        countDown()
+    }, 1000)
+}
+
 racer.startGame = function (trackNumber) {
     raceAudioInit();
     speak("Start");
     racer.racing = true;
     racer.camera.reset();
     racer.race.start(trackNumber);
+
+    (useGameStore()).showCountdown = true;
+    (useGameStore()).countdownNumber = 6;
+    countDown ();
 }
 
 document.addEventListener("keydown", function (e) {

@@ -9,6 +9,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import i18n from './services/i18n'
 
 import 'element-plus/dist/index.css'
+import 'element-plus/theme-chalk/dark/css-vars.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './assets/main.css'
 

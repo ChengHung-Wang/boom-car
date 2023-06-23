@@ -1,11 +1,15 @@
 <script setup lang="ts">
 const props = defineProps(['title', 'description', 'img'])
 
-console.log(props)
 </script>
 
 <template>
   <div class="menu-card" v-bind:style="{backgroundImage: 'url(' + props.img + ')'}">
+<!--    <el-skeleton class="skeleton" style="width: 100%" :loading="true" animated>-->
+<!--      <template #template>-->
+<!--        <el-skeleton-item variant=  "image" style="width: 100%; height: 240px" />-->
+<!--      </template>-->
+<!--    </el-skeleton>-->
     <div class="content">
       <div class="title">{{ props.title }}</div>
       <div class="description">{{ props.description }}</div>
@@ -14,8 +18,12 @@ console.log(props)
 </template>
 
 <style scoped>
-
-  .menu-card {
+.skeleton{
+    position: absolute;
+    z-index: 999;
+    width: 100%;
+}
+.menu-card {
     width: 100%;
     height: 240px;
     border-radius: 20px;

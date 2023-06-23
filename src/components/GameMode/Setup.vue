@@ -1,43 +1,48 @@
 <script setup lang="ts">
-  import Navbar from "@/components/Navbar.vue";
   import i18n from '@/services/i18n'
   import {useGameStore} from "@/stores/game";
-  import SinglePlayerMode from "@/components/GameMode/SinglePlayer/SinglePlayerMode.vue";
-  import GameMenu from "@/components/GameMode/GameMenu.vue";
-  import {RouterView} from "vue-router";
+  import NicknameInput from "@/components/NicknameInput.vue";
 
   const { t } = i18n.global
-  // enum Title {
-  //   Menu = 'Desktop.SelectMode.select_mode',
-  //   Single = 'Desktop.SinglePlayer.single_player',
-  //   Connection = 'Desktop.MultiPlayer.multi_player',
-  //   Match = 'Desktop.MultiPlayer.multi_player',
-  // }
-  const Title = ['',
-    'Desktop.SelectMode.select_mode',
-    'Desktop.SinglePlayer.single_player',
-    'Desktop.MultiPlayer.multi_player',
-    'Desktop.MultiPlayer.multi_player'
-  ]
-
   const gameStore = useGameStore()
 
-
+  function openInNewTab(url) {
+    window.open(url, '_blank', 'noreferrer');
+  }
 </script>
 
 <template>
-  <div class="frame">
-    <Navbar :title="t(Title[gameStore.modeSelect])" />
-      <RouterView />
+  <div class="container">
+    <div class="row fcc" style="height: 100vh;">
+      <div class="col-sm-12 fcc">
+        <img class="w-75" style="margin-bottom: 120px;" src="/src/assets/icon/boom-car-icon.png" alt="">
+        <NicknameInput/>
+        <el-button class="el-btn-custom mb-5"
+                   size="large"
+                   @click="$router.push('/menu');"
+        >
+          <span class="color-text-white"> {{ t("Desktop.StartPage.enter_event") }}</span>
+        </el-button>
+        <el-button
+            class="github-icon"
+            @click="openInNewTab('https://github.com/ChengHung-Wang/boom-car')">
+          <img src="/src/assets/icon/github-icon.svg" alt="">
+          <a href=""></a>
+        </el-button>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-  .frame {
-    position: absolute;
-    height: calc(100vh - 80px);
-    width: 100%;
-    bottom: 0;
-    overflow-y: auto;
+  .github-icon {
+    width: 48px;
+    height: 48px;
+    background: #333333;
+    border: none;
+    backdrop-filter: blur(8px);
+    border-radius: 8px;
+    padding: 0;
+    margin-left: 0 !important;
   }
 </style>

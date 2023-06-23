@@ -36,6 +36,8 @@
     },
     "MultiPlayer": {
       "multi_player": "多人競賽",
+      "multi_player_conn": "多人競賽",
+      "multi_player_match": "多人競賽",
       "pairing_annotation": "正在為您配對適合的對手中...點擊右上角更換車子樣式讓別人更好的認識你！",
       "pairing": "配對中",
       "room_withdrawal": "退出房間",
@@ -75,6 +77,7 @@
       "car_distance": "車子距離"
     },
     "Ranking": {
+      "game_over": "遊戲結算",
       "ranking": "名次",
       "duration": "時間",
       "succeeded": "將在 5 秒後進入下一場晉級賽",

@@ -282,11 +282,11 @@ function renderPlayer(scale, destX, destY, steer) {
 
     //  ******  DRAW TURBO  ***** /
     if (racer.player.turbo) {
-        let centreX = destX + 82;
-        const centreY = destY - 10;
+        let centreX = destX;
+        let centreY = destY - 10;
         graphics.drawFuzzyCircle(centreX, centreY, 10, '#dd9925');
         graphics.drawFuzzyCircle(centreX, centreY, 5, '#cccc55');
-        centreX = destX + 230;
+        centreX = destX + (racer.player.width * scale * width/2);
         graphics.drawFuzzyCircle(centreX, centreY, 10, '#dd9925');
         graphics.drawFuzzyCircle(centreX, centreY, 5, '#cccc55');
     }

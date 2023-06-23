@@ -36,6 +36,8 @@
     },
     "MultiPlayer": {
       "multi_player": "Multi-player mode",
+      "multi_player_conn": "Multi-player mode",
+      "multi_player_match": "Multi-player mode",
       "pairing_annotation": "Pairing... Click the upper-right button to customize your own car.",
       "pairing": "Pairing",
       "room_withdrawal": "Leave the room",
@@ -75,6 +77,7 @@
       "car_distance": "Distance between cars"
     },
     "Ranking": {
+      "game_over": "Game Over",
       "ranking": "Ranking",
       "duration": "Duration",
       "succeeded": "Next competition will begin in 5 seconds.",

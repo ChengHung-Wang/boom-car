@@ -561,7 +561,7 @@ export class Car {
           // check for collision with other car, same segment and rects overlap
           if (this.overlap(this.x, this.width, car.x, car.width, 1)) {//兩台車在同區段且x軸重疊
             console.log(this.index, " crashed into ", car.index);
-            if (false) { //AI撞車 //this.index !== (useGameStore()).controlIndex
+            if (this.index !== (useGameStore()).playerIndex) { //AI撞車
               this.speed = car.speed / 2;
               if (car.index !== (useGameStore()).playerIndex) {
                 car.speed = car.speed * 1.2;
@@ -573,13 +573,9 @@ export class Car {
                 this.slipstreamTime = 0;
                 Callback.callback_PlayerCrashwithCar(car);
               }
-              if(this.accelerate)
-                Math.max(this.speed = this.maxSpeed / 10, car.speed / 2);
-              else
-                this.speed = car.speed / 2;
-
+              this.speed = car.speed / 2;
               //this.z = utilIncrease(playerSegment.p1.world.z, 0, racer.track.getLength()); // stop in front of sprite (at front of segment)
-              this.z = car.z - 200;
+              this.z = car.z - 100;
             }
             break;
           }
