@@ -21,18 +21,19 @@
       "single_player": "單機模式",
       "single_player_annotation": "與電腦訓練來提升實力",
       "multi_player": "多人競賽",
-      "multi_player_annotation": "與好友競賽奪得冠軍",
-      "computer_amount": "電腦數量"
+      "multi_player_annotation": "與好友競賽奪得冠軍"
     },
     "SinglePlayer": {
       "single_player": "單機模式",
+      "space_select": "場景選擇",
       "easy_theme": "山下風景",
       "easy": "簡單",
       "medium_theme": "白晝廢墟",
       "medium": "中等",
       "hard_theme": "星夜城市",
       "hard": "困難",
-      "start_game": "開始遊戲"
+      "start_game": "開始遊戲",
+      "computer_amount": "AI 玩家數量"
     },
     "MultiPlayer": {
       "multi_player": "多人競賽",

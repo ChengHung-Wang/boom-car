@@ -11,7 +11,7 @@ console.log(gameStore.turboAmount)
   <div class="turbo-background">
     <div class="flex">
       <div class="flex">
-        <img src="src/assets/icon/Power-icon.svg" alt="">
+        <img src="@/assets/icon/Power-icon.svg" alt="">
       </div>
       <div class="bar">
         <span class="progress" :style="{'height':`${gameStore.turboAmount}%`}" />

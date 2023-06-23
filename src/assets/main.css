@@ -26,15 +26,6 @@ a,
   transition: 0.4s;
 }
 
-#map {
-  position: fixed;
-  left: 12px;
-  /*background-color: black;*/
-  width: 200px;
-  height: 120px;
-  z-index: 9;
-}
-
 .description {
   font-style: normal;
   font-weight: 400;

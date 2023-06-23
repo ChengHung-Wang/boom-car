@@ -52,6 +52,8 @@ const percentage = ref(100);
   width: 210px;
   height: 87px;
   position: relative;
+  left: 20px;
+  top: 20px;
 }
 .dashboard .speed-and-time {
   width: 160px;

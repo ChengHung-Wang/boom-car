@@ -426,8 +426,9 @@ export class Race {
 
       if ((racer.cars.value)[(useGameStore()).playerIndex].newPositionTime > 0) {
         racer.context.value.font = " 160px " + constants.helvetica;
+        racer.context.value.textAlign = "center";
         cntx.cntxFillStyle(LIGHTGREY);
-        racer.context.value.fillText((racer.cars.value)[(useGameStore()).playerIndex].getPosition(), 80, 184);
+        racer.context.value.fillText((racer.cars.value)[(useGameStore()).playerIndex].getPosition(), (racer.canvas.value.width) / 2, 184);
       }
     }
 

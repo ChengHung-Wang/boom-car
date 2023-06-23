@@ -14,7 +14,7 @@
 <!--        <span class="description">點擊右上角更換車子樣式讓別人更好的辨識你！</span>-->
       <matchDisplay />
 
-      <Card :description="gameStore.nickname" img="/src/assets/picture/car-image.png"></Card>
+      <Card :description="gameStore.nickname" img="@/src/assets/picture/car-image.png"></Card>
 
 
       <!-- TODO:抓取玩家名單動態更新列表   -->

@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import Setup from '@/components/GameMode/Setup.vue'
 
 import setupRouterConfig from './setup'
@@ -7,11 +7,11 @@ import GameView from "@/views/GameView.vue";
 import {useSocketStore} from "@/stores/socket";
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes: [
     {
       path: '/',
-      name: 'GameView',
+      name: 'Home',
       component: GameView,
       children: [
         ...setupRouterConfig
@@ -29,7 +29,7 @@ router.beforeEach((to, from, next) => {
     if (to.fullPath === '') return;
 
     if (to.name != "Setup" && (useSocketStore()).nickname == "") {
-      next('/');
+      next("/");
     }
     next()
 });

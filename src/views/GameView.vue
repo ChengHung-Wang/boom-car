@@ -20,7 +20,6 @@ import TurboBox from "@/components/TurboBox.vue";
 import LanguageSelector from "@/components/LanguageSelector.vue";
 import GameOver from "@/components/GameMode/GameOver.vue";
 import CountDown from "@/components/CountDown.vue";
-import {STATE_COUNTDOWN} from "@/services/race";
 
 
 const gameCanvas: Ref<HTMLCanvasElement | undefined> = ref();

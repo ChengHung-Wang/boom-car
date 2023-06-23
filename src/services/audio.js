@@ -16,13 +16,13 @@ let audioEngineData = [];
 let audioTurboData = [];
 
 const musicList = ref([
-  "/src/assets/Audio/0-energetic-indie-rock-jump.mp3",
-  "/src/assets/Audio/1-music-rock-it.mp3",
-  "/src/assets/Audio/2-energetic-rock-trailer.mp3",
-  "/src/assets/Audio/3-into-battle.mp3",
-  "/src/assets/Audio/4-powerful-dubstep-rocks.mp3",
-  "/src/assets/Audio/5-stylish-rock-beat-trailer.mp3",
-  "/src/assets/Audio/6-twisted.mp3"
+  new URL("@/assets/Audio/0-energetic-indie-rock-jump.mp3", import.meta.url),
+  new URL("@/assets/Audio/1-music-rock-it.mp3", import.meta.url),
+  new URL("@/assets/Audio/2-energetic-rock-trailer.mp3", import.meta.url),
+  new URL("@/assets/Audio/3-into-battle.mp3", import.meta.url),
+  new URL("@/assets/Audio/4-powerful-dubstep-rocks.mp3", import.meta.url),
+  new URL("@/assets/Audio/5-stylish-rock-beat-trailer.mp3", import.meta.url),
+  new URL("@/assets/Audio/6-twisted.mp3", import.meta.url)
 ])
 
 export function raceAudioSetTurboTime(t) {
@@ -79,7 +79,8 @@ export async function clickSoundFx(e) {
   const targetElement = String(e.target.nodeName).toLowerCase();
   console.log(targetElement);
   if (targetElement !== "button" && targetElement !== "input") return;
-  const audio = new Audio("/src/assets/Audio/button-click.mp3");
+  const url = new URL("@/assets/Audio/button-click.mp3", import.meta.url);
+  const audio = new Audio(url);
   await audio.play();
 }
 
@@ -87,9 +88,9 @@ export async function backgroundMusic(start, lobby= false) {
   const store = useGameStore();
   let url;
   if (lobby) {
-    url = new URL(musicList.value[0], import.meta.url);
+    url = musicList.value[0];
   } else {
-    url = new URL(musicList.value[Math.floor(Math.random()*5 + 1)], import.meta.url);
+    url = musicList.value[Math.floor(Math.random()*5 + 1)];
   }
   store.bgmPlayer.setAttribute("src", url.toString());
   store.bgmPlayer.volume = 0.03;

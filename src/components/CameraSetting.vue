@@ -12,7 +12,7 @@ const settingOpen = ref(false);
 <template>
   <div class="camera fcc" v-if="!settingOpen">
     <button class="camera-btn" @click="settingOpen = true">
-      <img class="icon" src="../assets/icon/camera-icon.png" alt="">
+      <img class="icon" src="@/assets/icon/camera-icon.png" alt="">
     </button>
   </div>
   <el-drawer class="camera-setting" v-model="settingOpen" title="I am the title" :with-header="false">

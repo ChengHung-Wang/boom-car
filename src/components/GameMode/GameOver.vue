@@ -2,15 +2,16 @@
 import {useI18n} from "vue-i18n";
 import {useGameStore} from "@/stores/game";
 import * as GameService from "@/services/racer.js"
-import {racer} from "@/services/racer.js";
-import {TitleScreen} from "@/services/titleScreen";
-import {Race} from "@/services/race";
-import {Track} from "@/services/track";
 
 const {t} = useI18n();
 const gameStore = useGameStore()
+const picture = [
+    new URL('/src/assets/picture/gold-medal.png', import.meta.url),
+    new URL('/src/assets/picture/silver-medal.png', import.meta.url),
+    new URL('/src/assets/picture/bronze-medal.png', import.meta.url)
+];
 
-function gameOver() {
+function over() {
   gameStore.gameOver = false;
   gameStore.gameStarted = false;
   GameService.end();
@@ -23,9 +24,9 @@ function gameOver() {
     <div class="row">
       <div class="col-12 game-over">
         <div class="w-100 fcc">
-          <img class="medal" v-if="gameStore.rank=1" src="src/assets/picture/gold-medal.png" alt="">
-          <img class="medal" v-if="gameStore.rank > 1 && gameStore.rank <= 3" src="src/assets/picture/silver-medal.png" alt="">
-          <img class="medal" v-if="gameStore.rank>3" src="src/assets/picture/bronze-medal.png" alt="">
+          <img class="medal" v-if="gameStore.rank=1" :src="picture[0]" alt="">
+          <img class="medal" v-if="gameStore.rank > 1 && gameStore.rank <= 3" :src="picture[1]" alt="">
+          <img class="medal" v-if="gameStore.rank>3" :src="picture[2]" alt="">
         </div>
         <div class="fcc flex-wrap mt-">
           <span class="rankDescribe w-100 text-center"> {{ t("Desktop.Ranking.ranking")}}  </span>
@@ -69,7 +70,7 @@ function gameOver() {
 
     <el-button class="el-btn-custom click"
                size="large"
-               @click="$router.push('/menu'); gameOver();"
+               @click="$router.push('/menu'); over();"
                style="margin-top: 15vh;"
     ><span class="color-text-white"> {{ t("Desktop.Ranking.return") }} </span>
     </el-button>

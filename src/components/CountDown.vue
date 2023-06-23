@@ -3,11 +3,13 @@ import {useGameStore} from "../stores/game";
 </script>
 
 <template>
-  <div class="countdown-background"></div>
-  <div class="countdown">
-    <p class="race-text w-100">The race</p>
-    <p class="start-text w-100">starts in</p>
-    <p class="number-text w-100"> {{ (useGameStore()).countdownNumber }} </p>
+  <div>
+      <div class="countdown-background"></div>
+      <div class="countdown">
+          <p class="race-text w-100">The race</p>
+          <p class="start-text w-100">starts in</p>
+          <p class="number-text w-100"> {{ (useGameStore()).countdownNumber }} </p>
+      </div>
   </div>
 </template>
 
@@ -30,7 +32,7 @@ import {useGameStore} from "../stores/game";
   color: #FFFFFF;
   z-index: 12;
   height: 100vh;
-
+  width: 100%;
   display: flex;
   flex-wrap: wrap;
   align-content: center;

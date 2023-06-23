@@ -33,21 +33,21 @@ function start() {
 
 const trackFiledList = ref([
   {
-    name: t("Desktop.SinglePlayer.easy_theme"),
-    level: t("Desktop.SinglePlayer.easy"),
+    name: "Desktop.SinglePlayer.easy_theme",
+    level: "Desktop.SinglePlayer.easy",
     img: new URL('/src/assets/picture/track1-image.png', import.meta.url),
 
   },
   {},
   {
-    name: t("Desktop.SinglePlayer.medium_theme"),
-    level: t("Desktop.SinglePlayer.medium"),
+    name: "Desktop.SinglePlayer.medium_theme",
+    level: "Desktop.SinglePlayer.medium",
     img: new URL('/src/assets/picture/track2-image.png', import.meta.url),
     onload: false
   },
   {
-    name: t("Desktop.SinglePlayer.hard_theme"),
-    level: t("Desktop.SinglePlayer.hard"),
+    name: "Desktop.SinglePlayer.hard_theme",
+    level: "Desktop.SinglePlayer.hard",
     img: new URL('/src/assets/picture/track3-image.png', import.meta.url),
     onload: false
   },
@@ -58,7 +58,7 @@ const trackFiledList = ref([
 <template>
   <div class="row" style="top: 100px;">
     <div class="col-12">
-      <p class="description">場景選擇</p>
+      <p class="description">{{ t("Desktop.SinglePlayer.space_select") }}</p>
       <el-radio-group style="width: 100%" v-model="gameStore.trackNumber" size="large">
         <el-radio-button style="width: 33%" :label="0"> {{ t("Desktop.SinglePlayer.easy_theme") }} </el-radio-button>
         <el-radio-button style="width: 33%" :label="2" > {{ t("Desktop.SinglePlayer.medium_theme") }} </el-radio-button>
@@ -67,13 +67,13 @@ const trackFiledList = ref([
     </div>
     <div class="col-12" style="margin-top: 24px">
       <Card
-          :title="trackFiledList[gameStore.trackNumber].name"
-          :description="trackFiledList[gameStore.trackNumber].level"
+          :title="t(trackFiledList[gameStore.trackNumber].name)"
+          :description="t(trackFiledList[gameStore.trackNumber].level)"
           :img="trackFiledList[gameStore.trackNumber].img">
       </Card>
     </div>
     <div class="col-12">
-      <p class="description">電腦數量</p>
+      <p class="description">{{ t("Desktop.SinglePlayer.computer_amount") }}</p>
       <el-slider class="slider" v-model="gameStore.computerAmount" :min="0" :max="14" />
 
      <el-button class="el-btn-custom click" style="margin-top: 60px"  @click="$router.push('/'); start()">進入遊戲</el-button>

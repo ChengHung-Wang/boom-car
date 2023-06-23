@@ -25,6 +25,7 @@
     },
     "SinglePlayer": {
       "single_player": "Single-player mode",
+      "space_select": "Space Select",
       "easy_theme": "Hills",
       "easy": "Easy",
       "medium_theme": "Ruins",
@@ -32,7 +33,7 @@
       "hard_theme": "City",
       "hard": "Hard",
       "start_game": "Game start",
-      "computer_amount": "Number of computers"
+      "computer_amount": "Number of AI Player"
     },
     "MultiPlayer": {
       "multi_player": "Multi-player mode",

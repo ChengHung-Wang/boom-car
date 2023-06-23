@@ -17,7 +17,7 @@
   <div class="container">
     <div class="row fcc" style="height: 100vh;">
       <div class="col-sm-12 fcc">
-        <img class="w-75" style="margin-bottom: 120px;" src="/src/assets/icon/boom-car-icon.png" alt="">
+        <img class="w-75" style="margin-bottom: 120px;" src="@/assets/icon/boom-car-icon.png" alt="">
         <NicknameInput/>
         <el-button class="el-btn-custom mb-5 click"
                    size="large"
@@ -28,7 +28,7 @@
         <el-button
             class="github-icon"
             @click="openInNewTab('https://github.com/ChengHung-Wang/boom-car')">
-          <img src="/src/assets/icon/github-icon.svg" alt="">
+          <img src="@/assets/icon/github-icon.svg" alt="">
           <a href=""></a>
         </el-button>
       </div>

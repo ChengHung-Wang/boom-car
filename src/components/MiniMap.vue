@@ -33,7 +33,7 @@ onMounted(() => {
 <style scoped>
 .mini-map {
   left: 0;
-  top: 2vh;
+  top: 30px;
   position: relative;
   //background: rgba(0, 0, 0, 0.5);
   //backdrop-filter: blur(2px);
@@ -50,5 +50,14 @@ onMounted(() => {
   line-height: 120px;
   align-items: center;
   color: #D9D9D9;
+}
+
+#map {
+    position: fixed;
+    left: 12px;
+    /*background-color: black;*/
+    width: 200px;
+    height: 120px;
+    z-index: 9;
 }
 </style>
