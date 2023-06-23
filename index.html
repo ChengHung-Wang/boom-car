@@ -1,64 +1,54 @@
-<!doctype html>
-<html lang="zh-tw" xmlns="http://www.w3.org/1999/html">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>boom car</title>
-  <script src="js/jquery.min.js"></script>
-  <script src="js/joy.js"></script>
-  <link rel="stylesheet" href="./css/element-plus.css">
-  <link rel="stylesheet" href="./css/bootstrap.min.css">
-  <link rel="stylesheet" href="css/main.css">
-</head>
-<body>
-  <div id="app">
-    <div class="container" v-if="!gameStarted">
-      <div class="row">
-        <div class="col-12 fsc text-light h-100vh">
-          <div class="title-card">
-            <h1>boom car</h1>
-            <p class="mb-2"><strong>難度</strong></p>
-            <el-button-group class="mb-3">
-              <el-button @click="startGame(0)" type="info">簡單</el-button>
-              <el-button @click="startGame(2)" type="info">中等</el-button>
-              <el-button @click="startGame(3)" type="info">困難</el-button>
-            </el-button-group>
-            <p>遊戲中按 X 可以啟動加速。</p>
-          </div>
-        </div>
-      </div>
-    </div>
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="boom car">
+    <link rel="icon" href="/favicon/favicon.ico">
+    <!-- For old IEs -->
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
 
-    <div class="container">
-      <div class="row">
-        <div class="col-12">
-          <div id="joyDiv"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <canvas id="gameCanvas" style="width: 100vw; height: 100vh"></canvas>
+    <!-- For new browsers - multisize ico  -->
+    <link rel="icon" type="image/x-icon" sizes="16x16 32x32" href="/favicon/favicon.ico">
 
-  <script src="js/constants.js"></script>
-  <script src="js/canvasFunctions.js"></script>
-  <script src="js/mathFunctions.js"></script>
-  <script src="js/graphics.js"></script>
-  <script src="js/util.js"></script>
-  <script src="js/titleScreen.js"></script>
-  <script src="js/camera.js"></script>
-  <script src="js/render.js"></script>
-  <script src="js/car.js"></script>
+    <!-- For iPad with high-resolution Retina display running iOS ≥ 7: -->
+    <link rel="apple-touch-icon" sizes="152x152" href="/favicon/favicon-152-precomposed.png">
 
-  <script src="js/track.js"></script>
-  <script src="js/race.js"></script>
-  <script src="js/racer.js"></script>
-  <script src="js/audio.js"></script>
-  <script src="js/speech.js"></script>
-</body>
-<script src="./js/vue.global.js"></script>
-<script src="./js/element-plus.js"></script>
-<!-- our script -->
-<script src="./js/helper.js"></script>
+    <!-- For iPad with high-resolution Retina display running iOS ≤ 6: -->
+    <link rel="apple-touch-icon" sizes="144x144" href="/favicon/favicon-144-precomposed.png">
+
+    <!-- For iPhone with high-resolution Retina display running iOS ≥ 7: -->
+    <link rel="apple-touch-icon" sizes="120x120" href="/favicon/favicon-120-precomposed.png">
+
+    <!-- For iPhone with high-resolution Retina display running iOS ≤ 6: -->
+    <link rel="apple-touch-icon" sizes="114x114" href="/favicon/favicon-114-precomposed.png">
+
+    <!-- For iPhone 6+ -->
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/favicon-180-precomposed.png">
+
+    <!-- For first- and second-generation iPad: -->
+    <link rel="apple-touch-icon" sizes="72x72" href="/favicon/favicon-72-precomposed.png">
+
+    <!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+    <link rel="apple-touch-icon" sizes="57x57" href="/favicon/favicon-57.png">
+
+    <!-- For Old Chrome -->
+    <link rel="icon" sizes="32x32" href="/favicon/favicon-32.png" >
+
+    <!-- For IE10 Metro -->
+    <meta name="msapplication-TileColor" content="#333333">
+    <meta name="msapplication-TileImage" content="/favicon/favicon-144.png">
+    <meta name="theme-color" content="#333333">
+
+    <!-- Chrome for Android -->
+    <link rel="manifest" href="/favicon/manifest.json">
+    <link rel="icon" sizes="192x192" href="/favicon/favicon-192.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>boom car</title>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
 </html>

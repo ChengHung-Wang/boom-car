@@ -1,0 +1,25 @@
+{
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    },
+    {
+      "path": "./tsconfig.app.json"
+    }
+  ],
+  "compilerOptions": {
+    "allowJs": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@assets/*": ["./src/shared/assets/*"],
+      "@cmp/*": ["./src/shared/cmp/*"],
+      "@stores/*": ["./src/shared/stores/*"],
+      "@use/*": ["./src/shared/use/*"]
+    },
+    "downlevelIteration": true
+  },
+  "baseUrl": "."
+}
