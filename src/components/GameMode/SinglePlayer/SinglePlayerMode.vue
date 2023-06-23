@@ -76,7 +76,7 @@ const trackFiledList = ref([
       <p class="description">{{ t("Desktop.SinglePlayer.computer_amount") }}</p>
       <el-slider class="slider" v-model="gameStore.computerAmount" :min="0" :max="14" />
 
-     <el-button class="el-btn-custom click" style="margin-top: 60px"  @click="$router.push('/'); start()">進入遊戲</el-button>
+     <el-button class="el-btn-custom click" style="margin-top: 24px"  @click="$router.push('/'); start()">進入遊戲</el-button>
     </div>
   </div>
 </template>

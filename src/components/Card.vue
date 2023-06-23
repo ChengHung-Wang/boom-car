@@ -29,7 +29,7 @@ const props = defineProps(['title', 'description', 'img'])
     align-items: flex-end;
     overflow: hidden;
     border: 0.5px solid #606266;
-    margin-bottom: 32px;
+    margin-bottom: 12px;
     background-color: rgb(0, 0, 0, 0);
 }
 .menu-card> * {
@@ -39,6 +39,7 @@ const props = defineProps(['title', 'description', 'img'])
   -ms-user-select:none;
   user-select:none;
   pointer-events: none;
+  margin-bottom: 12px;
 }
 .menu-card::after {
   content: '';
