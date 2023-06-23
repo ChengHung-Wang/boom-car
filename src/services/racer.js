@@ -1,25 +1,25 @@
-import { ref } from "vue";
+import {ref} from "vue";
 import * as helperPkg from "@/helper/helper"
-import { Track } from "./track.js";
-import { Race } from "./race.js";
-import { Camera } from "./camera.js";
-import { TitleScreen } from "./titleScreen.js";
-import { raceAudioInit } from "./audio.js";
-import { speak } from "./speech.js";
-import { outlineOnly } from "./render.js";
+import {Track} from "./track.js";
+import {Race} from "./race.js";
+import {Camera} from "./camera.js";
+import {TitleScreen} from "./titleScreen.js";
+import {raceAudioInit} from "./audio.js";
+import {speak} from "./speech.js";
+import {outlineOnly} from "./render.js";
 import {useGameStore} from "@/stores/game";
 
 // 帶有 ref(<T>) 或 Ref<T> 的東西要取 value 的話就 variable.value 就可以拿到值
 export const helper = helperPkg;
 
-export function init()
-{
+export function init() {
     // TODO: 開始渲染遊戲畫面（這個時候 canvas, context 才有東西）
     racer.camera = new Camera();
     racer.race = new Race();
     racer.track = new Track();
     racer.titleScreen = new TitleScreen(racer.canvas.value, racer.context.value);
     racer.titleScreen.init();
+    disableScale();
     frame();
 }
 
@@ -50,9 +50,9 @@ racer.cars = ref([]);
 racer.player = null;
 racer.audioInited = false;
 
-function countDown () {
+function countDown() {
     (useGameStore()).countdownNumber--
-    if ( (useGameStore()).countdownNumber === 0) {
+    if ((useGameStore()).countdownNumber === 0) {
         (useGameStore()).showCountdown = false
         return;
     }
@@ -69,7 +69,7 @@ racer.startGame = function (trackNumber) {
 
     (useGameStore()).showCountdown = true;
     (useGameStore()).countdownNumber = 6;
-    countDown ();
+    countDown();
 }
 
 document.addEventListener("keydown", function (e) {
@@ -101,8 +101,7 @@ function frame() {
     if (!racer.racing) {
         racer.titleScreen.render(racer.dt);
         racer.gdt = 0;
-    }
-    else {
+    } else {
         outlineOnly.outlineOnly = false;
 
         const step = 1 / 180;
@@ -117,4 +116,23 @@ function frame() {
         racer.last = racer.now;
     }
     requestAnimationFrame(frame);
+}
+
+function disableScale() {
+    document.addEventListener('touchstart', function (event) {
+        if (event.touches.length > 1) {
+            event.preventDefault();
+        }
+    });
+    var lastTouchEnd = 0;
+    document.addEventListener('touchend', function (event) {
+        var now = (new Date()).getTime();
+        if (now - lastTouchEnd <= 300) {
+            event.preventDefault();
+        }
+        lastTouchEnd = now;
+    }, false);
+    document.addEventListener('gesturestart', function (event) {
+        event.preventDefault();
+    });
 }
