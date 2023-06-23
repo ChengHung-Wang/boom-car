@@ -55,7 +55,8 @@ const settingOpen = ref(false);
     right: 0;
     top: 23px;
     background: #252525;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
     border-radius: 8px 0px 0px 8px;
     z-index: 5;
   }

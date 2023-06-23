@@ -103,9 +103,7 @@ function right(touch : boolean) {
         </div>
       </div>
 
-      <div class="lang-selector">
-        <LanguageSelector/>
-      </div>
+
     </div>
 
 

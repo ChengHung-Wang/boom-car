@@ -2,6 +2,7 @@
   import { useRouter } from 'vue-router';
   import { computed } from 'vue';
   import {ref} from "vue";
+  import LanguageSelector from '@/components/LanguageSelector.vue'
   import {ArrowLeft} from "@element-plus/icons-vue";
 
   const props: any = defineProps(['title'])
@@ -25,9 +26,10 @@
           <img src="@/assets/icon/return-icon.svg" alt="">
         </div>
         <span class="title">{{ props.title }}</span>
-        <el-icon size="24px">
-          <Setting/>
-        </el-icon>
+<!--        <el-icon size="24px">-->
+<!--          <Setting/>-->
+<!--        </el-icon>-->
+          <LanguageSelector />
       </div>
     </div>
   </div>
@@ -49,12 +51,15 @@
 .game-nav .title {
   font-style: normal;
   font-weight: 700;
-  font-size: 24px;
+  font-size: 20px;
   line-height: 29px;
   display: flex;
   align-items: center;
   text-align: center;
   color: #D9D9D9;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
 }
 .game-nav .icon {
   width: 24px;
