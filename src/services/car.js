@@ -618,7 +618,7 @@ export class Car {
       //報時 一圈所花時間
       if (this.lap === 2 && this.index === (useGameStore()).playerIndex) {
         Callback.callback_LapOver();
-        speak("lap time " + this.getCurrentLapTime().toFixed(2));
+        // speak("lap time " + this.getCurrentLapTime().toFixed(2));
       }
       this.currentLapTime = 0;
       Callback.callback_LapOver();

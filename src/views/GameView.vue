@@ -9,6 +9,7 @@ import {RouterView} from "vue-router";
 import * as GameService from "@/services/racer.js"
 import {racer} from "@/services/racer.js";
 import {useGameStore} from "@/stores/game";
+import {backgroundMusic} from  "@/services/audio.js";
 
 // Components
 import Navbar from "@/components/Navbar.vue";
@@ -58,7 +59,8 @@ watch(
       if (gameStore.gameStarted) {
         racer.camera.adjust(gameStore.camera.y, gameStore.camera.z);
       }
-    }, {deep: true})
+    }, {deep: true}
+)
 
 window.addEventListener('contextmenu', function (e) {
   e.preventDefault();
@@ -86,6 +88,7 @@ function right(touch : boolean) {
     GameService.racer.player.setTurnRight(false);
   }
 }
+
 </script>
 <template>
   <div id="game">

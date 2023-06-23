@@ -42,4 +42,12 @@ const {t, locale} = useI18n();
     color: #FFFFFF;
     line-height: 26px;
   }
+  button> * {
+    -webkit-touch-callout:none;
+    -webkit-user-select:none;
+    -moz-user-select:none;
+    -ms-user-select:none;
+    user-select:none;
+    pointer-events: none;
+  }
 </style>

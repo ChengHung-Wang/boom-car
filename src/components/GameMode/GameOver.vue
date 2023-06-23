@@ -67,7 +67,7 @@ function gameOver() {
       </div>
     </div>
 
-    <el-button class="el-btn-custom "
+    <el-button class="el-btn-custom click"
                size="large"
                @click="$router.push('/menu'); gameOver();"
                style="margin-top: 15vh;"

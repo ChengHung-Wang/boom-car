@@ -57,7 +57,31 @@ a,
   color: white;
 }
 
-el-button:focus, .el-button:hover {
+:root {
+  --main-orange: #E16F64;
+}
+
+.el-button {
+  --el-button-font-weight: var(--el-font-weight-primary);
+  --el-button-border-color: var(--el-border-color);
+  --el-button-bg-color: var(--el-fill-color-blank);
+  --el-button-text-color: var(--el-text-color-regular);
+  --el-button-disabled-text-color: var(--el-disabled-text-color);
+  --el-button-disabled-bg-color: var(--el-fill-color-blank);
+  --el-button-disabled-border-color: var(--el-border-color-light);
+  --el-button-divide-border-color: rgba(255, 255, 255, 0.5);
+  --el-button-hover-text-color: var(--el-color-primary);
+   --el-button-hover-bg-color: var(--main-orange);
+  --el-button-hover-border-color: var(--el-color-primary-light-7);
+  --el-button-active-text-color: var(--el-button-hover-text-color);
+  --el-button-active-border-color: var(--el-color-primary);
+  --el-button-active-bg-color: var(--el-button-hover-bg-color);
+  --el-button-outline-color: var(--el-color-primary-light-5);
+  --el-button-hover-link-text-color: var(--el-color-info);
+  --el-button-active-color: var(--el-text-color-primary);
+}
+
+.el-button:focus, .el-button:hover {
   color: #D9D9D9;
   border-color: var(--el-button-hover-border-color);
   background-color: #7E3E38;
@@ -218,4 +242,24 @@ el-button:focus, .el-button:hover {
   a:hover {
     background-color: hsla(160, 100%, 37%, 0.2);
   }
+}
+
+.click:active:after {
+  transform: translateY(5px);
+  animation: shiny-btn1 0.5s ease-in-out;
+  background-color: #fff;
+}
+
+@keyframes shiny-btn1 {
+0% { transform: scale(0) rotate(45deg); opacity: 0; }
+80% { transform: scale(0) rotate(45deg); opacity: 0.5; }
+81% { transform: scale(4) rotate(45deg); opacity: 1; }
+100% { transform: scale(50) rotate(45deg); opacity: 0; }
+}
+
+@-webkit-keyframes shiny-btn1 {
+  0% { transform: scale(0) rotate(45deg); opacity: 0; }
+  80% { transform: scale(0) rotate(45deg); opacity: 0.5; }
+  81% { transform: scale(4) rotate(45deg); opacity: 1; }
+  100% { transform: scale(50) rotate(45deg); opacity: 0; }
 }

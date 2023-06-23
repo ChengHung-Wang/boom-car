@@ -7,6 +7,7 @@ import {racer} from "@/services/racer";
 import router from "@/router";
 import * as GameService from "@/services/racer";
 import Card from "@/components/Card.vue";
+import {backgroundMusic} from "@/services/audio";
 
 const { t } = i18n.global
 
@@ -26,6 +27,8 @@ function start() {
   if (gameStore.mobile) {
     GameService.racer.player.setAccelerate(true);
   }
+
+  backgroundMusic(true);
 }
 
 const trackFiledList = ref([
@@ -73,7 +76,7 @@ const trackFiledList = ref([
       <p class="description">電腦數量</p>
       <el-slider class="slider" v-model="gameStore.computerAmount" :min="0" :max="14" />
 
-     <el-button class="el-btn-custom" style="margin-top: 60px"  @click="$router.push('/'); start()">進入遊戲</el-button>
+     <el-button class="el-btn-custom click" style="margin-top: 60px"  @click="$router.push('/'); start()">進入遊戲</el-button>
     </div>
   </div>
 </template>

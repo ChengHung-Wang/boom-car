@@ -31,6 +31,9 @@ export const useGameStore = defineStore('game', () => {
     const showCountdown = ref(true);
     const countdownNumber = ref(5);
 
+    const bgmPlayer = ref(new Audio());
+
+
     return {
         lapTime,
         lapCount,
@@ -52,6 +55,7 @@ export const useGameStore = defineStore('game', () => {
         trackNumber,
         gameOver,
         showCountdown,
-        countdownNumber
+        countdownNumber,
+        bgmPlayer
     }
 })

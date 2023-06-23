@@ -1,9 +1,12 @@
 import { racer } from "./racer.js";
+import {ref} from "vue";
+import {useGameStore} from "@/stores/game";
 
 let audioCtx = null;
 let noiseBuffer = null;
 let audioScriptNode = null;
 let audioScriptGain = null;
+let audioScriptFxGain = null;
 let audioEngineFrame = 0;
 let audioTurboFrame = 0;
 let audioScriptSpeed = 1;
@@ -12,6 +15,16 @@ let audioTurboSpeed = 1;
 let audioEngineData = [];
 let audioTurboData = [];
 
+const musicList = ref([
+  "/src/assets/Audio/0-energetic-indie-rock-jump.mp3",
+  "/src/assets/Audio/1-music-rock-it.mp3",
+  "/src/assets/Audio/2-energetic-rock-trailer.mp3",
+  "/src/assets/Audio/3-into-battle.mp3",
+  "/src/assets/Audio/4-powerful-dubstep-rocks.mp3",
+  "/src/assets/Audio/5-stylish-rock-beat-trailer.mp3",
+  "/src/assets/Audio/6-twisted.mp3"
+])
+
 export function raceAudioSetTurboTime(t) {
   audioTurboSpeed = 1 + t / 10000;
 }
@@ -19,6 +32,12 @@ export function raceAudioSetTurboTime(t) {
 export function raceAudioInit() {
   if (audioCtx == null) {
     audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    audioScriptGain = audioCtx.createGain();
+    audioScriptFxGain = audioCtx.createGain();
+    audioScriptGain.gain.value = 0.1;
+    audioScriptFxGain.gain.value = 0.01;
+    audioScriptGain.connect(audioCtx.destination);
+    audioScriptFxGain.connect(audioCtx.destination);
 
     raceAudioCreateEngineBuffer();
     raceAudioCreateTurboBuffer();
@@ -31,7 +50,7 @@ export function raceAudioInit() {
 
       for (let i = 0; i < channel.length; ++i) {
         // skip more data frames on higher speed
-        if (racer.player.turbo) {
+        if (racer.player && racer.player.turbo) {
           audioEngineFrame += audioScriptSpeed + Math.random();
           audioTurboFrame += audioTurboSpeed;
           index = Math.floor(audioTurboFrame) % audioTurboData.length;
@@ -44,17 +63,42 @@ export function raceAudioInit() {
           channel[i] = audioEngineData[index] + Math.random() * 0.01;
         }
 
-        if (racer.player.slipstreamTime > 0) {
+        if (racer.player && racer.player.slipstreamTime > 0) {
           channel[i] += Math.random() * 0.4;
         }
       }
       audioEngineFrame %= audioEngineData.length;
       audioTurboFrame %= audioTurboData.length;
     }
-    audioScriptGain = audioCtx.createGain();
-    audioScriptGain.gain.value = 0.14;
-    audioScriptNode.connect(audioScriptGain);
-    audioScriptGain.connect(audioCtx.destination);
+    audioScriptNode.connect(audioScriptFxGain);
+  }
+  document.onmousedown = clickSoundFx;
+}
+
+export async function clickSoundFx(e) {
+  const targetElement = String(e.target.nodeName).toLowerCase();
+  console.log(targetElement);
+  if (targetElement !== "button" && targetElement !== "input") return;
+  const audio = new Audio("/src/assets/Audio/button-click.mp3");
+  await audio.play();
+}
+
+export async function backgroundMusic(start, lobby= false) {
+  const store = useGameStore();
+  let url;
+  if (lobby) {
+    url = new URL(musicList.value[0], import.meta.url);
+  } else {
+    url = new URL(musicList.value[Math.floor(Math.random()*5 + 1)], import.meta.url);
+  }
+  store.bgmPlayer.setAttribute("src", url.toString());
+  store.bgmPlayer.volume = 0.03;
+
+  if (start) {
+    await (useGameStore()).bgmPlayer.play();
+  } else {
+    (useGameStore()).bgmPlayer.pause();
+    (useGameStore()).bgmPlayer.currentTime = 0;
   }
 }
 
@@ -65,13 +109,13 @@ function raceAudioCreateTurboBuffer() {
 
   for (let i = 0; i < bufferSize; ++i) {
     for (let j = 0; j < 12; j++) {
-      audioTurboData[index++] = Math.random() * 0.01;
+      audioTurboData[index++] = Math.random() * 0.002;
       if (index >= bufferSize) {
         break;
       }
     }
 
-    const v = 0.2;
+    const v = 0.01;
 
     if (index < bufferSize) {
       for (let k = 0; k < 2; ++k) {
@@ -84,7 +128,7 @@ function raceAudioCreateTurboBuffer() {
   }
 
   for (let i = 0; i < bufferSize; ++i) {
-    audioTurboData[i] += Math.random() * 0.5 - 0.05;
+    audioTurboData[i] += Math.random() * 0.1 - 0.05;
   }
 }
 
@@ -92,13 +136,13 @@ function raceAudioCreateEngineBuffer() {
   const bufferSize = 1024;
   audioEngineData = [];
 
-  let lastValue = 1;
+  let lastValue = 0.5;
   let nextValue, nextPosition;
 
   let index = 0;
-  audioEngineData[index++] = 1;
+  audioEngineData[index++] = 0.5;
 
-  for (let i = 0.05; i < 1; i += Math.random() / 8 + 0.01) {
+  for (let i = 0.05; i < 0.1; i += Math.random() / 8 + 0.01) {
     nextPosition = Math.floor(i * bufferSize);
     nextValue = Math.random() * 2 - 1;
     const positionDiff = nextPosition - (index - 1);
@@ -122,25 +166,21 @@ function raceAudioCreateNoiseBuffer() {
   const output = noiseBuffer.getChannelData(0);
 
   for (let i = 0; i < bufferSize; ++i) {
-    output[i] = Math.random() * 2 - 1;
+    output[i] = Math.random() * 1.2 - 1;
   }
 }
 
 export function raceAudioTone(freq, duration) {
-  const gain = audioCtx.createGain();
   const osc = audioCtx.createOscillator();
-
-  osc.connect(gain);
-  gain.connect(audioCtx.destination);
   osc.type = "triangle";
   osc.frequency.value = freq;
-  gain.gain.value = 0.1;
+  osc.connect(audioScriptFxGain);
   osc.start(audioCtx.currentTime);
   osc.stop(audioCtx.currentTime + duration);
 }
 
 export function raceAudioEngineSpeed(speed) {
-  audioScriptSpeed = 0.2 + speed * 2;
+  audioScriptSpeed = 0.2 + speed * 1.1;
 }
 
 let lastCrashTime = 0;
@@ -152,17 +192,15 @@ export function raceAudioCrash() {
   lastCrashTime = crashTime;
 
   const noteLength = 1 / 2;
-  const gain = audioCtx.createGain();
 
-  let audioSource = null;
-  audioSource = audioCtx.createBufferSource();
-  audioSource.connect(gain);
-  gain.connect(audioCtx.destination);
+  let audioSource = audioCtx.createBufferSource();
+  audioSource.connect(audioScriptFxGain);
+  audioScriptFxGain.connect(audioCtx.destination);
 
   audioSource.buffer = noiseBuffer;
 
-  gain.gain.linearRampToValueAtTime(0.5, audioCtx.currentTime);
-  gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + noteLength * 0.7);
+  audioScriptFxGain.gain.linearRampToValueAtTime(0.3, audioCtx.currentTime);
+  audioScriptFxGain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + noteLength * 0.7);
 
   audioSource.playbackRate.setValueAtTime(0.035, audioCtx.currentTime);
   audioSource.playbackRate.setValueAtTime(0.002, audioCtx.currentTime + noteLength);

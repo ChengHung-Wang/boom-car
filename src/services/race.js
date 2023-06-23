@@ -270,15 +270,15 @@ export class Race {
       this.lastTime = racer.getTimestamp();
       this.countdownNumber--;
       if (this.countdownNumber === 3) {
-        speak("RACE");
+        // speak("RACE");
       }
       if (this.countdownNumber === 2) {
-        speak(numbers[this.raceNumber]);
+        // speak(numbers[this.raceNumber]);
       }
       if (this.countdownNumber <= 0) {
         this.state = STATE_COUNTDOWN;
         this.countdownNumber = 3;
-        raceAudioTone(220, 1 / 4);
+        // raceAudioTone(220, 1 / 4);
         //        speak(this.countdownNumber);
       }
     }

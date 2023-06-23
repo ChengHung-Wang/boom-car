@@ -20,7 +20,6 @@ export function init()
     racer.track = new Track();
     racer.titleScreen = new TitleScreen(racer.canvas.value, racer.context.value);
     racer.titleScreen.init();
-
     frame();
 }
 
@@ -49,6 +48,7 @@ racer.gdt = 0;
 
 racer.cars = ref([]);
 racer.player = null;
+racer.audioInited = false;
 
 function countDown () {
     (useGameStore()).countdownNumber--
@@ -62,7 +62,6 @@ function countDown () {
 }
 
 racer.startGame = function (trackNumber) {
-    raceAudioInit();
     speak("Start");
     racer.racing = true;
     racer.camera.reset();
@@ -88,6 +87,11 @@ document.addEventListener("keyup", function (e) {
         // racer.titleScreen.keyUp(e);
     }
 });
+
+document.onmousedown = () => {
+    raceAudioInit();
+    racer.audioInited = true;
+}
 
 function frame() {
     racer.now = racer.getTimestamp();

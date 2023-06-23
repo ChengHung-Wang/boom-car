@@ -31,7 +31,7 @@ function checkRoomCode(room_code) {
       </div>
 
       <div class="button">
-        <el-button class="el-btn-custom" @click="$router.push('./match')">進入遊戲</el-button>
+        <el-button class="el-btn-custom click" @click="$router.push('./match')">進入遊戲</el-button>
         <!--  TODO:與 sever 比對房間代碼是否正確，回傳成功或失敗  -->
         <!--  TODO:增加比對房間代碼時 Loading 效果，如果成功找到房間代碼，跳轉畫面  -->
       </div>

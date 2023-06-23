@@ -2,6 +2,8 @@
   import i18n from '@/services/i18n'
   import {useGameStore} from "@/stores/game";
   import NicknameInput from "@/components/NicknameInput.vue";
+  import {backgroundMusic} from "@/services/audio";
+  import router from "@/router";
 
   const { t } = i18n.global
   const gameStore = useGameStore()
@@ -17,9 +19,9 @@
       <div class="col-sm-12 fcc">
         <img class="w-75" style="margin-bottom: 120px;" src="/src/assets/icon/boom-car-icon.png" alt="">
         <NicknameInput/>
-        <el-button class="el-btn-custom mb-5"
+        <el-button class="el-btn-custom mb-5 click"
                    size="large"
-                   @click="$router.push('/menu');"
+                   @click="router.push('/menu'); backgroundMusic(true, true);"
         >
           <span class="color-text-white"> {{ t("Desktop.StartPage.enter_event") }}</span>
         </el-button>

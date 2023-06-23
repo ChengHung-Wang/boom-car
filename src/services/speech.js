@@ -20,6 +20,7 @@ export function speak(text) {
 
   const utter = new SpeechSynthesisUtterance();
   utter.text = text;
+  utter.volume = 0.2;
   if (english_voice !== '') {
     utter.voice = english_voice;
   }
