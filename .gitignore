@@ -408,3 +408,4 @@ node_modules
 .vscode/
 .env
 /dist
+.vite
