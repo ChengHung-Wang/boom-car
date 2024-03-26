@@ -1,8 +1,5 @@
 # boom car
 台科大 多媒體導論期末專案
-
-![Mock-up](https://github.com/ChengHung-Wang/boom-car/assets/50503333/7f14ca13-dc60-4e5f-b7aa-e826ba5a72fa)
-
 ## 新鮮的肝
 1. 王正宏 B11015020
 2. 楊芷安 B11015033
